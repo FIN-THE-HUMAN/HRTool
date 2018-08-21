@@ -10,6 +10,6 @@ namespace HRTool.DAL
         {
         }
         
-        public DbSet<User> Users { get; set; }
+        public DbSet<SystemUser> Users { get; set; }
     }
 }

@@ -8,10 +8,10 @@ namespace HRTool.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<SystemUser> _userManager;
+        private readonly SignInManager<SystemUser> _signInManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<SystemUser> userManager, SignInManager<SystemUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
