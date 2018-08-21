@@ -1,0 +1,25 @@
+.auth-form {
+  width: 300px;
+  margin: auto;
+
+  &__header {
+    text-align: center;
+    margin-top: 55px;
+  }
+
+  &__form {
+    border-radius: 5px;
+    border: 1px solid $gray-200;
+    margin-top: 40px;
+    padding: 15px;
+  }
+
+  &__submit-button {
+    width: 100%;
+  }
+}
+
+.help-text {
+  margin-top: 20px;
+  text-align: center;
+}

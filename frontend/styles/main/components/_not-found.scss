@@ -1,0 +1,17 @@
+
+.not-found{
+  width: 100%;
+  height: 100vh;
+  background-color: #F3B5B2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__h2 {
+    padding-top: 50px;
+    text-align: center
+  }
+  &__p {
+    text-align: center
+  }
+}
