@@ -18,7 +18,6 @@ namespace HRTool.Controllers
         }
 
         [HttpPost]
-<<<<<<< HEAD
         [Route("register/")]
         public async Task<ObjectResult> Register([FromBody] string email, [FromBody] string password)
         {
@@ -50,11 +49,7 @@ namespace HRTool.Controllers
 
         [HttpPost]
         [Route("login/")]
-        public async Task<IActionResult> Login([FromBody] string email, [FromBody] string password)
-=======
-        [Route("Login/")]
         public async Task<ObjectResult> Login([FromBody] string email, [FromBody] string password)
->>>>>>> 87d19f652b7619aba172d1d0b9997f8ea5b4aa2e
         {
             if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(password))
             {
