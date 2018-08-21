@@ -17,34 +17,36 @@ namespace HRTool.Controllers
             _signInManager = signInManager;
         }
 
-<<<<<<< HEAD
-        [Route("Register/")]
-        public async Task<IActionResult> Register([FromQuery]User model)
+        [HttpPost]
+        [Route("register/")]
+        public async Task<ObjectResult> Register([FromBody] string email, [FromBody] string password)
         {
-            if (ModelState.IsValid)
+            if (!(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)))
             {
-                var existedUser = await _userManager.FindByEmailAsync(model.Email);
+                var existedUser = await _userManager.FindByEmailAsync(email);
                 if (existedUser != null)
                 {
-                    ModelState.AddModelError("", "Аккаунт с данной электронной почтой уже зарегистрирован");
+                    return BadRequest("Аккаунт с данной электронной почтой уже зарегистрирован");
                 }
                 else
                 {
-                    //TODO Написать определение пользователя
-                    var user = new User {  };
-                    var result = await _userManager.CreateAsync(user, model.PasswordHash);
+                    var user = new User { UserName = email, Email = email };
+                    var result = await _userManager.CreateAsync(user, password);
 
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return new OkResult();
+                        return Ok("Регистрация выполнена");
                     }
-                }
-                
-            }   
+                    else
+                    {
+                        return BadRequest("Внутренняя ошибка сервера");
+                    }
+                } 
+            }
+             
+            return BadRequest("Заполните все поля");
+        }
 
-            return new OkResult();
-=======
         [HttpPost]
         [Route("login/")]
         public async Task<IActionResult> Login([FromBody] string email, [FromBody] string password)
@@ -69,7 +71,6 @@ namespace HRTool.Controllers
             }
 
             return BadRequest("Заполните се поля");
->>>>>>> a66e391465c18b10a10b30720051b0c3af605889
         }
     }
 }
