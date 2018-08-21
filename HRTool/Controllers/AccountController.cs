@@ -23,14 +23,15 @@ namespace HRTool.Controllers
         {
             if (!(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)))
             {
-                var existedUser = await _userManager.FindByEmailAsync(email);
+                var normalizedEmail = email.Trim();
+                var existedUser = await _userManager.FindByEmailAsync(normalizedEmail);
                 if (existedUser != null)
                 {
                     return BadRequest("Аккаунт с данной электронной почтой уже зарегистрирован");
                 }
                 else
                 {
-                    var user = new User {UserName = email, Email = email};
+                    var user = new User {UserName = normalizedEmail, Email = normalizedEmail};
                     var result = await _userManager.CreateAsync(user, password);
 
                     if (result.Succeeded)
