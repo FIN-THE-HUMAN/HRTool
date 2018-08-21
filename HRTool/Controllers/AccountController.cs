@@ -47,12 +47,14 @@ namespace HRTool.Controllers
             return BadRequest("Заполните все поля");
         }
 
+
+        [HttpPost]
         [Route("Login/")]
         public async Task<ObjectResult> Login([FromBody] string email, [FromBody] string password)
         {
-            var normalizedEmail = email.Trim();
-            if (string.IsNullOrEmpty(normalizedEmail) || string.IsNullOrEmpty(password))
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
+                var normalizedEmail = email.Trim();
                 var user = await _userManager.FindByEmailAsync(normalizedEmail);
                 if (user != null)
                 {
