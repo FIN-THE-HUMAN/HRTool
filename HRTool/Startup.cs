@@ -7,6 +7,7 @@ using HRTool.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -27,11 +28,15 @@ namespace HRTool
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            
-            
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DatabaseContext>(
+                options => options.UseNpgsql(connectionString)
+            );
+
             services.AddIdentity<SystemUser, IdentityRole>()
                 .AddEntityFrameworkStores<DatabaseContext>();
-            
+
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
         }
 
@@ -44,7 +49,7 @@ namespace HRTool
             }
 
             app.UseMvc();
-            
+
             app.UseAuthentication();
 
             app.UseMvc(routes =>

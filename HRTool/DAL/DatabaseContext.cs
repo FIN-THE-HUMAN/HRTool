@@ -1,4 +1,5 @@
 ﻿using HRTool.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRTool.DAL
@@ -11,5 +12,6 @@ namespace HRTool.DAL
         }
         
         public DbSet<SystemUser> Users { get; set; }
+        public DbSet<Applicant> Applicants { get; set; }
     }
 }
