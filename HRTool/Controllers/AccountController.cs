@@ -18,8 +18,8 @@ namespace HRTool.Controllers
         }
 
         [HttpPost]
-        [Route("login/")]
-        public async Task<IActionResult> Login([FromBody] string email, [FromBody] string password)
+        [Route("Login/")]
+        public async Task<ObjectResult> Login([FromBody] string email, [FromBody] string password)
         {
             if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(password))
             {
@@ -33,14 +33,10 @@ namespace HRTool.Controllers
                     {
                         return Ok("Вход выполнен");
                     }
-
-                    return BadRequest("Неверный email и (или) пароль");
                 }
-
                 return BadRequest("Неверный email и (или) пароль");
             }
-
-            return BadRequest("Заполните се поля");
+            return BadRequest("Заполните все поля");
         }
     }
 }
