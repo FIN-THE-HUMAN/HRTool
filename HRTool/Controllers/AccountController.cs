@@ -18,12 +18,45 @@ namespace HRTool.Controllers
         }
 
         [HttpPost]
+        [Route("Register/")]
+        public async Task<ObjectResult> Register([FromBody] string email, [FromBody] string password)
+        {
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+            {
+                var normalizedEmail = email.Trim();
+                var existedUser = await _userManager.FindByEmailAsync(normalizedEmail);
+                if (existedUser != null)
+                {
+                    return BadRequest("Аккаунт с данной электронной почтой уже зарегистрирован");
+                }
+                else
+                {
+                    var user = new User {UserName = normalizedEmail, Email = normalizedEmail};
+                    var result = await _userManager.CreateAsync(user, password);
+
+                    if (result.Succeeded)
+                    {
+                        return Ok("Регистрация выполнена");
+                    }
+                    else
+                    {
+                        return BadRequest("Внутренняя ошибка сервера");
+                    }
+                }
+            }
+
+            return BadRequest("Заполните все поля");
+        }
+
+
+        [HttpPost]
         [Route("Login/")]
         public async Task<ObjectResult> Login([FromBody] string email, [FromBody] string password)
         {
-            if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(password))
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
-                var user = await _userManager.FindByEmailAsync(email);
+                var normalizedEmail = email.Trim();
+                var user = await _userManager.FindByEmailAsync(normalizedEmail);
                 if (user != null)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user.UserName,
@@ -34,9 +67,18 @@ namespace HRTool.Controllers
                         return Ok("Вход выполнен");
                     }
                 }
+
                 return BadRequest("Неверный email и (или) пароль");
             }
+
             return BadRequest("Заполните все поля");
+        }
+
+        [Route("Logout/")]
+        public async Task<ObjectResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok("Выход выполнен");
         }
     }
 }
