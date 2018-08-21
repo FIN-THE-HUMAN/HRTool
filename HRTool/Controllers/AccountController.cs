@@ -21,7 +21,7 @@ namespace HRTool.Controllers
         [Route("Register/")]
         public async Task<ObjectResult> Register([FromBody] string email, [FromBody] string password)
         {
-            if (!(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)))
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
                 var normalizedEmail = email.Trim();
                 var existedUser = await _userManager.FindByEmailAsync(normalizedEmail);
