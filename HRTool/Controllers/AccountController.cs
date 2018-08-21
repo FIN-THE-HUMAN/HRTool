@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using HRTool.Controllers.Models;
 using HRTool.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,11 @@ namespace HRTool.Controllers
 
         [HttpPost]
         [Route("Register/")]
-        public async Task<ObjectResult> Register([FromBody] string email, [FromBody] string password)
+        public async Task<ObjectResult> Register([FromBody] AccountModel accountModel)
         {
-            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+            if (!string.IsNullOrEmpty(accountModel.Email) && !string.IsNullOrEmpty(accountModel.Password))
             {
-                var normalizedEmail = email.Trim();
+                var normalizedEmail = accountModel.Email.Trim();
                 var existedUser = await _userManager.FindByEmailAsync(normalizedEmail);
                 if (existedUser != null)
                 {
@@ -32,7 +33,7 @@ namespace HRTool.Controllers
                 else
                 {
                     var user = new SystemUser {UserName = normalizedEmail, Email = normalizedEmail};
-                    var result = await _userManager.CreateAsync(user, password);
+                    var result = await _userManager.CreateAsync(user, accountModel.Password);
 
                     if (result.Succeeded)
                     {
@@ -51,16 +52,16 @@ namespace HRTool.Controllers
 
         [HttpPost]
         [Route("Login/")]
-        public async Task<ObjectResult> Login([FromBody] string email, [FromBody] string password)
+        public async Task<ObjectResult> Login([FromBody] AccountModel accountModel)
         {
-            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+            if (!string.IsNullOrEmpty(accountModel.Email) && !string.IsNullOrEmpty(accountModel.Password))
             {
-                var normalizedEmail = email.Trim();
+                var normalizedEmail = accountModel.Email.Trim();
                 var user = await _userManager.FindByEmailAsync(normalizedEmail);
                 if (user != null)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user.UserName,
-                        password, true, false);
+                        accountModel.Password, true, false);
 
                     if (result.Succeeded)
                     {
