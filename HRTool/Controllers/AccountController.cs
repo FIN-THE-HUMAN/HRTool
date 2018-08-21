@@ -1,4 +1,6 @@
-﻿using HRTool.Models;
+﻿using System;
+using System.Threading.Tasks;
+using HRTool.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +17,7 @@ namespace HRTool.Controllers
             _signInManager = signInManager;
         }
 
+<<<<<<< HEAD
         [Route("Register/")]
         public async Task<IActionResult> Register([FromQuery]User model)
         {
@@ -41,6 +44,32 @@ namespace HRTool.Controllers
             }   
 
             return new OkResult();
+=======
+        [HttpPost]
+        [Route("login/")]
+        public async Task<IActionResult> Login([FromBody] string email, [FromBody] string password)
+        {
+            if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(password))
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user != null)
+                {
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName,
+                        password, true, false);
+
+                    if (result.Succeeded)
+                    {
+                        return Ok("Вход выполнен");
+                    }
+
+                    return BadRequest("Неверный email и (или) пароль");
+                }
+
+                return BadRequest("Неверный email и (или) пароль");
+            }
+
+            return BadRequest("Заполните се поля");
+>>>>>>> a66e391465c18b10a10b30720051b0c3af605889
         }
     }
 }
