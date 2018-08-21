@@ -21,7 +21,7 @@ namespace HRTool.Controllers
         [Route("Login/")]
         public async Task<ObjectResult> Login([FromBody] string email, [FromBody] string password)
         {
-            if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
                 var user = await _userManager.FindByEmailAsync(email);
                 if (user != null)
