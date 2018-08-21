@@ -31,7 +31,7 @@ namespace HRTool.Controllers
                 }
                 else
                 {
-                    var user = new User {UserName = normalizedEmail, Email = normalizedEmail};
+                    var user = new SystemUser {UserName = normalizedEmail, Email = normalizedEmail};
                     var result = await _userManager.CreateAsync(user, password);
 
                     if (result.Succeeded)

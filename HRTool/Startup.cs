@@ -29,7 +29,7 @@ namespace HRTool
             services.AddMvc();
             
             
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<SystemUser, IdentityRole>()
                 .AddEntityFrameworkStores<DatabaseContext>();
             
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
