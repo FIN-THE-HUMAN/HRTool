@@ -38,11 +38,10 @@ namespace HRTool
             );
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<DatabaseContext>();
-
-            services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
+                .AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            
             services
                 .AddAuthentication(options =>
                 {
@@ -72,16 +71,14 @@ namespace HRTool
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
-
-            app.UseAuthentication();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseAuthentication();
         }
     }
 }
