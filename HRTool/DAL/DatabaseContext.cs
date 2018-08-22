@@ -1,17 +1,15 @@
-﻿using HRTool.Models;
+﻿using HRTool.DAL.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRTool.DAL
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<User>
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
         {
         }
-        
-        public DbSet<SystemUser> Users { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
     }
 }

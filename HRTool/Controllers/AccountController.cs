@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using HRTool.Controllers.Models;
+using HRTool.DAL.Models;
 using HRTool.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,10 @@ namespace HRTool.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<SystemUser> _userManager;
-        private readonly SignInManager<SystemUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(UserManager<SystemUser> userManager, SignInManager<SystemUser> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -32,7 +33,7 @@ namespace HRTool.Controllers
                 }
                 else
                 {
-                    var user = new SystemUser {UserName = normalizedEmail, Email = normalizedEmail};
+                    var user = new User {UserName = normalizedEmail, Email = normalizedEmail};
                     var result = await _userManager.CreateAsync(user, accountModel.Password);
 
                     if (result.Succeeded)
