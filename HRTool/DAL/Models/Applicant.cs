@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-namespace HRTool.Models
+
+namespace HRTool.DAL.Models
 {
     public class Applicant
     {
