@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 namespace HRTool.Models
@@ -5,6 +6,7 @@ namespace HRTool.Models
     //Модель пользователя приложения
     public class Vacancy
     {
+        public Guid Id {get;set;}
         public string Name {get; set;}
         public decimal Salary {get; set;}
         public string ContactPerson {get;set;}
