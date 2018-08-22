@@ -10,6 +10,7 @@ using HRTool.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+
 namespace HRTool.Controllers
 {
     public class AccountController : Controller
@@ -83,6 +84,7 @@ namespace HRTool.Controllers
             return BadRequest("Заполните все поля");
         }
 
+        [HttpGet]
         [Route("Logout/")]
         public async Task<ObjectResult> Logout()
         {
