@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using HRTool.Controllers.Models;
 using HRTool.DAL.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using HRTool.Models;
-
 namespace HRTool.Controllers
 {
     public class AccountController : Controller
@@ -116,8 +113,5 @@ namespace HRTool.Controllers
 
             return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
         }
-
-
-       // [Authorize(AuthenticationSchemes = "Bearer")]
     }
 }
