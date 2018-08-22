@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using HRTool.Controllers.Models;
 using HRTool.DAL.Models;
-using HRTool.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
