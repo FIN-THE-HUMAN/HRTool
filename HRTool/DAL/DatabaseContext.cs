@@ -11,5 +11,6 @@ namespace HRTool.DAL
         {
         }
         public DbSet<Applicant> Applicants { get; set; }
+        public DbSet<Vacancy> Vacancies { get; set; }
     }
 }

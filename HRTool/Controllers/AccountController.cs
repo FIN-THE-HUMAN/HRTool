@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using HRTool.Controllers.Models;
-using HRTool.Models;
+using HRTool.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -20,7 +20,7 @@ namespace HRTool.Controllers
         private readonly IConfiguration _configuration;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-                                IConfiguration configuration)
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -112,7 +112,7 @@ namespace HRTool.Controllers
                 signingCredentials: creds
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
         }
     }
 }
