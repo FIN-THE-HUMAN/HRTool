@@ -22,7 +22,7 @@
 		"postcss-loader": "^2.1.6",
 		"prop-types": "^15.6.2",
 		"react": "^16.4.1",
-		"react-bootstrap": "^0.32.2",
+		"react-bootstrap": "^0.32.3",
 		"react-dom": "^16.4.1",
 		"react-final-form": "^3.6.5",
 		"react-redux": "^5.0.7",
