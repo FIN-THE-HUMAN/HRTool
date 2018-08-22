@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using HRTool.Models;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace HRTool
 {
@@ -64,6 +65,10 @@ namespace HRTool
                         ClockSkew = TimeSpan.Zero 
                     };
                 });
+                services.AddSwaggerGen(c =>
+                {           
+                    c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -76,6 +81,14 @@ namespace HRTool
             app.UseMvc();
 
             app.UseAuthentication();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseMvc(routes =>
             {
