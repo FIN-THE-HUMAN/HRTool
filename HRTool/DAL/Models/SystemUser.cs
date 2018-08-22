@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HRTool.Models
 {
     //Модель пользователя приложения
-    public class SystemUser : IdentityUser
+    public class User : IdentityUser
     {
         public string FirstName {get; set;}
         public string LastName {get; set;}

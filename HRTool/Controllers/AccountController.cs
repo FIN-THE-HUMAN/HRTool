@@ -1,26 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using HRTool.Controllers.Models;
 using HRTool.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HRTool.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<SystemUser> _userManager;
-        private readonly SignInManager<SystemUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IConfiguration _configuration;
 
-        public AccountController(UserManager<SystemUser> userManager, SignInManager<SystemUser> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
+                                IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         [HttpPost]
         [Route("Register/")]
-        public async Task<ObjectResult> Register([FromBody] AccountModel accountModel)
+        public async Task<Object> Register([FromBody] AccountModel accountModel)
         {
             if (!string.IsNullOrEmpty(accountModel.Email) && !string.IsNullOrEmpty(accountModel.Password))
             {
@@ -32,12 +41,12 @@ namespace HRTool.Controllers
                 }
                 else
                 {
-                    var user = new SystemUser {UserName = normalizedEmail, Email = normalizedEmail};
+                    var user = new User {UserName = normalizedEmail, Email = normalizedEmail};
                     var result = await _userManager.CreateAsync(user, accountModel.Password);
 
                     if (result.Succeeded)
                     {
-                        return Ok("Регистрация выполнена");
+                        return await GenerateJwtToken(accountModel.Email, user);
                     }
                     else
                     {
@@ -52,7 +61,7 @@ namespace HRTool.Controllers
 
         [HttpPost]
         [Route("Login/")]
-        public async Task<ObjectResult> Login([FromBody] AccountModel accountModel)
+        public async Task<Object> Login([FromBody] AccountModel accountModel)
         {
             if (!string.IsNullOrEmpty(accountModel.Email) && !string.IsNullOrEmpty(accountModel.Password))
             {
@@ -65,7 +74,7 @@ namespace HRTool.Controllers
 
                     if (result.Succeeded)
                     {
-                        return Ok("Вход выполнен");
+                        return await GenerateJwtToken(accountModel.Email, user);
                     }
                 }
 
@@ -80,6 +89,30 @@ namespace HRTool.Controllers
         {
             await _signInManager.SignOutAsync();
             return Ok("Выход выполнен");
+        }
+
+        private async Task<object> GenerateJwtToken(string email, User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
+
+            var token = new JwtSecurityToken(
+                _configuration["JwtIssuer"],
+                _configuration["JwtIssuer"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

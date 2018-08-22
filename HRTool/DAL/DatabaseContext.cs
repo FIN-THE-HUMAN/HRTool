@@ -11,7 +11,7 @@ namespace HRTool.DAL
         {
         }
         
-        public DbSet<SystemUser> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
     }
 }
