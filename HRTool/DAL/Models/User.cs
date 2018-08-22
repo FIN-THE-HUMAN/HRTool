@@ -7,7 +7,6 @@ namespace HRTool.Models
     {
         public string FirstName {get; set;}
         public string LastName {get; set;}
-        //TODO: имплементировать ролевые классы
-        //public Role RoleName {get; set;}
+        public string RoleName {get; set;}
     }
 }
