@@ -7,6 +7,6 @@ namespace HRTool.DAL.Models
     {
         //TODO: сформировать словари требований и обязанностей
         public Guid Id {get;set;}
-        Dictionary<int,string> Requirements = new Dictionary<int, string>(0);
+        public Dictionary<int,string> Requirements = new Dictionary<int, string>(0);
     }
 }
