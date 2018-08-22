@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using HRTool.DAL.Models;
 
-namespace HRTool.Models
+namespace HRTool.DAL.Models
 {
     //Модель пользователя приложения
     public class Vacancy
