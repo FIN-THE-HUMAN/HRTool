@@ -1,4 +1,5 @@
 ﻿using HRTool.DAL.Models;
+using HRTool.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
