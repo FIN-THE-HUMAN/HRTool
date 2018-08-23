@@ -3,8 +3,8 @@ import { Redirect, Switch, Route } from 'components/router';
 import UserProvider from 'containers/UserProvider';
 
 import Layout from './Layout';
-import AuthForm from '../components/AuthForm';
-import RegForm from '../components/RegForm';
+import Login from '../containers/Login';
+import SignUp from '../containers/SignUp';
 import NotFound from '../components/NotFound';
 
 const App = () => (
@@ -12,8 +12,8 @@ const App = () => (
     <Layout>
       <Switch>
         <Redirect exact from="/" to="/home" />
-        <Route path="/autorisation" component={AuthForm} />
-        <Route path="/registration" component={RegForm} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={SignUp} />
         <Route path="*" component={NotFound} />
       </Switch>
     </Layout>

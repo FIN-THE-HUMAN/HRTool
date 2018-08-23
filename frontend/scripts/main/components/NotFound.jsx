@@ -11,5 +11,4 @@ const MainLinksNotFound = () => (
   </div>
 );
 
-
 export default MainLinksNotFound;

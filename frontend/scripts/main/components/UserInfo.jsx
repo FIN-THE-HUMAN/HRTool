@@ -6,7 +6,7 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 import avatar from '../../../images/avatar.svg';
 
-const UserInfo = () => {
+const UserInfo = ({ user }) => {
   const onLogout = () => {
     SessionService.signOut();
     WindowService.redirect(WindowService.location);
@@ -20,12 +20,12 @@ const UserInfo = () => {
         title={
           <span>
             <img className="avatar" src={avatar} />
-            User
+            {user.firstName}
           </span>
         }
         id="user-info"
       >
-        <MenuItem header>User</MenuItem>
+        <MenuItem header>{user.lastName} {user.firstName}</MenuItem>
         <MenuItem eventKey="2">Профиль</MenuItem>
         <MenuItem eventKey="3">Настройки</MenuItem>
         <MenuItem divider />
