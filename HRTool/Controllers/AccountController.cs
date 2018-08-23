@@ -91,14 +91,6 @@ namespace HRTool.Controllers
             return BadRequest("Заполните все поля");
         }
 
-        [HttpGet]
-        [Route("Logout/")]
-        public async Task<ObjectResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return Ok("Выход выполнен");
-        }
-
         private async Task<object> GenerateJwtToken(string email, User user)
         {
             var claims = new List<Claim>
@@ -126,7 +118,7 @@ namespace HRTool.Controllers
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
-        [Route("GetUser/{id}")]
+        [Route("Users/{id}")]
         public async Task<Object> GetUser([FromRoute] string id)
         {
             var user = await _userManager.FindByIdAsync(id);
