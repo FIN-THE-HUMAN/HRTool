@@ -40,7 +40,9 @@ class Layout extends Component {
             </Button>
           }
         </div>
-        {children}
+        <div className="layout-content">
+          {children}
+        </div>
         <div className="footer">
           <div className="copyright">© 2018, ЗАО «Калуга Астрал»</div>
         </div>

@@ -4,7 +4,7 @@ import Status from 'constants/StatusConstants';
 
 import Loader from './Loader';
 
-const OverlayStatus = ({ status, children }) => {
+const OverlayStatus = ({ status, children, ...other }) => {
   if (!status || status === Status.DEFAULT) {
     return children;
   }
@@ -13,7 +13,7 @@ const OverlayStatus = ({ status, children }) => {
     <div className="overlay-status" data-status={status}>
       {children}
       <div className="overlay">
-        <Loader status={status} />
+        <Loader {...other} status={status} />
       </div>
     </div>
   );

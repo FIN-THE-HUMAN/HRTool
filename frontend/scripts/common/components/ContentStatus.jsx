@@ -4,20 +4,18 @@ import Status from 'constants/StatusConstants';
 
 import Loader from './Loader';
 
-const ContentStatus = ({ noMessage, status, className, children }) => {
+const ContentStatus = ({ status, children, ...other }) => {
   if (status === Status.SUCCESS || status === Status.DEFAULT) {
     return children;
   }
 
   return (
-    <Loader noMessage className={className} status={status} />
+    <Loader {...other} status={status} />
   );
 };
 
 ContentStatus.propTypes = {
-  noMessage: PropTypes.bool,
   status: PropTypes.string,
-  className: PropTypes.string,
   children: PropTypes.node,
 };
 
