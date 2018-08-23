@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace HRTool.DAL.Models
+namespace HRTool.DAL.Models.Enumes
 {
-    public enum InterviewResult 
+    public enum InterviewResultEnum 
     {
         Confirmed,
         Denied,

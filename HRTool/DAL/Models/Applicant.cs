@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using HRTool.DAL.Models.Enumes;
 namespace HRTool.DAL.Models
 {
     public class Applicant
@@ -11,9 +11,9 @@ namespace HRTool.DAL.Models
         public string Name {get;set;}
         [Range(18, 65)]
         public int Age {get;set;}
-        public ResumeSource Source {get;set;}
+        public ResumeSourceEnum Source {get;set;}
         public bool Interviewed {get; set;}
-        public InterviewResult Result {get; set;}
+        public InterviewResultEnum Result {get; set;}
         public string ResultDescription {get; set;}
         public decimal Salary {get;set;}
         public DateTime ApplicationDate {get;set;}

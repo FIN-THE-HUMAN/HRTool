@@ -2,7 +2,7 @@ using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using HRTool.DAL.Models;
+using HRTool.DAL.Models.Enumes;
 using System.Collections.Generic;
 
 namespace HRTool.DAL.Models
