@@ -1,14 +1,14 @@
-import LocalStorageService, { TOKEN, USER } from 'services/LocalStorageService';
+import LocalStorage, { TOKEN, USER } from 'services/LocalStorageService';
 
 const SessionService = {
   signIn(user, token) {
-    LocalStorageService.set(TOKEN, token);
-    LocalStorageService.set(USER, user);
+    LocalStorage.set(TOKEN, token);
+    LocalStorage.set(USER, user);
   },
 
   signOut() {
-    LocalStorageService.remove(TOKEN);
-    LocalStorageService.remove(USER);
+    LocalStorage.remove(TOKEN);
+    LocalStorage.remove(USER);
   }
 };
 

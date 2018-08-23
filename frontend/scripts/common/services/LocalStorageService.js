@@ -1,6 +1,6 @@
 const LocalStorage = {
   set(key, value) {
-    localStorage.setItem(key, JSON.stringify(value))
+    localStorage.setItem(key, JSON.stringify(value));
   },
 
   get(key) {
@@ -8,7 +8,7 @@ const LocalStorage = {
   },
 
   remove(key) {
-    localStorage.removeItem(key)
+    localStorage.removeItem(key);
   }
 };
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import LocalStorage from '../services/LocalStorageService';
 import { Type, AXIOS_CONFIG } from 'constants/AjaxConstants';
 
+import LocalStorage from './LocalStorageService';
 import AsyncService from './AsyncService';
 
 class AjaxService extends AsyncService {

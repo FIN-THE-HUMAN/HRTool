@@ -29,4 +29,3 @@ class AsyncService {
 }
 
 export default AsyncService;
-

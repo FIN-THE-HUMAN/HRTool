@@ -6,7 +6,8 @@
 	"private": true,
 	"scripts": {
 		"start": "webpack-dev-server --mode development --open --hot",
-		"build": "webpack --mode production"
+		"build": "webpack --mode production",
+		"lint-scripts": "eslint ./scripts"
 	},
 	"dependencies": {
 		"@babel/polyfill": "^7.0.0-beta.55",

@@ -12,7 +12,7 @@ const LoginForm = ({ onSubmit }) => (
       <form className="login-form" onSubmit={handleSubmit}>
         <Field name="email" type="email" label="E-mail" placeholder="example@gmail.com" validate={required} />
         <Field name="password" type="password" label="Пароль" placeholder="Введите пароль" validate={required} />
-        <Field name="password" type="password" label="Пароль" placeholder="Введите пароль" validate={required} />
+        <Field name="password-confirmation" type="password" label="Подтверждение пароля" placeholder="Введите пароль" validate={required} />
         <Button block bsStyle="primary" type="submit">
           Зарегистрироваться
         </Button>

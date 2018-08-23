@@ -1,5 +1,6 @@
-import LocalStorage from '../services/LocalStorageService';
 import Status from 'constants/StatusConstants';
+
+import LocalStorage from '../services/LocalStorageService';
 
 const user = LocalStorage.get('user');
 

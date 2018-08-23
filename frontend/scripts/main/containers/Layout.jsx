@@ -56,6 +56,7 @@ class Layout extends Component {
 Layout.propTypes = {
   info: PropTypes.object,
   children: PropTypes.node,
+  actions: PropTypes.object,
 };
 
 export default connect({
