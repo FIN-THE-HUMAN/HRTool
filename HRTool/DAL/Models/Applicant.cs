@@ -27,5 +27,6 @@ namespace HRTool.DAL.Models
         public string About {get; set;}
         public string Experience {get; set;}
         public BranchOfficeEnum Branch {get; set;}
+        public virtual ICollection<Vacancy> Vacancies {get;set;}
     }
 }
