@@ -1,35 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import connect from 'decorators/ConnectDecorators';
 import UserActions from 'actions/UserActions';
 import { Redirect } from 'components/router';
+import { OverlayStatus } from 'components';
 
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../components/LoginForm';
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-  }
+const Login = ({ info, status, actions: { signIn } }) => {
+  if (!info) return (
+    <div className="login">
+      <OverlayStatus status={status}>
+        <h3 className="title">Авторизация</h3>
+        <LoginForm onSubmit={signIn} />
+      </OverlayStatus>
+    </div>
+  );
 
-  render() {
-    const { info } = this.props;
-    const { signIn } = this.props.actions;
-
-    if (!info)
-      return (
-        <div className="login">
-          <h3 className="title">Авторизация</h3>
-          <LoginForm onSubmit={signIn} />
-        </div>
-      );
-
-    return <Redirect to="/" />
-  }
-}
-
+  return <Redirect to="/" />;
+};
 
 Login.propTypes = {
+  status: PropTypes.string,
   info: PropTypes.object,
+  actions: PropTypes.object,
 };
 
 export default connect({

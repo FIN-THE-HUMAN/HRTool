@@ -45,7 +45,7 @@ class UserActions {
         .then(result => {
           dispatch(this.registerCallback(result));
 
-          setTimeout(() => WindowService.redirect(WindowService.location), 1000);
+          setTimeout(() => WindowService.redirect('/login'), 1000);
         })
         .catch(result => {
           dispatch(this.registerCallback(result));

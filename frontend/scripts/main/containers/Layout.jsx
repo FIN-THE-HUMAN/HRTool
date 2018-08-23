@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 import Modal from 'containers/Modal';
 import ModalsActions from 'actions/ModalsActions';
 import UserActions from 'actions/UserActions';
+import OverlayStatus from 'components/OverlayStatus';
 
 import { MODAL_TYPES } from '../constants/ModalsConstants';
 import UserInfo from '../components/UserInfo';
@@ -16,7 +17,7 @@ class Layout extends Component {
   handleSignInModalToggle = () => this.props.actions.modalToggle(MODAL_TYPES.signIn);
 
   render() {
-    const { info, children } = this.props;
+    const { info, children, status } = this.props;
     const { signIn } = this.props.actions;
 
     return (
@@ -46,9 +47,10 @@ class Layout extends Component {
         <div className="footer">
           <div className="copyright">© 2018, ЗАО «Калуга Астрал»</div>
         </div>
-
         <Modal type={MODAL_TYPES.signIn} title="Авторизация" bsSize="small">
-          <LoginForm onSubmit={signIn} onCancel={this.handleSignInModalToggle} />
+          <OverlayStatus status={status}>
+            <LoginForm onSubmit={signIn} onCancel={this.handleSignInModalToggle} />
+          </OverlayStatus>
         </Modal>
       </div>
     );
@@ -56,6 +58,7 @@ class Layout extends Component {
 }
 
 Layout.propTypes = {
+  status: PropTypes.string(),
   info: PropTypes.object,
   children: PropTypes.node,
   actions: PropTypes.object,

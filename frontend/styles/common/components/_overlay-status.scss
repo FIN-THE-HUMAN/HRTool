@@ -1,15 +1,22 @@
 .overlay-status {
+  position: relative;
+
+  &.black .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
   .overlay {
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
 
     .loader {
       width: 150px;
       height: 150px;
+      padding: 40px;
       position: sticky;
       top: 50%;
       left: 50%;
@@ -18,12 +25,8 @@
       box-shadow: 3px 3px 30px -10px #000;
       border-radius: 5px;
 
-      .spinner,
       .icon {
-        position: absolute;
-        top: 45%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        margin: auto;
       }
 
       .message {
