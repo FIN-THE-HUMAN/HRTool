@@ -58,7 +58,7 @@ class Layout extends Component {
 }
 
 Layout.propTypes = {
-  status: PropTypes.string(),
+  status: PropTypes.string,
   info: PropTypes.object,
   children: PropTypes.node,
   actions: PropTypes.object,
