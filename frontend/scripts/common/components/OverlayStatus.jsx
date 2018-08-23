@@ -4,7 +4,7 @@ import Status from 'constants/StatusConstants';
 
 import Loader from './Loader';
 
-const OverlayState = ({ status, children }) => {
+const OverlayStatus = ({ status, children }) => {
   if (!status || status === Status.DEFAULT) {
     return children;
   }
@@ -19,13 +19,13 @@ const OverlayState = ({ status, children }) => {
   );
 };
 
-OverlayState.propTypes = {
+OverlayStatus.propTypes = {
   status: PropTypes.string,
   children: PropTypes.node,
 };
 
-OverlayState.defaultProps = {
+OverlayStatus.defaultProps = {
   status: Status.DEFAULT,
 };
 
-export default OverlayState;
+export default OverlayStatus;
