@@ -14,5 +14,9 @@ namespace HRTool.DAL
         public DbSet<Vacancy> Vacancies { get; set; }
         public DbSet<Requirement> Requirement {get; set;}
         public DbSet<Duty> Duties {get;set;}
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }
