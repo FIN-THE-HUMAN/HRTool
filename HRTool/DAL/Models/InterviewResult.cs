@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HRTool.DAL.Models
 {
-    public enum BranchOfficeEnum 
+    public enum InterviewResult 
     {
-        Kaluga,
-        Ufa,
-        Obninsk
-    }
+        Confirmed,
+        Denied,
+        Undefined
+    } 
 }

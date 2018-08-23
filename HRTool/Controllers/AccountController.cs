@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HRTool.Controllers
 {
+    [Route("[controller]/")]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -29,7 +30,7 @@ namespace HRTool.Controllers
         }
 
         [HttpPost]
-        [Route("Register/")]
+        [Route("register/")]
         public async Task<Object> Register([FromBody] AccountModel accountModel)
         {
             if (!string.IsNullOrEmpty(accountModel.Email) && !string.IsNullOrEmpty(accountModel.Password))
@@ -62,7 +63,7 @@ namespace HRTool.Controllers
 
 
         [HttpPost]
-        [Route("Login/")]
+        [Route("login/")]
         public async Task<Object> Login([FromBody] AccountModel accountModel)
         {
             if (!string.IsNullOrEmpty(accountModel.Email) && !string.IsNullOrEmpty(accountModel.Password))
@@ -118,7 +119,7 @@ namespace HRTool.Controllers
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
-        [Route("Users/{id}")]
+        [Route("{id}/")]
         public async Task<Object> GetUser([FromRoute] string id)
         {
             var user = await _userManager.FindByIdAsync(id);

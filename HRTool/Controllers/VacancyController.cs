@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using HRTool.DAL.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
 {
@@ -35,32 +36,52 @@ namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
         }
 
         //Получение листа вакансий
+
+        //TODO
+        // Айди в пути, в Query будет OffsetCountSearch
+        // В лист вакансий отдавать неполную модель, в конкретную вакансию отдавать полную модель
+        // Вернуть количество записей в БД и data (сами данные)
+
         [Authorize(AuthenticationSchemes = "Bearer")] 
         [HttpGet]
         public async Task<Object> Vacancies()
         {
-            var _vacancies = new List<Vacancy>();
-
             using (var db = _context)
             {
                 var vacancies = db.Vacancies.ToList();
                 return vacancies;
             }
+        }
+
+        //В route будет айди вакансии, для которой будет изменение
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateVacancy([FromBody] VacancyModel vacancyModel, [FromRoute] Guid id)
+        {
+            using (var db = _context)
+            {
+                var vacancy = db.Vacancies.FirstOrDefault(x => x.Id == id);
+                //Заполнить модель вакансии
+                //vacancy = vacancyModel;
+                db.SaveChanges();
+
+                return Ok("Вакансия успешно добавлена");
+            }
             return Ok();
         }
 
+         //В route будет айди вакансии, для которой будет удаление
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPost]
-        public async Task<IActionResult> UpdateVacancy([FromBody] VacancyModel vacancyModel)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteVacancy([FromRoute] Guid id)
         {
-            return Ok();
-        }
-
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpGet]
-        public async Task<IActionResult> DeleteVacancy([FromBody] VacancyModel vacancyModel)
-        {
-            return Ok();
+            using (var db = _context)
+            {
+                var vacancy = db.Vacancies.FirstOrDefault(x => x.Id == id);
+                db.Remove(vacancy);
+                db.SaveChanges();
+                return Ok($"Вакансия {id} удалена");
+            }
         }
 
         //Изменение статуса вакансии
