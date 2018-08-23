@@ -28,7 +28,7 @@ namespace HRTool.Controllers.Models
             Id = user.Id;
             FirstName = user.FirstName;
             LastName = user.LastName;
-            RoleName = user.RoleName;
+            RoleName = user.Position;
             Email = user.Email;
             PhoneNumber = user.PhoneNumber;
         }

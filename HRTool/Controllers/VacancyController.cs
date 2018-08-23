@@ -60,7 +60,7 @@ namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
         {
             using (var db = _context)
             {
-                var vacancy = db.Vacancies.FirstOrDefault(x => x.Id == id);
+                var vacancy = db.Vacancies.FirstOrDefault(x => x.VacancyId == id);
                 //Заполнить модель вакансии
                 //vacancy = vacancyModel;
                 db.SaveChanges();
@@ -77,7 +77,7 @@ namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
         {
             using (var db = _context)
             {
-                var vacancy = db.Vacancies.FirstOrDefault(x => x.Id == id);
+                var vacancy = db.Vacancies.FirstOrDefault(x => x.VacancyId == id);
                 db.Remove(vacancy);
                 db.SaveChanges();
                 return Ok($"Вакансия {id} удалена");
