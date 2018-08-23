@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HRTool.DAL.Models
 {
@@ -25,5 +27,6 @@ namespace HRTool.DAL.Models
         public string About {get; set;}
         public string Experience {get; set;}
         public BranchOfficeEnum Branch {get; set;}
+        public virtual ICollection<Vacancy> Vacancies {get;set;}
     }
 }

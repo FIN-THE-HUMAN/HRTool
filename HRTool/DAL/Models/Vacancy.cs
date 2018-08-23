@@ -3,14 +3,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using HRTool.DAL.Models;
+using System.Collections.Generic;
 
 namespace HRTool.DAL.Models
 {
     //Модель пользователя приложения
     public class Vacancy
     {
-        public Guid Id {get;set;}
+        public Guid VacancyId {get;set;}
         public string Name {get; set;}
+        //Наименование структурного подразделеия
+        public DeparturesEnum DepartureName {get;set;}
         //"Заработок: От 35000р...
         public decimal SalaryRangeFrom {get; set;}
         //...до 200000р"
@@ -24,13 +27,18 @@ namespace HRTool.DAL.Models
         [EmailAddress]
         public string ContactMail {get;set;}
         //Полная, неполная занятость
-        public string EmploymentType {get; set;}
+        public EmploymentTypeEnum EmploymentType {get; set;}
         //Часы работы в день
         public string WorkHours {get;set;}
         public string Description {get; set;}
         //Чем будет заниматься соискатель(обязанности)
-        public DutyDictionary Duties {get;set;}
+        public ICollection<Duty> Duties {get;set;}
         //Что должен уметь соискатель (требования)
-        public RequirementsDictionary Requirements {get;set;}
+        public ICollection<Requirement> Requirements {get;set;}
+        public ICollection<Requirement> AdditionalRequirements {get;set;}
+        public VacancyStatusEnum VacancyStatus {get;set;}
+        public string VacancyHolderName {get;set;}
+        public BranchOfficeEnum BranchOfficeCity {get;set;}
+        public virtual ICollection<Applicant> Applicants {get;set;}
     }
 }
