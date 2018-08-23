@@ -47,7 +47,8 @@ namespace HRTool.Controllers
 
                     if (result.Succeeded)
                     {
-                        return await GenerateJwtToken(accountModel.Email, user);
+                        return Ok("Аккаунт успешно зарегистрирован");
+                        //await GenerateJwtToken(accountModel.Email, user);
                     }
                     else
                     {
@@ -75,7 +76,20 @@ namespace HRTool.Controllers
 
                     if (result.Succeeded)
                     {
-                        return await GenerateJwtToken(accountModel.Email, user);
+                        var token = await GenerateJwtToken(accountModel.Email, user);
+                        return new
+                        {
+                            token,
+                            user = new
+                            {
+                                user.Id,
+                                user.FirstName,
+                                user.LastName,
+                                user.RoleName,
+                                user.Email,
+                                user.PhoneNumber
+                            }
+                        };
                     }
                 }
 
@@ -117,6 +131,6 @@ namespace HRTool.Controllers
         }
 
 
-       // [Authorize(AuthenticationSchemes = "Bearer")]
+        // [Authorize(AuthenticationSchemes = "Bearer")]
     }
 }
