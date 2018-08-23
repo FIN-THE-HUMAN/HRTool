@@ -1,9 +1,16 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-const connectToStore = ({ name, actions }) => (
+const defaultMapStateToProps = name => store => (
+  _.isArray(name) ?
+    _.reduce(name, (result, path) => ({ ...result, ..._.get(store, path) }), {}) :
+    { ..._.get(store, name) }
+);
+
+const connectToStore = ({ mapStateToProps, name, actions }) => (
   connect(
-    store => store[name],
+    mapStateToProps ||
+    (name && defaultMapStateToProps(name)),
     actions && (dispatch => ({ actions: bindActionCreators(actions, dispatch) }))
   )
 );

@@ -5,6 +5,7 @@ import { USER_INITIAL_STATE } from 'constants/UserConstants';
 
 class UserReducer {
   constructor() {
+    this.bindAction(UserActions.stateClear, () => this.initialState);
     this.bindAction(UserActions.userGet, this.handleUserGet);
     this.bindAction(UserActions.logOut, this.handleLogOut);
     this.bindAction(UserActions.signInCallback, this.handleSignIn);
@@ -16,9 +17,9 @@ class UserReducer {
   }
 
   handleUserGet(state, { isSuccess, status, response }) {
-    if (!isSuccess) return update(state, { $merge: { contentStatus } });
+    if (!isSuccess) return update(state, { $merge: { status } });
 
-    return update(state, { $merge: { contentStatus, info: response } });
+    return update(state, { $merge: { contentStatus: status, info: response } });
   }
 
   handleSignIn(state, { isError, status, response }) {
@@ -28,7 +29,6 @@ class UserReducer {
 
     return update(state, { $merge: { status } });
   }
-
 
   handleLogOut(state) {
     return update(state, { $merge: { info: {} } });

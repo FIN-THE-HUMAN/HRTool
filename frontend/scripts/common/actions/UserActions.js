@@ -7,6 +7,7 @@ import WindowService from 'services/WindowService';
 class UserActions {
   constructor() {
     this.generate(
+      'stateClear',
       'logOut',
       'signInCallback',
       'registerCallback'
@@ -44,7 +45,7 @@ class UserActions {
         .then(result => {
           dispatch(this.registerCallback(result));
 
-          setTimeout(() => dispatch(this.registerCallback({ status: Status.DEFAULT })), 1000);
+          setTimeout(() => WindowService.redirect(WindowService.location), 1000);
         })
         .catch(result => {
           dispatch(this.registerCallback(result));

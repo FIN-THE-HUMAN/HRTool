@@ -10,15 +10,17 @@ class UserProvider extends Component {
     const { info } = this.props;
 
     return {
-      role: _.get(info, 'role', null)
+      role: _.get(info, 'roleName', null)
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const { actions: { userGet }, info } = this.props;
 
-    if (info) userGet(info.userGuid);
-  }
+    if (info) userGet(info.id);
+  };
+
+  componentWillUnmount = () => this.props.actions.stateClear();
 
   render() {
     const { contentStatus, children } = this.props;
