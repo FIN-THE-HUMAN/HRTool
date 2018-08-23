@@ -32,10 +32,10 @@ namespace HRTool.DAL.Models
         public string WorkHours {get;set;}
         public string Description {get; set;}
         //Чем будет заниматься соискатель(обязанности)
-        public List<Duty> Duties {get;set;}
+        public ICollection<Duty> Duties {get;set;}
         //Что должен уметь соискатель (требования)
-        public List<Requirement> Requirements {get;set;}
-        public List<Requirement> AdditionalRequirements {get;set;}
+        public ICollection<Requirement> Requirements {get;set;}
+        public ICollection<Requirement> AdditionalRequirements {get;set;}
         public VacancyStatusEnum VacancyStatus {get;set;}
         public string VacancyHolderName {get;set;}
         public BranchOfficeEnum BranchOfficeCity {get;set;}
