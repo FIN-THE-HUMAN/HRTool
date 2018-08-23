@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,10 +79,12 @@ namespace HRTool.Controllers
                     if (result.Succeeded)
                     {
                         var token = await GenerateJwtToken(accountModel.Email, user);
+                        var userModel = new UserModel();
+                        userModel.Fill(user);
                         return new
                         {
                             token,
-                            user = new UserModel(user)
+                            user = userModel
                         };
                     }
                 }
@@ -123,11 +126,32 @@ namespace HRTool.Controllers
         public async Task<Object> GetUser([FromRoute] string id)
         {
             var user = await _userManager.FindByIdAsync(id);
+            var userModel = new UserModel();
+            userModel.Fill(user);
             if (user != null)
             {
-                return new UserModel(user);
+                return userModel;
             }
 
+            return BadRequest("Пользователь не найден");
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPut]
+        [Route("{id}/")]
+        public async Task<ObjectResult> ChangeUser([FromBody] UserModel usermodel, [FromRoute] string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                user.FirstName = usermodel.FirstName;
+                user.LastName = usermodel.LastName;
+                user.RoleName = usermodel.RoleName;
+                user.Email = usermodel.Email;
+                user.PhoneNumber = usermodel.PhoneNumber;
+                await _userManager.UpdateAsync(user);
+                return Ok("Данные изменены");
+            }
             return BadRequest("Пользователь не найден");
         }
     }

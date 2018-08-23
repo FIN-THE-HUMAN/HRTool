@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HRTool.DAL.Models
 {
-    public class Applicant
+    public class Resume
     {
         public Guid Id {get;set;}
         public string Name {get;set;}

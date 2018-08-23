@@ -10,7 +10,7 @@ namespace HRTool.DAL
             : base(options)
         {
         }
-        public DbSet<Applicant> Applicants { get; set; }
+        public DbSet<Resume> Applicants { get; set; }
         public DbSet<Vacancy> Vacancies { get; set; }
     }
 }
