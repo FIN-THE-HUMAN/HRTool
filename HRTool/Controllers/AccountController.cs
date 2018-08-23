@@ -99,6 +99,7 @@ namespace HRTool.Controllers
             return BadRequest("Заполните все поля");
         }
 
+        [HttpGet]
         [Route("Logout/")]
         public async Task<ObjectResult> Logout()
         {
