@@ -2,7 +2,7 @@ using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HRTool.Models
+namespace HRTool.DAL.Models
 {
     //Модель пользователя приложения
     public class Vacancy
