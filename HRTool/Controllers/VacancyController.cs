@@ -1,12 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using HRTool.Controllers.Models;
 using HRTool.DAL;
-using HRTool.DAL.Models;
+using HRTool.Controllers.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using HRTool.DAL.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HRTool.Controllers
 {
@@ -46,7 +46,6 @@ namespace HRTool.Controllers
                 var vacancies = db.Vacancies.ToList();
                 return vacancies;
             }
-            return Ok();
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
