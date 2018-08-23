@@ -46,7 +46,7 @@ class Layout extends Component {
         </div>
 
         <Modal type={MODAL_TYPES.signIn} title="Авторизация" bsSize="small">
-          <LoginForm onSubmit={signIn} />
+          <LoginForm onSubmit={signIn} onCancel={this.handleSignInModalToggle} />
         </Modal>
       </div>
     );

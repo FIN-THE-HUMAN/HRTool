@@ -6,7 +6,7 @@ import { Field } from 'components';
 import { Link } from 'components/router';
 import { required } from 'utils/ValidationRules';
 
-const LoginForm = ({ onSubmit }) => (
+const LoginForm = ({ onSubmit, onCancel }) => (
   <Form
     onSubmit={onSubmit}
     render={({ handleSubmit, form }) => (
@@ -16,14 +16,17 @@ const LoginForm = ({ onSubmit }) => (
         <Button block bsStyle="primary" type="submit">
           Войти
         </Button>
-        <Link className="register" to="/signup">Зарегистрироваться</Link>
+        <Link className="register" to="/signup" onClick={onCancel}>
+          Зарегистрироваться
+        </Link>
       </form>
     )}
   />
 );
 
 LoginForm.propTypes = {
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  onCancel: PropTypes.func
 };
 
 export default LoginForm;
