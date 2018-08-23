@@ -47,7 +47,8 @@ namespace HRTool.Controllers
 
                     if (result.Succeeded)
                     {
-                        return await GenerateJwtToken(accountModel.Email, user);
+                        return Ok("Аккаунт успешно зарегистрирован");
+                        //await GenerateJwtToken(accountModel.Email, user);
                     }
                     else
                     {
@@ -75,7 +76,12 @@ namespace HRTool.Controllers
 
                     if (result.Succeeded)
                     {
-                        return await GenerateJwtToken(accountModel.Email, user);
+                        var token = await GenerateJwtToken(accountModel.Email, user);
+                        return new
+                        {
+                            token,
+                            user = new UserModel(user)
+                        };
                     }
                 }
 
@@ -118,6 +124,18 @@ namespace HRTool.Controllers
         }
 
 
-       // [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpGet]
+        [Route("GetUser/{id}")]
+        public async Task<Object> GetUser([FromRoute] string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                return new UserModel(user);
+            }
+
+            return BadRequest("Пользователь не найден");
+        }
     }
 }

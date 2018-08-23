@@ -72,10 +72,9 @@ namespace HRTool
                     builder =>
                     {
                         builder
-                            .AllowAnyOrigin() 
+                            .AllowAnyOrigin()
                             .AllowAnyMethod()
-                            .AllowAnyHeader()
-                            .AllowCredentials();
+                            .AllowAnyHeader();
                     });
             });
         }
@@ -87,6 +86,9 @@ namespace HRTool
                 app.UseDeveloperExceptionPage();
             }
 
+            
+            app.UseCors("AllowAll");
+            
             app.UseMvc();
             app.UseAuthentication();
 
@@ -97,8 +99,6 @@ namespace HRTool
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 //c.RoutePrefix = string.Empty;
             });
-
-            app.UseCors("AllowAll");
         }
     }
 }
