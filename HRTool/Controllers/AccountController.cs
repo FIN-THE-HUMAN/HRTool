@@ -80,15 +80,7 @@ namespace HRTool.Controllers
                         return new
                         {
                             token,
-                            user = new
-                            {
-                                user.Id,
-                                user.FirstName,
-                                user.LastName,
-                                user.RoleName,
-                                user.Email,
-                                user.PhoneNumber
-                            }
+                            user = new UserModel(user)
                         };
                     }
                 }
@@ -132,6 +124,18 @@ namespace HRTool.Controllers
         }
 
 
-        // [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpGet]
+        [Route("GetUser/{id}")]
+        public async Task<Object> GetUser([FromRoute] string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                return new UserModel(user);
+            }
+
+            return BadRequest("Пользователь не найден");
+        }
     }
 }
