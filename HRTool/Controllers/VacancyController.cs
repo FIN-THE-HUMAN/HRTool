@@ -1,13 +1,14 @@
-using System.Threading.Tasks;
-using HRTool.DAL;
-using HRTool.Controllers.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using HRTool.DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using HRTool.Controllers.Models;
+using HRTool.DAL;
+using HRTool.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
+namespace HRTool.Controllers
 {
     public class VacancyController : Controller
     {
@@ -37,9 +38,8 @@ namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
         //Получение листа вакансий
         [Authorize(AuthenticationSchemes = "Bearer")] 
         [HttpGet]
-        public async Task<Object> Vacancies()
+        public  Object Vacancies()
         {
-            var _vacancies = new List<Vacancy>();
 
             using (var db = _context)
             {
