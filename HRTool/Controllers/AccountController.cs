@@ -146,7 +146,7 @@ namespace HRTool.Controllers
             {
                 user.FirstName = usermodel.FirstName;
                 user.LastName = usermodel.LastName;
-                user.RoleName = usermodel.RoleName;
+                user.Position = usermodel.Position;
                 user.Email = usermodel.Email;
                 user.PhoneNumber = usermodel.PhoneNumber;
                 await _userManager.UpdateAsync(user);
