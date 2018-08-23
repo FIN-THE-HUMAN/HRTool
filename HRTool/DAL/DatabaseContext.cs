@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace HRTool.DAL.Models
+namespace HRTool.DAL
 {
     public class DatabaseContext : IdentityDbContext<User>
     {

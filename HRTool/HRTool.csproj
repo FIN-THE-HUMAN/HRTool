@@ -12,5 +12,6 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.1.1"/>
       <PackageReference Include="AngleSharp" Version="0.9.10"/>
       <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0"/>
+      <PackageReference Include="Swashbuckle.AspnetCore" Version="3.0.0"/>
   </ItemGroup>
 </Project>

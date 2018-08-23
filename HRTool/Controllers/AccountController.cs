@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using HRTool.Controllers.Models;
 using HRTool.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -84,6 +85,7 @@ namespace HRTool.Controllers
             return BadRequest("Заполните все поля");
         }
 
+        [HttpGet]
         [Route("Logout/")]
         public async Task<ObjectResult> Logout()
         {
@@ -114,5 +116,8 @@ namespace HRTool.Controllers
 
             return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
         }
+
+
+       // [Authorize(AuthenticationSchemes = "Bearer")]
     }
 }
