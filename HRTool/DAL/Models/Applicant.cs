@@ -8,7 +8,7 @@ namespace HRTool.DAL.Models
         public Guid Id {get;set;}
         public string FirstName {get;set;}
         public string LastName {get;set;}
-        [Range(0, 100)]
+        [Range(18, 65)]
         public int Age {get;set;}
         public decimal Salary {get;set;}
         public DateTime ApplicationDate {get;set;}

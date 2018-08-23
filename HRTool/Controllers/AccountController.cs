@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using HRTool.Controllers.Models;
 using HRTool.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using HRTool.Models;
 
 namespace HRTool.Controllers
 {
+    [Route("[controller]/")]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -29,7 +30,7 @@ namespace HRTool.Controllers
         }
 
         [HttpPost]
-        [Route("Register/")]
+        [Route("register/")]
         public async Task<Object> Register([FromBody] AccountModel accountModel)
         {
             if (!string.IsNullOrEmpty(accountModel.Email) && !string.IsNullOrEmpty(accountModel.Password))
@@ -47,7 +48,8 @@ namespace HRTool.Controllers
 
                     if (result.Succeeded)
                     {
-                        return await GenerateJwtToken(accountModel.Email, user);
+                        return Ok("Аккаунт успешно зарегистрирован");
+                        //await GenerateJwtToken(accountModel.Email, user);
                     }
                     else
                     {
@@ -61,7 +63,7 @@ namespace HRTool.Controllers
 
 
         [HttpPost]
-        [Route("Login/")]
+        [Route("login/")]
         public async Task<Object> Login([FromBody] AccountModel accountModel)
         {
             if (!string.IsNullOrEmpty(accountModel.Email) && !string.IsNullOrEmpty(accountModel.Password))
@@ -75,7 +77,12 @@ namespace HRTool.Controllers
 
                     if (result.Succeeded)
                     {
-                        return await GenerateJwtToken(accountModel.Email, user);
+                        var token = await GenerateJwtToken(accountModel.Email, user);
+                        return new
+                        {
+                            token,
+                            user = new UserModel(user)
+                        };
                     }
                 }
 
@@ -83,13 +90,6 @@ namespace HRTool.Controllers
             }
 
             return BadRequest("Заполните все поля");
-        }
-
-        [Route("Logout/")]
-        public async Task<ObjectResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return Ok("Выход выполнен");
         }
 
         private async Task<object> GenerateJwtToken(string email, User user)
@@ -114,6 +114,21 @@ namespace HRTool.Controllers
             );
 
             return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
+        }
+
+
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpGet]
+        [Route("{id}/")]
+        public async Task<Object> GetUser([FromRoute] string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                return new UserModel(user);
+            }
+
+            return BadRequest("Пользователь не найден");
         }
     }
 }

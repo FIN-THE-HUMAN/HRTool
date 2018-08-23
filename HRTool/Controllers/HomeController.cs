@@ -6,7 +6,7 @@ namespace HRTool.Controllers
     {
         public IActionResult Index()
         {
-            return null;
+            return Ok("Done");
         }
     }
 }

@@ -16,7 +16,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using HRTool.Models;
+using Microsoft.AspNetCore.Cors;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace HRTool
 {
@@ -39,18 +40,16 @@ namespace HRTool
             );
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<DatabaseContext>();
-
-            services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
+                .AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
             services
                 .AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    
                 })
                 .AddJwtBearer(cfg =>
                 {
@@ -61,9 +60,23 @@ namespace HRTool
                         ValidIssuer = Configuration["JwtIssuer"],
                         ValidAudience = Configuration["JwtIssuer"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
-                        ClockSkew = TimeSpan.Zero 
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
+           
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "My API", Version = "v1"}); });
+            
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -73,15 +86,18 @@ namespace HRTool
                 app.UseDeveloperExceptionPage();
             }
 
+            
+            app.UseCors("AllowAll");
+            
             app.UseMvc();
-
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                //c.RoutePrefix = string.Empty;
             });
         }
     }
