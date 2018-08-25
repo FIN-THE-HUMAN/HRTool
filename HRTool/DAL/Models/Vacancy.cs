@@ -39,6 +39,6 @@ namespace HRTool.DAL.Models
         public VacancyStatusEnum VacancyStatus {get;set;}
         public string VacancyHolderName {get;set;}
         public BranchOfficeEnum BranchOfficeCity {get;set;}
-        public virtual ICollection<Applicant> Applicants {get;set;}
+        public  ICollection<VacancyApllicant> VacancyApllicants {get;set;}
     }
 }

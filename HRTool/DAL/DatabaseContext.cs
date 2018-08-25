@@ -17,6 +17,19 @@ namespace HRTool.DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<VacancyApllicant>()
+                .HasKey(va => new { va.VacancyId, va.ApplicantId });
+
+            builder.Entity<VacancyApllicant>()
+                .HasOne(va => va.Vacancy)
+                .WithMany(va => va.VacancyApllicants)
+                .HasForeignKey(va => va.VacancyId);
+
+            builder.Entity<VacancyApllicant>()
+                .HasOne(va => va.Applicant)
+                .WithMany(va => va.VacancyApllicants)
+                .HasForeignKey(va => va.ApplicantId);
         }
     }
 }
