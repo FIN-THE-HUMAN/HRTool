@@ -1,13 +1,14 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
-using HRTool.Controllers.Models;
 using HRTool.DAL;
-using HRTool.DAL.Models;
+using HRTool.Controllers.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using HRTool.DAL.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 
-namespace HRTool.Controllers
+namespace HRTool.HRTool.Controllers
 {
     public class VacancyController : Controller
     {
@@ -24,9 +25,26 @@ namespace HRTool.Controllers
         {
             using (var db = _context)
             {
-                var vacancy = new Vacancy(
-                    //Заполнить поля модели
-                );
+                var vacancy = new Vacancy{
+                    Name = vacancyModel.Name,
+                    DepartureName = vacancyModel.DepartureName,
+                    SalaryRangeFrom = vacancyModel.SalaryRangeFrom,
+                    SalaryRangeTo = vacancyModel.SalaryRangeTo,
+                    RequiredExperienceRange = vacancyModel.RequiredExperienceRange,
+                    ContactPerson = vacancyModel.ContactPerson,
+                    ContactPhone = vacancyModel.ContactPhone,
+                    ContactMail = vacancyModel.ContactMail,
+                    EmploymentType = vacancyModel.EmploymentType,
+                    WorkHours = vacancyModel.WorkHours,
+                    Description = vacancyModel.Description,
+                    Duties = vacancyModel.Duties,
+                    Requirements = vacancyModel.Requirements,
+                    AdditionalRequirements = vacancyModel.AdditionalRequirements,
+                    VacancyStatus = vacancyModel.VacancyStatus,
+                    VacancyHolderName = vacancyModel.VacancyHolderName,
+                    VacancyApllicants = vacancyModel.VacancyApllicants,
+                    BranchOfficeCity = vacancyModel.BranchOfficeCity
+                };
                 await db.Vacancies.AddAsync(vacancy);
                 db.SaveChanges();
 
@@ -41,7 +59,7 @@ namespace HRTool.Controllers
         // В лист вакансий отдавать неполную модель, в конкретную вакансию отдавать полную модель
         // Вернуть количество записей в БД и data (сами данные)
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer")] 
         [HttpGet]
         public async Task<Object> Vacancies()
         {
@@ -66,11 +84,10 @@ namespace HRTool.Controllers
 
                 return Ok("Вакансия успешно добавлена");
             }
-
             return Ok();
         }
 
-        //В route будет айди вакансии, для которой будет удаление
+         //В route будет айди вакансии, для которой будет удаление
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete]
         public async Task<IActionResult> DeleteVacancy([FromRoute] Guid id)
