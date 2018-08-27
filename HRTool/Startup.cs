@@ -39,7 +39,14 @@ namespace HRTool
                 options => options.UseNpgsql(connectionString)
             );
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                })
                 .AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -63,9 +70,9 @@ namespace HRTool
                         ClockSkew = TimeSpan.Zero
                     };
                 });
-           
+
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "My API", Version = "v1"}); });
-            
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
@@ -86,9 +93,9 @@ namespace HRTool
                 app.UseDeveloperExceptionPage();
             }
 
-            
+
             app.UseCors("AllowAll");
-            
+
             app.UseMvc();
             app.UseAuthentication();
 

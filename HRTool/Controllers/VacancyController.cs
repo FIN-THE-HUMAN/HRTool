@@ -1,14 +1,13 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
-using HRTool.DAL;
 using HRTool.Controllers.Models;
+using HRTool.DAL;
+using HRTool.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using HRTool.DAL.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System;
 
-namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
+namespace HRTool.Controllers
 {
     public class VacancyController : Controller
     {
@@ -42,7 +41,7 @@ namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
         // В лист вакансий отдавать неполную модель, в конкретную вакансию отдавать полную модель
         // Вернуть количество записей в БД и data (сами данные)
 
-        [Authorize(AuthenticationSchemes = "Bearer")] 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
         public async Task<Object> Vacancies()
         {
@@ -67,10 +66,11 @@ namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
 
                 return Ok("Вакансия успешно добавлена");
             }
+
             return Ok();
         }
 
-         //В route будет айди вакансии, для которой будет удаление
+        //В route будет айди вакансии, для которой будет удаление
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete]
         public async Task<IActionResult> DeleteVacancy([FromRoute] Guid id)

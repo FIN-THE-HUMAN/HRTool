@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace HRTool.DAL.Models
+namespace HRTool.DAL.Models.Enumes
 {
-    public enum BranchOfficeEnum 
+    public enum BranchOfficeEnum
     {
         Kaluga,
         Ufa,

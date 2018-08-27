@@ -1,7 +1,4 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace HRTool.DAL.Models
+namespace HRTool.DAL.Models.Enums
 {
     public enum InterviewResult 
     {

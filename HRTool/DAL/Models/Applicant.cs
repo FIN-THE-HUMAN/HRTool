@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HRTool.DAL.Models.Enumes;
+using HRTool.DAL.Models.Enums;
 
 namespace HRTool.DAL.Models
 {

@@ -1,4 +1,4 @@
-namespace HRTool.DAL.Models
+namespace HRTool.DAL.Models.Enumes
 {
     public enum VacancyStatusEnum
     {

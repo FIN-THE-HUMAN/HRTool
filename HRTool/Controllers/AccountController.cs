@@ -152,6 +152,7 @@ namespace HRTool.Controllers
                 await _userManager.UpdateAsync(user);
                 return Ok("Данные изменены");
             }
+
             return BadRequest("Пользователь не найден");
         }
     }
