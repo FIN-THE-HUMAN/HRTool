@@ -1,14 +1,13 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
-using HRTool.DAL;
 using HRTool.Controllers.Models;
+using HRTool.DAL;
+using HRTool.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using HRTool.DAL.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System;
 
-namespace HRTool.HRTool.Controllers
+namespace HRTool.Controllers
 {
     public class VacancyController : Controller
     {
