@@ -9,6 +9,10 @@ const SessionService = {
   signOut() {
     LocalStorage.remove(TOKEN);
     LocalStorage.remove(USER);
+  },
+
+  setUser(user) {
+    LocalStorage.set(USER, user);
   }
 };
 

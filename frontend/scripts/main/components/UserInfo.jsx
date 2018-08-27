@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import SessionService from 'services/SessionService';
 import WindowService from 'services/WindowService';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { DropdownMenuItemLink } from 'components';
 
 import avatar from '../../../images/avatar.svg';
 
@@ -26,8 +27,8 @@ const UserInfo = ({ user }) => {
         id="user-info"
       >
         <MenuItem header>{user.lastName} {user.firstName}</MenuItem>
-        <MenuItem eventKey="2">Профиль</MenuItem>
-        <MenuItem eventKey="3">Настройки</MenuItem>
+        <DropdownMenuItemLink eventKey="2" to="/profile">Профиль</DropdownMenuItemLink>
+        <DropdownMenuItemLink eventKey="3" to="/settings">Настройки</DropdownMenuItemLink>
         <MenuItem divider />
         <MenuItem eventKey="4" onClick={onLogout}>Выйти</MenuItem>
       </DropdownButton>
@@ -40,5 +41,3 @@ UserInfo.propTypes = {
 };
 
 export default UserInfo;
-
-

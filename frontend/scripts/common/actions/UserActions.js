@@ -9,13 +9,24 @@ class UserActions {
     this.generate(
       'stateClear',
       'logOut',
+      'userGetCallback',
       'signInCallback',
       'registerCallback'
     );
   }
 
   userGet(query) {
-    return UsersSources.getUser(query);
+    return dispatch => {
+      UsersSources.getUser(query)
+        .loading(result => dispatch(this.userGetCallback(result)))
+        .then(result => {
+          SessionService.setUser(result.response);
+          dispatch(this.userGetCallback(result));
+        })
+        .catch(result => {
+          dispatch(this.userGetCallback(result));
+        });
+    };
   }
 
   signIn(query) {

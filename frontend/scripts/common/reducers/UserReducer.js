@@ -6,7 +6,7 @@ import { USER_INITIAL_STATE } from 'constants/UserConstants';
 class UserReducer {
   constructor() {
     this.bindAction(UserActions.stateClear, () => this.initialState);
-    this.bindAction(UserActions.userGet, this.handleUserGet);
+    this.bindAction(UserActions.userGetCallback, this.handleUserGet);
     this.bindAction(UserActions.logOut, this.handleLogOut);
     this.bindAction(UserActions.signInCallback, this.handleSignIn);
     this.bindAction(UserActions.registerCallback, this.handleRegister);

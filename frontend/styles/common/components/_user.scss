@@ -1,0 +1,35 @@
+.user {
+  .avatar {
+    width: 100px;
+    height: auto;
+    margin-right: 10px;
+  }
+
+  .info {
+    .name {
+      font-size: $second-title-font-size;
+      font-weight: bold;
+
+      .first,
+      .last {
+        display: inline-block;
+      }
+
+      .last {
+        margin-right: 10px;
+      }
+    }
+
+    .position {
+      color: $gray-400;
+    }
+  }
+
+  .email {
+
+  }
+
+  .phone {
+
+  }
+}
