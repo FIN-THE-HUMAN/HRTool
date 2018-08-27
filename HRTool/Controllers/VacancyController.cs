@@ -65,7 +65,11 @@ namespace HRTool.Controllers
             using (var db = _context)
             {
                 var vacancies = db.Vacancies.ToList();
-                return vacancies;
+                var amount = db.Vacancies.Count();
+                return new {
+                    amount,
+                    vacancies
+                };
             }
         }
 
@@ -83,7 +87,6 @@ namespace HRTool.Controllers
 
                 return Ok("Вакансия успешно добавлена");
             }
-            return Ok();
         }
 
          //В route будет айди вакансии, для которой будет удаление
