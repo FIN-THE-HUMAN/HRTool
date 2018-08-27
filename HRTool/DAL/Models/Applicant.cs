@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using HRTool.DAL.Models.Enumes;
 using HRTool.DAL.Models.Enums;
 
 namespace HRTool.DAL.Models
@@ -28,7 +27,7 @@ namespace HRTool.DAL.Models
         public string ContactPhone {get; set;}
         public string About {get; set;}
         public string Experience {get; set;}
-        public BranchOfficeEnum Branch {get; set;}
-        public virtual ICollection<Vacancy> Vacancies {get;set;}
+        public BranchOffice Branch {get; set;}
+        public ICollection<VacancyApllicant> VacancyApllicants {get;set;}
     }
 }

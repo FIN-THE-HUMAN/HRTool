@@ -10,15 +10,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HRTool.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20180825171049_VacancyApplicants")]
-    partial class VacancyApplicants
+    [Migration("20180827073043_WithManyMigration")]
+    partial class WithManyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.2-rtm-30932")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("HRTool.DAL.Models.Applicant", b =>
