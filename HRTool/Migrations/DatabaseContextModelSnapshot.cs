@@ -92,7 +92,7 @@ namespace HRTool.Migrations
 
                     b.HasIndex("VacancyId1");
 
-                    b.ToTable("Requirement");
+                    b.ToTable("Requirements");
                 });
 
             modelBuilder.Entity("HRTool.DAL.Models.User", b =>

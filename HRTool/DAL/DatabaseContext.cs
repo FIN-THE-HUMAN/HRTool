@@ -17,16 +17,8 @@ namespace HRTool.DAL
 
         public DbSet<Applicant> Applicants { get; set; }
         public DbSet<Vacancy> Vacancies { get; set; }
-        public DbSet<Requirement> Requirement { get; set; }
+        public DbSet<Requirement> Requirements { get; set; }
         public DbSet<Duty> Duties { get; set; }
-
-
-        private ValueConverter GetConverter<T>()
-        {
-            return new ValueConverter<T, string>(
-                v => v.ToString(),
-                v => (T) Enum.Parse(typeof(T), v));
-        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
