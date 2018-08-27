@@ -93,7 +93,6 @@ namespace HRTool
                 app.UseDeveloperExceptionPage();
             }
 
-
             app.UseCors("AllowAll");
 
             app.UseMvc();
