@@ -32,11 +32,14 @@ namespace HRTool.Controllers
 
         [HttpPost]
         [Route("register/")]
-        public async Task<Object> Register([FromBody] AccountModel accountModel)
+        public async Task<Object> Register([FromBody] RegistrationModel registrationModel)
         {
-            if (!string.IsNullOrEmpty(accountModel.Email) && !string.IsNullOrEmpty(accountModel.Password))
+            if (!string.IsNullOrEmpty(registrationModel.Email) &&
+                !string.IsNullOrEmpty(registrationModel.Password) &&
+                !string.IsNullOrEmpty(registrationModel.Email) &&
+                !string.IsNullOrEmpty(registrationModel.Password))
             {
-                var normalizedEmail = accountModel.Email.Trim();
+                var normalizedEmail = registrationModel.Email.Trim();
                 var existedUser = await _userManager.FindByEmailAsync(normalizedEmail);
                 if (existedUser != null)
                 {
@@ -44,13 +47,16 @@ namespace HRTool.Controllers
                 }
                 else
                 {
-                    var user = new User {UserName = normalizedEmail, Email = normalizedEmail};
-                    var result = await _userManager.CreateAsync(user, accountModel.Password);
+                    var user = new User
+                    {
+                        UserName = normalizedEmail, Email = normalizedEmail, FirstName = registrationModel.FirstName,
+                        LastName = registrationModel.LastName
+                    };
+                    var result = await _userManager.CreateAsync(user, registrationModel.Password);
 
                     if (result.Succeeded)
                     {
                         return Ok("Аккаунт успешно зарегистрирован");
-                        //await GenerateJwtToken(accountModel.Email, user);
                     }
                     else
                     {
@@ -65,20 +71,20 @@ namespace HRTool.Controllers
 
         [HttpPost]
         [Route("login/")]
-        public async Task<Object> Login([FromBody] AccountModel accountModel)
+        public async Task<Object> Login([FromBody] AuthorizationModel authorizationModel)
         {
-            if (!string.IsNullOrEmpty(accountModel.Email) && !string.IsNullOrEmpty(accountModel.Password))
+            if (!string.IsNullOrEmpty(authorizationModel.Email) && !string.IsNullOrEmpty(authorizationModel.Password))
             {
-                var normalizedEmail = accountModel.Email.Trim();
+                var normalizedEmail = authorizationModel.Email.Trim();
                 var user = await _userManager.FindByEmailAsync(normalizedEmail);
                 if (user != null)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user.UserName,
-                        accountModel.Password, true, false);
+                        authorizationModel.Password, true, false);
 
                     if (result.Succeeded)
                     {
-                        var token = await GenerateJwtToken(accountModel.Email, user);
+                        var token = await GenerateJwtToken(authorizationModel.Email, user);
                         var userModel = new UserModel();
                         userModel.Fill(user);
                         return new
@@ -126,10 +132,10 @@ namespace HRTool.Controllers
         public async Task<Object> GetUser([FromRoute] string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            var userModel = new UserModel();
-            userModel.Fill(user);
             if (user != null)
             {
+                var userModel = new UserModel();
+                userModel.Fill(user);
                 return userModel;
             }
 
