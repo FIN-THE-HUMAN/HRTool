@@ -1,12 +1,13 @@
 {
-	"name": "HRTool",
+	"name": "hr-tool",
 	"version": "1.0.0",
 	"main": "index.js",
 	"license": "none",
 	"private": true,
 	"scripts": {
 		"start": "webpack-dev-server --mode development --open --hot",
-		"build": "webpack --mode production"
+		"build": "webpack --mode production",
+		"lint-scripts": "eslint ./scripts"
 	},
 	"dependencies": {
 		"@babel/polyfill": "^7.0.0-beta.55",
@@ -22,6 +23,7 @@
 		"postcss-loader": "^2.1.6",
 		"prop-types": "^15.6.2",
 		"react": "^16.4.1",
+		"react-bootstrap": "^0.32.3",
 		"react-dom": "^16.4.1",
 		"react-final-form": "^3.6.5",
 		"react-redux": "^5.0.7",

@@ -25,9 +25,11 @@
     "react/no-array-index-key": 0,
     "react/forbid-prop-types": [2, { "forbid": ["any"] }],
     "react/jsx-one-expression-per-line": 0,
+    "react/jsx-wrap-multilines": "warn",
+    "object-curly-newline": "off",
     "jsx-a11y/click-events-have-key-events": false,
     "react/destructuring-assignment": 0,
-    "object-curly-newline": "off",
+    "operator-linebreak": "warn",
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
   },
   "settings": {

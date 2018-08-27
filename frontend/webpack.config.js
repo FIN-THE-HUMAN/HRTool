@@ -5,7 +5,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const dist = resolve(__dirname, '..', 'backend', 'dist', 'frontend');
+const dist = resolve(__dirname, '..', 'dist');
 const common = resolve(__dirname, 'scripts', 'common');
 
 const devMode = process.env.NODE_ENV !== 'production';
@@ -91,13 +91,16 @@ module.exports = {
   },
   resolve: {
     alias: {
-      services: resolve(common, 'services'),
-      utils: resolve(common, 'utils'),
+      actions: resolve(common, 'actions'),
       constants: resolve(common, 'constants'),
       containers: resolve(common, 'containers'),
       components: resolve(common, 'components'),
       decorators: resolve(common, 'decorators'),
-      store: resolve(common, 'store')
+      reducers: resolve(common, 'reducers'),
+      services: resolve(common, 'services'),
+      sources: resolve(common, 'sources'),
+      store: resolve(common, 'store'),
+      utils: resolve(common, 'utils')
     },
     extensions: ['.js', '.jsx', '.css', '.scss', '.sass']
   },

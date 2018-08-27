@@ -1,18 +1,13 @@
 import React from 'react';
 import { Link } from 'components/router';
 
-import notFoundImg from '../../../images/404.jpg';
+import notFound from '../../../images/404.png';
 
 const MainLinksNotFound = () => (
-  <div className="main-not-found">
-    <h2>К сожалению мы не смогли найти запрашиваемую страницу</h2>
-    <div>
-      Так уж получилось, что из множества страниц нашего сайта Вы оказались как раз на той, которая уже не существует...
-    </div>
-    <img src={notFoundImg} alt="404" height={404} />
-    <div>
-      Попробуйте начать с <Link to="/">главной страницы</Link>
-    </div>
+  <div className="not-found">
+    <h2>Страница не найдена</h2>
+    <img src={notFound} />
+    <Link to="/">На главную страницу</Link>
   </div>
 );
 
