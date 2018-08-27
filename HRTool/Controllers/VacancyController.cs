@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
+namespace HRTool.HRTool.Controllers
 {
     public class VacancyController : Controller
     {
@@ -25,9 +25,26 @@ namespace it1.Documents.GitHub.HRTool.HRTool.Controllers
         {
             using (var db = _context)
             {
-                var vacancy = new Vacancy(
-                    //Заполнить поля модели
-                );
+                var vacancy = new Vacancy{
+                    Name = vacancyModel.Name,
+                    DepartureName = vacancyModel.DepartureName,
+                    SalaryRangeFrom = vacancyModel.SalaryRangeFrom,
+                    SalaryRangeTo = vacancyModel.SalaryRangeTo,
+                    RequiredExperienceRange = vacancyModel.RequiredExperienceRange,
+                    ContactPerson = vacancyModel.ContactPerson,
+                    ContactPhone = vacancyModel.ContactPhone,
+                    ContactMail = vacancyModel.ContactMail,
+                    EmploymentType = vacancyModel.EmploymentType,
+                    WorkHours = vacancyModel.WorkHours,
+                    Description = vacancyModel.Description,
+                    Duties = vacancyModel.Duties,
+                    Requirements = vacancyModel.Requirements,
+                    AdditionalRequirements = vacancyModel.AdditionalRequirements,
+                    VacancyStatus = vacancyModel.VacancyStatus,
+                    VacancyHolderName = vacancyModel.VacancyHolderName,
+                    VacancyApllicants = vacancyModel.VacancyApllicants,
+                    BranchOfficeCity = vacancyModel.BranchOfficeCity
+                };
                 await db.Vacancies.AddAsync(vacancy);
                 db.SaveChanges();
 
