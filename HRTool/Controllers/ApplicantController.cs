@@ -12,7 +12,7 @@ namespace HRTool.Controllers
     [Route("[controller]/")]
     public class ApplicantController : Controller
     {
-        private readonly UserManager<User> _userManager;
+        /*private readonly UserManager<User> _userManager;
         private readonly DatabaseContext _databaseContext;
         private readonly IConfiguration _configuration;
 
@@ -45,6 +45,6 @@ namespace HRTool.Controllers
         public async Task<Object> DeleteResume()
         {
             return null;
-        }
+        }*/
     }
 }

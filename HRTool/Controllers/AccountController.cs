@@ -30,6 +30,35 @@ namespace HRTool.Controllers
             _configuration = configuration;
         }
 
+        
+        
+        
+        private async Task<object> GenerateJwtToken(string email, User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
+
+            var token = new JwtSecurityToken(
+                _configuration["JwtIssuer"],
+                _configuration["JwtIssuer"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
+        }
+        
+        
+        
         [HttpPost]
         [Route("register/")]
         public async Task<Object> Register([FromBody] RegistrationDto registrationDto)
@@ -100,31 +129,6 @@ namespace HRTool.Controllers
 
             return BadRequest("Заполните все поля");
         }
-
-        private async Task<object> GenerateJwtToken(string email, User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
-
-            var token = new JwtSecurityToken(
-                _configuration["JwtIssuer"],
-                _configuration["JwtIssuer"],
-                claims,
-                expires: expires,
-                signingCredentials: creds
-            );
-
-            return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
-        }
-
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]

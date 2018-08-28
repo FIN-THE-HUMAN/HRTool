@@ -23,15 +23,15 @@ namespace HRTool.DAL
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<VacancyApllicant>()
+            builder.Entity<VacancyApplicant>()
                 .HasKey(va => new {va.VacancyId, va.ApplicantId});
 
-            builder.Entity<VacancyApllicant>()
+            builder.Entity<VacancyApplicant>()
                 .HasOne(va => va.Vacancy)
                 .WithMany(va => va.VacancyApllicants)
                 .HasForeignKey(va => va.VacancyId);
 
-            builder.Entity<VacancyApllicant>()
+            builder.Entity<VacancyApplicant>()
                 .HasOne(va => va.Applicant)
                 .WithMany(va => va.VacancyApllicants)
                 .HasForeignKey(va => va.ApplicantId);

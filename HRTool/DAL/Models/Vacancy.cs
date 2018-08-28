@@ -40,6 +40,6 @@ namespace HRTool.DAL.Models
         public VacancyStatus VacancyStatus {get;set;}
         public string VacancyHolderName {get;set;}
         public BranchOffice BranchOfficeCity {get;set;}
-        public  ICollection<VacancyApllicant> VacancyApllicants {get;set;}
+        public  ICollection<VacancyApplicant> VacancyApllicants {get;set;}
     }
 }

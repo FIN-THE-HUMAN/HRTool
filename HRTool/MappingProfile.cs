@@ -9,6 +9,7 @@ namespace HRTool
         public MappingProfile()
         {
             CreateMap<Vacancy, VacancyDto>();
+            CreateMap<VacancyDto, Vacancy>();
         }
     }
 }
