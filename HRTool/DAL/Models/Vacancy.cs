@@ -14,6 +14,7 @@ namespace HRTool.DAL.Models
         public Guid VacancyId {get;set;}
         public string Name {get; set;}
         //Наименование структурного подразделеия
+        public DateTime CreationDate {get; set;}
         public Departures DepartureName {get;set;}
         //"Заработок: От 35000р...
         public decimal SalaryRangeFrom {get; set;}
