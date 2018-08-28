@@ -50,12 +50,12 @@ namespace HRTool.Controllers
         {
             using (var db = _context)
             {
-                var vacancies = db.Vacancies.ToList();
-                var amount = db.Vacancies.Count();
+                var data = db.Vacancies.ToList();
+                var total = db.Vacancies.Count();
                 return new
                 {
-                    amount,
-                    vacancies
+                    total,
+                    data
                 };
             }
         }
@@ -92,7 +92,7 @@ namespace HRTool.Controllers
 
         //Изменение статуса вакансии
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPut("{id}")]
+        [HttpPut("{id}/status")]
         public async Task<IActionResult> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
         {
             using (var db = _context)
