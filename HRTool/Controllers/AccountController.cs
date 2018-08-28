@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using HRTool.Controllers.Models;
+using HRTool.Controllers.DTO;
 using HRTool.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -32,14 +32,14 @@ namespace HRTool.Controllers
 
         [HttpPost]
         [Route("register/")]
-        public async Task<Object> Register([FromBody] RegistrationModel registrationModel)
+        public async Task<Object> Register([FromBody] RegistrationDto registrationDto)
         {
-            if (!string.IsNullOrEmpty(registrationModel.Email) &&
-                !string.IsNullOrEmpty(registrationModel.Password) &&
-                !string.IsNullOrEmpty(registrationModel.Email) &&
-                !string.IsNullOrEmpty(registrationModel.Password))
+            if (!string.IsNullOrEmpty(registrationDto.Email) &&
+                !string.IsNullOrEmpty(registrationDto.Password) &&
+                !string.IsNullOrEmpty(registrationDto.Email) &&
+                !string.IsNullOrEmpty(registrationDto.Password))
             {
-                var normalizedEmail = registrationModel.Email.Trim();
+                var normalizedEmail = registrationDto.Email.Trim();
                 var existedUser = await _userManager.FindByEmailAsync(normalizedEmail);
                 if (existedUser != null)
                 {
@@ -49,10 +49,10 @@ namespace HRTool.Controllers
                 {
                     var user = new User
                     {
-                        UserName = normalizedEmail, Email = normalizedEmail, FirstName = registrationModel.FirstName,
-                        LastName = registrationModel.LastName
+                        UserName = normalizedEmail, Email = normalizedEmail, FirstName = registrationDto.FirstName,
+                        LastName = registrationDto.LastName
                     };
-                    var result = await _userManager.CreateAsync(user, registrationModel.Password);
+                    var result = await _userManager.CreateAsync(user, registrationDto.Password);
 
                     if (result.Succeeded)
                     {
@@ -71,26 +71,26 @@ namespace HRTool.Controllers
 
         [HttpPost]
         [Route("login/")]
-        public async Task<Object> Login([FromBody] AuthorizationModel authorizationModel)
+        public async Task<Object> Login([FromBody] AuthorizationDto authorizationDto)
         {
-            if (!string.IsNullOrEmpty(authorizationModel.Email) && !string.IsNullOrEmpty(authorizationModel.Password))
+            if (!string.IsNullOrEmpty(authorizationDto.Email) && !string.IsNullOrEmpty(authorizationDto.Password))
             {
-                var normalizedEmail = authorizationModel.Email.Trim();
+                var normalizedEmail = authorizationDto.Email.Trim();
                 var user = await _userManager.FindByEmailAsync(normalizedEmail);
                 if (user != null)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user.UserName,
-                        authorizationModel.Password, true, false);
+                        authorizationDto.Password, true, false);
 
                     if (result.Succeeded)
                     {
-                        var token = await GenerateJwtToken(authorizationModel.Email, user);
-                        var userModel = new UserModel();
-                        userModel.Fill(user);
+                        var token = await GenerateJwtToken(authorizationDto.Email, user);
+                        var userDto = new UserDto();
+                        //userModel.Fill(user);
                         return new
                         {
                             token,
-                            user = userModel
+                            user = userDto
                         };
                     }
                 }
@@ -134,9 +134,9 @@ namespace HRTool.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                var userModel = new UserModel();
-                userModel.Fill(user);
-                return userModel;
+                var userDto = new UserDto();
+               // userModel.Fill(user);
+                return userDto;
             }
 
             return BadRequest("Пользователь не найден");
@@ -145,16 +145,16 @@ namespace HRTool.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
         [Route("{id}/")]
-        public async Task<ObjectResult> ChangeUser([FromBody] UserModel usermodel, [FromRoute] string id)
+        public async Task<ObjectResult> ChangeUser([FromBody] UserDto userDto, [FromRoute] string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                user.FirstName = usermodel.FirstName;
-                user.LastName = usermodel.LastName;
-                user.Position = usermodel.Position;
-                user.Email = usermodel.Email;
-                user.PhoneNumber = usermodel.PhoneNumber;
+                user.FirstName = userDto.FirstName;
+                user.LastName = userDto.LastName;
+                user.Position = userDto.Position;
+                user.Email = userDto.Email;
+                user.PhoneNumber = userDto.PhoneNumber;
                 await _userManager.UpdateAsync(user);
                 return Ok("Данные изменены");
             }
