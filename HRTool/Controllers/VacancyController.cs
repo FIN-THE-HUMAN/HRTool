@@ -37,12 +37,8 @@ namespace HRTool.Controllers
             }
         }
 
-        //Получение листа вакансий
-
         //TODO
-        // Айди в пути, в Query будет OffsetCountSearch
         // В лист вакансий отдавать неполную модель, в конкретную вакансию отдавать полную модель
-        // Вернуть количество записей в БД и data (сами данные)
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
@@ -50,7 +46,8 @@ namespace HRTool.Controllers
         {
             using (var db = _context)
             {
-                var data = db.Vacancies.ToList();
+                var vacancies = db.Vacancies.ToList();
+                List<VacanciesDTO> data = _mapper.Map<Vacancy, List<VacanciesDTO>>(vacancies);
                 var total = db.Vacancies.Count();
                 return new
                 {
@@ -60,8 +57,18 @@ namespace HRTool.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpGet("{id}")]
+        public async Task<Object> Vacancies([FromRoute] string id`)
+        {
+            using (var db = _context)
+            {
+                var vacancy = db.Vacancies.FirstOrDefault(x => x.VacancyId == new Guid(id));
+                VacancyDTO data = _mapper.Map<Vacancy, VacancyDTO>(vacancy);
+                return data;
+            }
+        }
 
-        //В route будет айди вакансии, для которой будет изменение
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] string id)
@@ -76,7 +83,6 @@ namespace HRTool.Controllers
             }
         }
 
-        //В route будет айди вакансии, для которой будет удаление
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVacancy([FromRoute] string id)
@@ -90,7 +96,6 @@ namespace HRTool.Controllers
             }
         }
 
-        //Изменение статуса вакансии
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
