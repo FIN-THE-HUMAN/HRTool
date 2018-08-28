@@ -20,7 +20,7 @@ namespace HRTool.Controllers
             IConfiguration configuration)
         {
             _userManager = userManager;
-            _databaseContext = _databaseContext;
+            _databaseContext = databaseContext;
             _configuration = configuration;
         }
     

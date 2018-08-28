@@ -2,7 +2,7 @@ using HRTool.DAL.Models.Enums;
 
 namespace HRTool.Controllers.Models
 {
-    public class VacanciesModel
+    public class VacanciesDTO
     {
         public string Name {get; set;}
         public Departures DepartureName {get;set;}
