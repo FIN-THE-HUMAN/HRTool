@@ -12,9 +12,11 @@ namespace HRTool.Controllers
     public class VacancyController : Controller
     {
         private readonly DatabaseContext _context;
+        private readonly IMapper _mapper;
 
-        public VacancyController(DatabaseContext context)
+        public VacancyController(DatabaseContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -24,26 +26,27 @@ namespace HRTool.Controllers
         {
             using (var db = _context)
             {
-                var vacancy = new Vacancy{
-                    Name = vacancyDto.Name,
-                    DepartureName = vacancyDto.DepartureName,
-                    SalaryRangeFrom = vacancyDto.SalaryRangeFrom,
-                    SalaryRangeTo = vacancyDto.SalaryRangeTo,
-                    RequiredExperienceRange = vacancyDto.RequiredExperienceRange,
-                    ContactPerson = vacancyDto.ContactPerson,
-                    ContactPhone = vacancyDto.ContactPhone,
-                    ContactMail = vacancyDto.ContactMail,
-                    EmploymentType = vacancyDto.EmploymentType,
-                    WorkHours = vacancyDto.WorkHours,
-                    Description = vacancyDto.Description,
-                    Duties = vacancyDto.Duties,
-                    Requirements = vacancyDto.Requirements,
-                    AdditionalRequirements = vacancyDto.AdditionalRequirements,
-                    VacancyStatus = vacancyDto.VacancyStatus,
-                    VacancyHolderName = vacancyDto.VacancyHolderName,
-                    VacancyApllicants = vacancyDto.VacancyApllicants,
-                    BranchOfficeCity = vacancyDto.BranchOfficeCity
-                };
+                // var vacancy = new Vacancy{
+                //     Name = vacancyDto.Name,
+                //     DepartureName = vacancyDto.DepartureName,
+                //     SalaryRangeFrom = vacancyDto.SalaryRangeFrom,
+                //     SalaryRangeTo = vacancyDto.SalaryRangeTo,
+                //     RequiredExperienceRange = vacancyDto.RequiredExperienceRange,
+                //     ContactPerson = vacancyDto.ContactPerson,
+                //     ContactPhone = vacancyDto.ContactPhone,
+                //     ContactMail = vacancyDto.ContactMail,
+                //     EmploymentType = vacancyDto.EmploymentType,
+                //     WorkHours = vacancyDto.WorkHours,
+                //     Description = vacancyDto.Description,
+                //     Duties = vacancyDto.Duties,
+                //     Requirements = vacancyDto.Requirements,
+                //     AdditionalRequirements = vacancyDto.AdditionalRequirements,
+                //     VacancyStatus = vacancyDto.VacancyStatus,
+                //     VacancyHolderName = vacancyDto.VacancyHolderName,
+                //     VacancyApllicants = vacancyDto.VacancyApllicants,
+                //     BranchOfficeCity = vacancyDto.BranchOfficeCity
+                // };
+                var vacancy = _mapper.Map<VacancyDto, Vacancy>(vacancyDto);
                 await db.Vacancies.AddAsync(vacancy);
                 db.SaveChanges();
 
