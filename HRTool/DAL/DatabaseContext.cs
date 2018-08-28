@@ -28,7 +28,7 @@ namespace HRTool.DAL
 
             builder.Entity<VacancyApplicant>()
                 .HasOne(va => va.Vacancy)
-                .WithMany(va => va.VacancyApllicants)
+                .WithMany(va => va.VacanciesApplicants)
                 .HasForeignKey(va => va.VacancyId);
 
             builder.Entity<VacancyApplicant>()

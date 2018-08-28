@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using HRTool.Controllers.DTO;
 using HRTool.DAL.Models;
@@ -21,18 +22,18 @@ namespace HRTool.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-            IConfiguration configuration)
+            IConfiguration configuration, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _mapper = _mapper;
         }
 
-        
-        
-        
+
         private async Task<object> GenerateJwtToken(string email, User user)
         {
             var claims = new List<Claim>
@@ -56,9 +57,8 @@ namespace HRTool.Controllers
 
             return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
         }
-        
-        
-        
+
+
         [HttpPost]
         [Route("register/")]
         public async Task<Object> Register([FromBody] RegistrationDto registrationDto)
@@ -115,7 +115,7 @@ namespace HRTool.Controllers
                     {
                         var token = await GenerateJwtToken(authorizationDto.Email, user);
                         var userDto = new UserDto();
-                        //userModel.Fill(user);
+                        userDto.Fill(user);
                         return new
                         {
                             token,
@@ -139,7 +139,7 @@ namespace HRTool.Controllers
             if (user != null)
             {
                 var userDto = new UserDto();
-               // userModel.Fill(user);
+                userDto.Fill(user);
                 return userDto;
             }
 

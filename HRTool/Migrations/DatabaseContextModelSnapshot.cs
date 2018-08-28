@@ -189,7 +189,7 @@ namespace HRTool.Migrations
                     b.ToTable("Vacancies");
                 });
 
-            modelBuilder.Entity("HRTool.DAL.Models.VacancyApllicant", b =>
+            modelBuilder.Entity("HRTool.DAL.Models.VacancyApplicant", b =>
                 {
                     b.Property<Guid>("VacancyId");
 
@@ -199,7 +199,7 @@ namespace HRTool.Migrations
 
                     b.HasIndex("ApplicantId");
 
-                    b.ToTable("VacancyApllicant");
+                    b.ToTable("VacancyApplicant");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -311,7 +311,7 @@ namespace HRTool.Migrations
 
             modelBuilder.Entity("HRTool.DAL.Models.Duty", b =>
                 {
-                    b.HasOne("HRTool.DAL.Models.Vacancy", "Vacancy")
+                    b.HasOne("HRTool.DAL.Models.Vacancy")
                         .WithMany("Duties")
                         .HasForeignKey("VacancyId");
                 });
@@ -327,7 +327,7 @@ namespace HRTool.Migrations
                         .HasForeignKey("VacancyId1");
                 });
 
-            modelBuilder.Entity("HRTool.DAL.Models.VacancyApllicant", b =>
+            modelBuilder.Entity("HRTool.DAL.Models.VacancyApplicant", b =>
                 {
                     b.HasOne("HRTool.DAL.Models.Applicant", "Applicant")
                         .WithMany("VacancyApllicants")
@@ -335,7 +335,7 @@ namespace HRTool.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HRTool.DAL.Models.Vacancy", "Vacancy")
-                        .WithMany("VacancyApllicants")
+                        .WithMany("VacanciesApplicants")
                         .HasForeignKey("VacancyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

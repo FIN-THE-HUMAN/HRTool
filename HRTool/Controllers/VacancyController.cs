@@ -23,13 +23,39 @@ namespace HRTool.Controllers
             _context = context;
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         public async Task<IActionResult> CreateVacancy([FromBody] VacancyDto vacancyDto)
         {
             using (var db = _context)
             {
-                var vacancy = _mapper.Map<VacancyDto, Vacancy>(vacancyDto);
+                var vacancy = new Vacancy
+                {
+                    Name = vacancyDto.Name,
+                    DepartureName = vacancyDto.DepartureName,
+                    SalaryRangeFrom = vacancyDto.SalaryRangeFrom,
+                    SalaryRangeTo = vacancyDto.SalaryRangeTo,
+                    RequiredExperienceRange = vacancyDto.RequiredExperienceRange,
+                    ContactPerson = vacancyDto.ContactPerson,
+                    ContactPhone = vacancyDto.ContactPhone,
+                    ContactMail = vacancyDto.ContactMail,
+                    EmploymentType = vacancyDto.EmploymentType,
+                    WorkHours = vacancyDto.WorkHours,
+                    Description = vacancyDto.Description,
+                    VacancyHolderName = vacancyDto.VacancyHolderName,
+                    BranchOfficeCity = vacancyDto.BranchOfficeCity
+                };
+
+
+                var duties = db.Duties.Where(r => vacancyDto.Duties.Contains(r.DutyId.ToString())).ToList();
+                var requirements = db.Requirements
+                    .Where(r => vacancyDto.Requirements.Contains(r.RequirementId.ToString())).ToList();
+                var additionalRequirements = db.Requirements
+                    .Where(r => vacancyDto.AdditionalRequirements.Contains(r.RequirementId.ToString())).ToList();
+
+                vacancy.Duties = duties;
+                vacancy.Requirements = requirements;
+                vacancy.AdditionalRequirements = additionalRequirements;
                 await db.Vacancies.AddAsync(vacancy);
                 db.SaveChanges();
 
@@ -50,12 +76,12 @@ namespace HRTool.Controllers
         {
             using (var db = _context)
             {
-                var vacancies = db.Vacancies.ToList();
-                var amount = db.Vacancies.Count();
+                var data = db.Vacancies.ToList();
+                var total = db.Vacancies.Count();
                 return new
                 {
-                    amount,
-                    vacancies
+                    total,
+                    data
                 };
             }
         }
@@ -93,7 +119,7 @@ namespace HRTool.Controllers
 
         //Изменение статуса вакансии
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPut("{id}")]
+        [HttpPut("{id}/status")]
         public async Task<IActionResult> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
         {
             return Ok();

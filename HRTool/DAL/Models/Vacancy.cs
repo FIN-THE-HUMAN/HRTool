@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using HRTool.Controllers.DTO;
 using HRTool.DAL.Models.Enums;
 
 namespace HRTool.DAL.Models
@@ -39,6 +40,6 @@ namespace HRTool.DAL.Models
         public VacancyStatus VacancyStatus {get;set;}
         public string VacancyHolderName {get;set;}
         public BranchOffice BranchOfficeCity {get;set;}
-        public  ICollection<VacancyApplicant> VacancyApllicants {get;set;}
+        public  ICollection<VacancyApplicant> VacanciesApplicants {get;set;}
     }
 }
