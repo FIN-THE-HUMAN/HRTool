@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using HRTool.Controllers.Models;
 using HRTool.DAL;
 using HRTool.DAL.Models;
@@ -24,7 +25,7 @@ namespace HRTool.Controllers
         {
             using (var db = _context)
             {
-                var vacancy = new Vacancy{
+                var vacancy = new Vacancy {
                     Name = vacancyModel.Name,
                     DepartureName = vacancyModel.DepartureName,
                     SalaryRangeFrom = vacancyModel.SalaryRangeFrom,
