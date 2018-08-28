@@ -6,7 +6,12 @@
     <Folder Include="DAL\Models" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <PackageReference Include="AutoMapper" Version="7.0.1" />
+=======
+    <PackageReference Include="AutoMapper" Version="7.0.1"/>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1"/>
+>>>>>>> 93c43bcd17a561b563eba1cf7f56b5980248a2e9
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.1.1" />
     <PackageReference Include="AngleSharp" Version="0.9.10" />

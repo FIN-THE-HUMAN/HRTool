@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using HRTool.Controllers.Models;
+using HRTool.Controllers.DTO;
 using HRTool.DAL;
 using HRTool.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -21,29 +20,29 @@ namespace HRTool.Controllers
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
-        public async Task<IActionResult> CreateVacancy([FromBody] VacancyModel vacancyModel)
+        public async Task<IActionResult> CreateVacancy([FromBody] VacancyDto vacancyDto)
         {
             using (var db = _context)
             {
-                var vacancy = new Vacancy {
-                    Name = vacancyModel.Name,
-                    DepartureName = vacancyModel.DepartureName,
-                    SalaryRangeFrom = vacancyModel.SalaryRangeFrom,
-                    SalaryRangeTo = vacancyModel.SalaryRangeTo,
-                    RequiredExperienceRange = vacancyModel.RequiredExperienceRange,
-                    ContactPerson = vacancyModel.ContactPerson,
-                    ContactPhone = vacancyModel.ContactPhone,
-                    ContactMail = vacancyModel.ContactMail,
-                    EmploymentType = vacancyModel.EmploymentType,
-                    WorkHours = vacancyModel.WorkHours,
-                    Description = vacancyModel.Description,
-                    Duties = vacancyModel.Duties,
-                    Requirements = vacancyModel.Requirements,
-                    AdditionalRequirements = vacancyModel.AdditionalRequirements,
-                    VacancyStatus = vacancyModel.VacancyStatus,
-                    VacancyHolderName = vacancyModel.VacancyHolderName,
-                    VacancyApllicants = vacancyModel.VacancyApllicants,
-                    BranchOfficeCity = vacancyModel.BranchOfficeCity
+                var vacancy = new Vacancy{
+                    Name = vacancyDto.Name,
+                    DepartureName = vacancyDto.DepartureName,
+                    SalaryRangeFrom = vacancyDto.SalaryRangeFrom,
+                    SalaryRangeTo = vacancyDto.SalaryRangeTo,
+                    RequiredExperienceRange = vacancyDto.RequiredExperienceRange,
+                    ContactPerson = vacancyDto.ContactPerson,
+                    ContactPhone = vacancyDto.ContactPhone,
+                    ContactMail = vacancyDto.ContactMail,
+                    EmploymentType = vacancyDto.EmploymentType,
+                    WorkHours = vacancyDto.WorkHours,
+                    Description = vacancyDto.Description,
+                    Duties = vacancyDto.Duties,
+                    Requirements = vacancyDto.Requirements,
+                    AdditionalRequirements = vacancyDto.AdditionalRequirements,
+                    VacancyStatus = vacancyDto.VacancyStatus,
+                    VacancyHolderName = vacancyDto.VacancyHolderName,
+                    VacancyApllicants = vacancyDto.VacancyApllicants,
+                    BranchOfficeCity = vacancyDto.BranchOfficeCity
                 };
                 await db.Vacancies.AddAsync(vacancy);
                 db.SaveChanges();
@@ -77,7 +76,7 @@ namespace HRTool.Controllers
         //В route будет айди вакансии, для которой будет изменение
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
-        public async Task<IActionResult> UpdateVacancy([FromBody] VacancyModel vacancyModel, [FromRoute] Guid id)
+        public async Task<IActionResult> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] Guid id)
         {
             using (var db = _context)
             {
@@ -107,7 +106,7 @@ namespace HRTool.Controllers
         //Изменение статуса вакансии
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
-        public async Task<IActionResult> ChangeStatus([FromBody] VacancyModel vacancyModel)
+        public async Task<IActionResult> ChangeStatus([FromBody] VacancyDto vacancyDto)
         {
             return Ok();
         }

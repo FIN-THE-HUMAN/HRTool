@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using HRTool.DAL.Models;
 using HRTool.DAL.Models.Enums;
 
-namespace HRTool.Controllers.Models
+namespace HRTool.Controllers.DTO
 {
-    public class VacancyModel
+    public class VacancyDto
     {
-         public string Name {get; set;}
+        public string Name {get; set;}
         public Departures DepartureName {get;set;}
         public decimal SalaryRangeFrom {get; set;}
         public decimal SalaryRangeTo {get; set;}
@@ -26,6 +26,6 @@ namespace HRTool.Controllers.Models
         public VacancyStatus VacancyStatus {get;set;}
         public string VacancyHolderName {get;set;}
         public BranchOffice BranchOfficeCity {get;set;}
-        public  ICollection<VacancyApllicant> VacancyApllicants {get;set;}
+        public ICollection<VacancyApllicant> VacancyApllicants {get;set;}
     }
 }
