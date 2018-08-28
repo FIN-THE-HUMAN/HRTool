@@ -37,9 +37,6 @@ namespace HRTool.Controllers
             }
         }
 
-        //TODO
-        // В лист вакансий отдавать неполную модель, в конкретную вакансию отдавать полную модель
-
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
         public async Task<Object> Vacancies()
