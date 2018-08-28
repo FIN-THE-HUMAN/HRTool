@@ -69,8 +69,7 @@ namespace HRTool.Controllers
             using (var db = _context)
             {
                 var vacancy = db.Vacancies.FirstOrDefault(x => x.VacancyId == new Guid(id));
-                //Заполнить модель вакансии
-                //vacancy = vacancyModel;
+                vacancy = _mapper.Map<VacancyDto, Vacancy>(vacancyDto);
                 db.SaveChanges();
 
                 return Ok("Вакансия успешно добавлена");
@@ -96,7 +95,14 @@ namespace HRTool.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
         {
-            return Ok();
+            using (var db = _context)
+            {
+                var vacancy = db.Vacancies.FirstOrDefault(x => x.VacancyId == new Guid(id));
+                vacancy.VacancyStatus = vacancyStatus;
+                db.SaveChanges();
+                return Ok();
+            }
+            
         }
     }
 }
