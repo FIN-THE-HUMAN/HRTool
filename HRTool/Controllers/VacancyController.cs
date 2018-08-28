@@ -39,7 +39,8 @@ namespace HRTool.Controllers
                     .Where(r => vacancyDto.Requirements.Contains(r.Id.ToString())).ToList();
                 var additionalRequirements = db.Requirements
                     .Where(r => vacancyDto.AdditionalRequirements.Contains(r.Id.ToString())).ToList();
-
+                
+                vacancy.CreationDate = DateTime.Now;
                 vacancy.Duties = duties;
                 vacancy.Requirements = requirements;
                 vacancy.AdditionalRequirements = additionalRequirements;
