@@ -1,6 +1,6 @@
 using System;
 
-namespace HRTool.DAL.Models
+namespace HRTool.DAL.Models.IntermediateModels
 {
     public class VacancyApplicant
     {

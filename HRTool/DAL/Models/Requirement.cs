@@ -4,7 +4,8 @@ namespace HRTool.DAL.Models
 {
     public class Requirement
     {
-        public Guid RequirementId { get; set; }
-        public string RequirementName { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public Vacancy Vacancy { get; set; }
     }
 }

@@ -10,15 +10,5 @@ namespace HRTool.Controllers.DTO
         public string Position { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-
-        public void Fill(User user)
-        {
-            Id = user.Id;
-            FirstName = user.FirstName;
-            LastName = user.LastName;
-            Position = user.Position;
-            Email = user.Email;
-            PhoneNumber = user.PhoneNumber;
-        }
     }
 }

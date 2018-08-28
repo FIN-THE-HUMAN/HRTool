@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using HRTool.Controllers.DTO;
 using HRTool.DAL.Models;
@@ -10,19 +12,14 @@ namespace HRTool
         public MappingProfile()
         {
             CreateMap<Vacancy, VacancyDto>();
-            CreateMap<VacancyDto, Vacancy>(MemberList.None);
+            CreateMap<VacancyDto, Vacancy>()
+                .ForMember(dest => dest.Duties, options => options.Ignore())
+                .ForMember(dest => dest.Requirements, options => options.Ignore())
+                .ForMember(dest => dest.AdditionalRequirements, options => options.Ignore())
+                .ForMember(dest => dest.VacancyStatus, options => options.Ignore())
+                .ForMember(dest => dest.VacanciesApplicants, options => options.Ignore());
 
-            CreateMap<User, UserDto>()
-                .ForMember(dest => dest.FirstName,
-                    options => options.MapFrom(x => x.FirstName == null ? null : ""))
-                .ForMember(dest => dest.LastName,
-                    options => options.MapFrom(x => x.LastName == null ? null : ""))
-                .ForMember(dest => dest.Position,
-                    options => options.MapFrom(x => x.Position == null ? null : ""))
-                .ForMember(dest => dest.PhoneNumber,
-                    options => options.MapFrom(x => x.PhoneNumber == null ? null : ""));
-
-            CreateMap<UserDto, User>();
+            CreateMap<DutyDto, Duty>();
         }
     }
 }

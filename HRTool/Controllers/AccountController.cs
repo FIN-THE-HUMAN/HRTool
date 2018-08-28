@@ -30,7 +30,7 @@ namespace HRTool.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
-            _mapper = _mapper;
+            _mapper = mapper;
         }
 
 
@@ -114,8 +114,7 @@ namespace HRTool.Controllers
                     if (result.Succeeded)
                     {
                         var token = await GenerateJwtToken(authorizationDto.Email, user);
-                        var userDto = new UserDto();
-                        userDto.Fill(user);
+                        var userDto = _mapper.Map<User, UserDto>(user);
                         return new
                         {
                             token,
@@ -138,8 +137,7 @@ namespace HRTool.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                var userDto = new UserDto();
-                userDto.Fill(user);
+                var userDto = _mapper.Map<User, UserDto>(user);
                 return userDto;
             }
 

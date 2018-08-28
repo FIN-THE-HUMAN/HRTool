@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -6,6 +7,7 @@ using HRTool.Controllers.DTO;
 using HRTool.DAL;
 using HRTool.DAL.Models;
 using HRTool.DAL.Models.Enums;
+using HRTool.DAL.Models.IntermediateModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,39 +25,25 @@ namespace HRTool.Controllers
             _context = context;
         }
 
+
         //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
-        public async Task<IActionResult> CreateVacancy([FromBody] VacancyDto vacancyDto)
+        public async Task<Object> CreateVacancy([FromBody] VacancyDto vacancyDto)
         {
             using (var db = _context)
             {
-                var vacancy = new Vacancy
-                {
-                    Name = vacancyDto.Name,
-                    DepartureName = vacancyDto.DepartureName,
-                    SalaryRangeFrom = vacancyDto.SalaryRangeFrom,
-                    SalaryRangeTo = vacancyDto.SalaryRangeTo,
-                    RequiredExperienceRange = vacancyDto.RequiredExperienceRange,
-                    ContactPerson = vacancyDto.ContactPerson,
-                    ContactPhone = vacancyDto.ContactPhone,
-                    ContactMail = vacancyDto.ContactMail,
-                    EmploymentType = vacancyDto.EmploymentType,
-                    WorkHours = vacancyDto.WorkHours,
-                    Description = vacancyDto.Description,
-                    VacancyHolderName = vacancyDto.VacancyHolderName,
-                    BranchOfficeCity = vacancyDto.BranchOfficeCity
-                };
+                var vacancy = _mapper.Map<VacancyDto, Vacancy>(vacancyDto);
 
-
-                var duties = db.Duties.Where(r => vacancyDto.Duties.Contains(r.DutyId.ToString())).ToList();
+                var duties = db.Duties.Where(r => vacancyDto.Duties.Contains(r.Id.ToString())).ToList();
                 var requirements = db.Requirements
-                    .Where(r => vacancyDto.Requirements.Contains(r.RequirementId.ToString())).ToList();
+                    .Where(r => vacancyDto.Requirements.Contains(r.Id.ToString())).ToList();
                 var additionalRequirements = db.Requirements
-                    .Where(r => vacancyDto.AdditionalRequirements.Contains(r.RequirementId.ToString())).ToList();
+                    .Where(r => vacancyDto.AdditionalRequirements.Contains(r.Id.ToString())).ToList();
 
                 vacancy.Duties = duties;
                 vacancy.Requirements = requirements;
                 vacancy.AdditionalRequirements = additionalRequirements;
+
                 await db.Vacancies.AddAsync(vacancy);
                 db.SaveChanges();
 
@@ -90,11 +78,11 @@ namespace HRTool.Controllers
         //В route будет айди вакансии, для которой будет изменение
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] string id)
+        public async Task<Object> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] string id)
         {
             using (var db = _context)
             {
-                var vacancy = db.Vacancies.FirstOrDefault(x => x.VacancyId == new Guid(id));
+                var vacancy = db.Vacancies.FirstOrDefault(x => x.Id == new Guid(id));
                 //Заполнить модель вакансии
                 //vacancy = vacancyModel;
                 db.SaveChanges();
@@ -106,11 +94,11 @@ namespace HRTool.Controllers
         //В route будет айди вакансии, для которой будет удаление
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVacancy([FromRoute] string id)
+        public async Task<Object> DeleteVacancy([FromRoute] string id)
         {
             using (var db = _context)
             {
-                var vacancy = db.Vacancies.FirstOrDefault(x => x.VacancyId == new Guid(id));
+                var vacancy = db.Vacancies.FirstOrDefault(x => x.Id == new Guid(id));
                 db.Remove(vacancy);
                 db.SaveChanges();
                 return Ok($"Вакансия {id} удалена");
@@ -120,7 +108,7 @@ namespace HRTool.Controllers
         //Изменение статуса вакансии
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}/status")]
-        public async Task<IActionResult> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
+        public async Task<Object> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
         {
             return Ok();
         }
