@@ -28,6 +28,6 @@ namespace HRTool.DAL.Models
         public string About {get; set;}
         public string Experience {get; set;}
         public BranchOffice Branch {get; set;}
-        public ICollection<VacancyApllicant> VacancyApllicants {get;set;}
+        public ICollection<VacancyApplicant> VacancyApllicants {get;set;}
     }
 }

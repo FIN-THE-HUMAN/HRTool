@@ -2,7 +2,7 @@ using System;
 
 namespace HRTool.DAL.Models
 {
-    public class VacancyApllicant
+    public class VacancyApplicant
     {
         public Guid VacancyId { get; set; }
         public Vacancy Vacancy { get; set; }

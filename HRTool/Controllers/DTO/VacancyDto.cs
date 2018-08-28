@@ -5,6 +5,16 @@ using HRTool.DAL.Models.Enums;
 
 namespace HRTool.Controllers.DTO
 {
+    public class DutyDto
+    {
+        public string Id { get; set; }
+    }
+    
+    public class RequirementDto
+    {
+        public string Id { get; set; }
+    }
+
     public class VacancyDto
     {
         public string Name {get; set;}
@@ -20,12 +30,10 @@ namespace HRTool.Controllers.DTO
         public EmploymentType EmploymentType {get; set;}
         public string WorkHours {get;set;}
         public string Description {get; set;}
-        public ICollection<Duty> Duties {get;set;}
-        public ICollection<Requirement> Requirements {get;set;}
-        public ICollection<Requirement> AdditionalRequirements {get;set;}
-        public VacancyStatus VacancyStatus {get;set;}
+        public ICollection<DutyDto> Duties {get;set;}
+        public ICollection<RequirementDto> Requirements {get;set;}
+        public ICollection<RequirementDto> AdditionalRequirements {get;set;}
         public string VacancyHolderName {get;set;}
         public BranchOffice BranchOfficeCity {get;set;}
-        public ICollection<VacancyApllicant> VacancyApllicants {get;set;}
     }
 }
