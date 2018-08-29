@@ -48,8 +48,7 @@ namespace HRTool.DAL.Models
         public ICollection<VacancyDuty> VacancyDuties { get; set; } = new List<VacancyDuty>();
 
         //Что должен уметь соискатель (требования)
-        public ICollection<VacancyRequirement> VacancyRequirements { get; set; }
-            = new List<VacancyRequirement>();
+        public ICollection<VacancyRequirement> VacancyRequirements { get; set; } = new List<VacancyRequirement>();
         public VacancyStatus Status { get; set; }
         public string HolderName { get; set; }
         public BranchOffice BranchOfficeCity { get; set; }

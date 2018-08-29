@@ -12,15 +12,15 @@ namespace HRTool
     {
         public MappingProfile()
         {
-            CreateMap<Vacancy, VacancyDto>();
+            CreateMap<Vacancy, VacancyDto>()
+                .ForMember(dest => dest.Duties, options => options.Ignore())
+                .ForMember(dest => dest.Requirements, options => options.Ignore());
+            //.ForMember(dest => dest.Status, options => options.Ignore())
+
             CreateMap<VacancyDto, Vacancy>()
                 .ForMember(dest => dest.Id, options => options.UseValue(new Guid()))
                 .ForMember(dest => dest.VacancyDuties, options => options.Ignore())
-/*
-                .ForMember(dest => dest.Requirements, options => options.Ignore())
-                .ForMember(dest => dest.AdditionalRequirements, options => options.Ignore())
-*/
-                .ForMember(dest => dest.Status, options => options.Ignore())
+                .ForMember(dest => dest.VacancyRequirements, options => options.Ignore())
                 .ForMember(dest => dest.VacancyApplicants, options => options.Ignore());
 
             CreateMap<Vacancy, VacanciesDto>();

@@ -21,10 +21,10 @@ namespace HRTool.Controllers.DTO
         public EmploymentType EmploymentType { get; set; }
         public string WorkHours { get; set; }
         public string Description { get; set; }
-        public List<string> Duties { get; set; }
-        public List<string> Requirements { get; set; }
-        public List<string> AdditionalRequirements { get; set; }
+        public List<string> Duties { get; set; } = new List<string>();
+        public List<string> Requirements { get; set; } = new List<string>();
         public string HolderName { get; set; }
+        public VacancyStatus Status { get; set; }
         public BranchOffice BranchOfficeCity { get; set; }
     }
 }

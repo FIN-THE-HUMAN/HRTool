@@ -16,7 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HRTool.Controllers
 {
-    [Route("[controller]/")]
+    [Route("[controller]s/")]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;

@@ -7,6 +7,7 @@ namespace HRTool.DAL.Models
     {
         public Guid Id {get;set;}
         public ResumeSource ResumeSource {get;set;}
-        public byte[] Content {get;set;} 
+        public byte[] Content {get;set;}
+        public Applicant Applicant { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using HRTool.DAL.Models;
 using HRTool.DAL.Models.Enums;
 using HRTool.DAL.Models.IntermediateModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRTool.Controllers
 {
@@ -34,53 +35,61 @@ namespace HRTool.Controllers
             {
                 var duties = _databaseContext.Duties
                     .Where(r => vacancyDto.Duties.Contains(r.Id.ToString())).ToList();
-                
-                /*
+
                 var requirements = _databaseContext.Requirements
                     .Where(r => vacancyDto.Requirements.Contains(r.Id.ToString())).ToList();
-                var additionalRequirements = _databaseContext.Requirements
-                    .Where(r => vacancyDto.AdditionalRequirements.Contains(r.Id.ToString())).ToList();
-*/
-
 
                 foreach (var duty in duties)
                 {
-                    var vacancyDuities = new VacancyDuty();
-                    vacancyDuities.Duty = duty;
-                    vacancy.VacancyDuties.Add(vacancyDuities);
+                    var vacancyDuties = new VacancyDuty();
+                    vacancyDuties.Duty = duty;
+                    vacancy.VacancyDuties.Add(vacancyDuties);
                 }
-                //vacancy.VacancyDuties.Select(x => x.Duty).ToList().AddRange(duties);
-                vacancy.CreationDate = DateTime.Now;
-                /*vacancy.Requirements = requirements;
-                vacancy.AdditionalRequirements = additionalRequirements;
-*/
 
+                foreach (var requirement in requirements)
+                {
+                    var vacancyRequirements = new VacancyRequirement();
+                    vacancyRequirements.Requirement = requirement;
+                    vacancy.VacancyRequirements.Add(vacancyRequirements);
+                }
+
+                vacancy.CreationDate = DateTime.Now;
                 await _databaseContext.Vacancies.AddAsync(vacancy);
                 _databaseContext.SaveChanges();
-                return new {id = vacancy.Id, date = vacancy.CreationDate};
+                return new {id = vacancy.Id, creationDate = vacancy.CreationDate};
             }
 
             return BadRequest("Введены неверные данные");
         }
-/*
+
+
         //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("{id}")]
-        public object Vacancy([FromRoute] string id)
+        public async Task<object> Vacancy([FromRoute] string id)
         {
-            var vacancy = _databaseContext.Vacancies.FirstOrDefault(x => x.Id.ToString() == id);
+            var vacancy = await _databaseContext.Vacancies
+                .Include(v => v.VacancyRequirements)
+                .ThenInclude(r => r.Requirement)
+                .Include(v => v.VacancyDuties)
+                .ThenInclude(d => d.Duty)
+                .FirstOrDefaultAsync(x => x.Id.ToString() == id);
             if (vacancy != default(Vacancy))
             {
                 var vacancyDto = _mapper.Map<Vacancy, VacancyDto>(vacancy);
-                var dutiesIds = _databaseContext.Duties
-                    .Where(x => x.Vacancy.Id.ToString() == id).ToList();
-                var dutiesDto = new List<DutyDto>();
-                foreach (var duty in duties)
-                {
-                    dutiesDto.Add(_mapper.Map<Duty, DutyDto>(duty));
-                }
-
                 if (vacancyDto != null)
                 {
+                    foreach (var vacancyDuty in vacancy.VacancyDuties)
+                    {
+                        var dutyDto = _mapper.Map<Duty, DutyDto>(vacancyDuty.Duty);
+                        vacancyDto.Duties.Add(dutyDto.Name);
+                    }
+
+                    foreach (var vacancyRequirement in vacancy.VacancyRequirements)
+                    {
+                        var requirementDto = _mapper.Map<Requirement, RequirementDto>(vacancyRequirement.Requirement);
+                        vacancyDto.Duties.Add(requirementDto.Name);
+                    }
+
                     return vacancyDto;
                 }
 
@@ -89,6 +98,7 @@ namespace HRTool.Controllers
 
             return BadRequest("Вакансия не найдена");
         }
+
 
         [HttpGet]
         public Object Vacancies([FromQuery] int? count,
@@ -117,6 +127,7 @@ namespace HRTool.Controllers
             return new {data = vacanciesDto, total};
         }
 
+/*
         //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}")]
         public async Task<Object> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] string id)

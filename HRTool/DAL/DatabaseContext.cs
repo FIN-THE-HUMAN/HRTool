@@ -19,24 +19,26 @@ namespace HRTool.DAL
         public DbSet<Vacancy> Vacancies { get; set; }
         public DbSet<Requirement> Requirements { get; set; }
         public DbSet<Duty> Duties { get; set; }
+        public DbSet<Resume> Resumes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
+
+            builder.Entity<Resume>()
+                .HasOne(r => r.Applicant)
+                .WithMany(r => r.Resumes);
+
+            builder.Entity<Vacancy>()
+                .HasMany(v => v.VacancyDuties)
+                .WithOne(v => v.Vacancy);
+
+            builder.Entity<Vacancy>()
+                .HasMany(v => v.VacancyRequirements)
+                .WithOne(v => v.Vacancy);
+
             #region Vacancy-applllicant
-            builder.Entity<Applicant>()
-                .HasOne(r => r.Resume)
-                .WithMany()
-                .HasForeignKey(r => r.Resume.Id);
-
-            builder.Entity<Vacancy>()
-                .HasMany(v => v.Duties)
-                .WithOne(v => v.Vacancy);
-
-            builder.Entity<Vacancy>()
-                .HasMany(v => v.Requirements)
-                .WithOne(v => v.Vacancy);
 
             builder.Entity<VacancyApplicant>()
                 .HasKey(va => new {va.VacancyId, va.ApplicantId});
@@ -48,10 +50,11 @@ namespace HRTool.DAL
 
             builder.Entity<VacancyApplicant>()
                 .HasOne(va => va.Applicant)
-                .WithMany(va => va.Vacancies)
+                .WithMany(va => va.VacancyApllicants)
                 .HasForeignKey(va => va.ApplicantId);
 
             #endregion
+
             #region Vacancy-duty
 
             builder.Entity<VacancyDuty>()
@@ -68,6 +71,7 @@ namespace HRTool.DAL
                 .HasForeignKey(vd => vd.DutyId);
 
             #endregion
+
             #region Vacancy-requirement
 
             builder.Entity<VacancyRequirement>()
