@@ -1,10 +1,7 @@
-﻿using System;
-using HRTool.DAL.Models;
-using HRTool.DAL.Models.Enums;
+﻿using HRTool.DAL.Models;
 using HRTool.DAL.Models.IntermediateModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRTool.DAL
 {
@@ -24,6 +21,10 @@ namespace HRTool.DAL
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Applicant>()
+                .HasOne(r => r.Resume)
+                .WithMany()
+                .HasForeignKey(r => r.Resume.Id);
 
             builder.Entity<Vacancy>()
                 .HasMany(v => v.Duties)
