@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HRTool.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20180829123630_ManyToManyMigration")]
+    [Migration("20180829125038_ManyToManyMigration")]
     partial class ManyToManyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,8 +51,6 @@ namespace HRTool.Migrations
                     b.Property<decimal>("Salary");
 
                     b.Property<bool>("Sex");
-
-                    b.Property<int>("Source");
 
                     b.Property<string>("WantedPosition");
 
@@ -124,6 +122,24 @@ namespace HRTool.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Requirements");
+                });
+
+            modelBuilder.Entity("HRTool.DAL.Models.Resume", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("ApplicantId");
+
+                    b.Property<byte[]>("Content");
+
+                    b.Property<int>("ResumeSource");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicantId");
+
+                    b.ToTable("Resumes");
                 });
 
             modelBuilder.Entity("HRTool.DAL.Models.User", b =>
@@ -332,7 +348,7 @@ namespace HRTool.Migrations
             modelBuilder.Entity("HRTool.DAL.Models.IntermediateModels.VacancyApplicant", b =>
                 {
                     b.HasOne("HRTool.DAL.Models.Applicant", "Applicant")
-                        .WithMany("Vacancies")
+                        .WithMany("VacancyApllicants")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -366,6 +382,13 @@ namespace HRTool.Migrations
                         .WithMany("VacancyRequirements")
                         .HasForeignKey("VacancyId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HRTool.DAL.Models.Resume", b =>
+                {
+                    b.HasOne("HRTool.DAL.Models.Applicant", "Applicant")
+                        .WithMany("Resumes")
+                        .HasForeignKey("ApplicantId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

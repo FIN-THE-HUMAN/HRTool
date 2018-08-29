@@ -15,7 +15,6 @@ namespace HRTool.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Age = table.Column<int>(nullable: false),
-                    Source = table.Column<int>(nullable: false),
                     Interviewed = table.Column<bool>(nullable: false),
                     Result = table.Column<int>(nullable: false),
                     ResultDescription = table.Column<string>(nullable: true),
@@ -125,6 +124,26 @@ namespace HRTool.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vacancies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Resumes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ResumeSource = table.Column<int>(nullable: false),
+                    Content = table.Column<byte[]>(nullable: true),
+                    ApplicantId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resumes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Resumes_Applicants_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -343,6 +362,11 @@ namespace HRTool.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Resumes_ApplicantId",
+                table: "Resumes",
+                column: "ApplicantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_VacancyApplicant_ApplicantId",
                 table: "VacancyApplicant",
                 column: "ApplicantId");
@@ -374,6 +398,9 @@ namespace HRTool.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Resumes");
 
             migrationBuilder.DropTable(
                 name: "VacancyApplicant");

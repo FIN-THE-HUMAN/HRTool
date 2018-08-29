@@ -25,6 +25,18 @@ namespace HRTool.DAL
             base.OnModelCreating(builder);
 
             #region Vacancy-applllicant
+            builder.Entity<Applicant>()
+                .HasOne(r => r.Resume)
+                .WithMany()
+                .HasForeignKey(r => r.Resume.Id);
+
+            builder.Entity<Vacancy>()
+                .HasMany(v => v.Duties)
+                .WithOne(v => v.Vacancy);
+
+            builder.Entity<Vacancy>()
+                .HasMany(v => v.Requirements)
+                .WithOne(v => v.Vacancy);
 
             builder.Entity<VacancyApplicant>()
                 .HasKey(va => new {va.VacancyId, va.ApplicantId});
