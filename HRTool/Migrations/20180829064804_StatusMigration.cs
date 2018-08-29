@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HRTool.Migrations
 {
-    public partial class WithCollectionsMigration : Migration
+    public partial class StatusMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -93,8 +93,8 @@ namespace HRTool.Migrations
                     EmploymentType = table.Column<int>(nullable: false),
                     WorkHours = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    VacancyStatus = table.Column<int>(nullable: false),
-                    VacancyHolderName = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    HolderName = table.Column<string>(nullable: true),
                     BranchOfficeCity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

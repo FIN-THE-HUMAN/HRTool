@@ -16,9 +16,12 @@ namespace HRTool
                 .ForMember(dest => dest.Duties, options => options.Ignore())
                 .ForMember(dest => dest.Requirements, options => options.Ignore())
                 .ForMember(dest => dest.AdditionalRequirements, options => options.Ignore())
-                .ForMember(dest => dest.VacancyStatus, options => options.Ignore())
-                .ForMember(dest => dest.VacanciesApplicants, options => options.Ignore());
+                .ForMember(dest => dest.Status, options => options.Ignore())
+                .ForMember(dest => dest.Applicants, options => options.Ignore());
 
+            CreateMap<Vacancy, VacanciesDto>();
+            
+            
             CreateMap<DutyDto, Duty>();
         }
     }

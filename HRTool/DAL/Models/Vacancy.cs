@@ -50,9 +50,9 @@ namespace HRTool.DAL.Models
         //Что должен уметь соискатель (требования)
         public ICollection<Requirement> Requirements { get; set; }
         public ICollection<Requirement> AdditionalRequirements { get; set; }
-        public VacancyStatus VacancyStatus { get; set; }
-        public string VacancyHolderName { get; set; }
+        public VacancyStatus Status { get; set; }
+        public string HolderName { get; set; }
         public BranchOffice BranchOfficeCity { get; set; }
-        public ICollection<VacancyApplicant> VacanciesApplicants { get; set; }
+        public ICollection<VacancyApplicant> Applicants { get; set; }
     }
 }

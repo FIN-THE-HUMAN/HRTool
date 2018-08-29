@@ -185,6 +185,8 @@ namespace HRTool.Migrations
 
                     b.Property<int>("EmploymentType");
 
+                    b.Property<string>("HolderName");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("RequiredExperienceRange");
@@ -193,9 +195,7 @@ namespace HRTool.Migrations
 
                     b.Property<decimal>("SalaryRangeTo");
 
-                    b.Property<string>("VacancyHolderName");
-
-                    b.Property<int>("VacancyStatus");
+                    b.Property<int>("Status");
 
                     b.Property<string>("WorkHours");
 
@@ -321,12 +321,12 @@ namespace HRTool.Migrations
             modelBuilder.Entity("HRTool.DAL.Models.IntermediateModels.VacancyApplicant", b =>
                 {
                     b.HasOne("HRTool.DAL.Models.Applicant", "Applicant")
-                        .WithMany("VacancyApllicants")
+                        .WithMany("Vacancies")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HRTool.DAL.Models.Vacancy", "Vacancy")
-                        .WithMany("VacanciesApplicants")
+                        .WithMany("Applicants")
                         .HasForeignKey("VacancyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

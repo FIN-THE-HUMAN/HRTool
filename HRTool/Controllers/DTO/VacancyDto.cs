@@ -22,7 +22,7 @@ namespace HRTool.Controllers.DTO
         public List<string> Duties { get; set; }
         public List<string> Requirements { get; set; }
         public List<string> AdditionalRequirements { get; set; }
-        public string VacancyHolderName { get; set; }
+        public string HolderName { get; set; }
         public BranchOffice BranchOfficeCity { get; set; }
     }
 }
