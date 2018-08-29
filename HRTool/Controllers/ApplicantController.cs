@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp;
@@ -28,16 +29,21 @@ namespace HRTool.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateApplicant([FromBody] ApplicantDto applicantDto)
+        public async Task<Object> CreateApplicant([FromBody] ApplicantDto applicantDto)
         {
             var applicant = _mapper.Map<ApplicantDto, Applicant>(applicantDto);
-            await _databaseContext.Applicants.AddAsync(applicant);
-            await _databaseContext.SaveChangesAsync();
-            return Ok("Соискатель успешно добавлен");
+            if (applicant != null)
+            {
+                await _databaseContext.Applicants.AddAsync(applicant);
+                await _databaseContext.SaveChangesAsync();
+                return applicant.Id;
+            }
+
+            return BadRequest("Введены неверные данные");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateApplicant([FromBody] ApplicantDto applicantDto, [FromRoute] string id)
+        public async Task<Object> UpdateApplicant([FromBody] ApplicantDto applicantDto, [FromRoute] string id)
         {
             var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(id));
             applicant = _mapper.Map<ApplicantDto, Applicant>(applicantDto);
@@ -51,19 +57,31 @@ namespace HRTool.Controllers
         {
             var applicants = await _databaseContext.Applicants.ToListAsync();
             var total = await _databaseContext.Applicants.CountAsync();
+            var applicantsDto = new List<ApplicantDto>();
+            foreach (var applicant in applicants)
+            {
+                applicantsDto.Add(_mapper.Map<Applicant, ApplicantDto>(applicant));
+            }
+
             return new
             {
                 total,
-                applicants
-                
+                applicants = applicantsDto
             };
         }
 
         [HttpGet("{id}")]
         public async Task<Object> GetApplicant([FromRoute] string id)
         {
-            var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(id));
-            return applicant;
+            var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
+            if (applicant != null)
+            {
+                var applicantDto = _mapper.Map<Applicant, ApplicantDto>(applicant);
+
+                return applicantDto;
+            }
+
+            return BadRequest("Введен неверный id");
         }
 
         /*[HttpPut("{id}")]

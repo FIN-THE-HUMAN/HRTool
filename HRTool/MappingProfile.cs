@@ -28,6 +28,9 @@ namespace HRTool
 
             CreateMap<DutyDto, Duty>();
             CreateMap<Duty, DutyDto>();
+            CreateMap<ApplicantDto, Applicant>()
+                .ForMember(dest => dest.Id, options => options.UseValue(new Guid()));
+            CreateMap<Applicant, ApplicantDto>();
         }
     }
 }

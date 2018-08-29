@@ -16,7 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HRTool.Controllers
 {
-    [Route("[controller]s/")]
+    [Route("[controller]/")]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -89,7 +89,7 @@ namespace HRTool.Controllers
                     }
                     else
                     {
-                        return StatusCode(500,"Внутренняя ошибка сервера");
+                        return StatusCode(500, "Внутренняя ошибка сервера");
                     }
                 }
             }
