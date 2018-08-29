@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using HRTool.DAL.Models.IntermediateModels;
 
 namespace HRTool.DAL.Models
 {
@@ -6,6 +8,7 @@ namespace HRTool.DAL.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Vacancy Vacancy { get; set; }
+        public bool IsAdditional { get; set; }
+        public ICollection<VacancyRequirement> Vacancies { get; set; }
     }
 }

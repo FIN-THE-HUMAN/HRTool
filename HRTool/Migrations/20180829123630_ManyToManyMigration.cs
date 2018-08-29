@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HRTool.Migrations
 {
-    public partial class StatusMigration : Migration
+    public partial class ManyToManyMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,6 +74,31 @@ namespace HRTool.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Duties",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Duties", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Requirements",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    IsAdditional = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Requirements", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,51 +234,6 @@ namespace HRTool.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Duties",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    VacancyId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Duties", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Duties_Vacancies_VacancyId",
-                        column: x => x.VacancyId,
-                        principalTable: "Vacancies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Requirements",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    VacancyId = table.Column<Guid>(nullable: true),
-                    VacancyId1 = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Requirements", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Requirements_Vacancies_VacancyId",
-                        column: x => x.VacancyId,
-                        principalTable: "Vacancies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Requirements_Vacancies_VacancyId1",
-                        column: x => x.VacancyId1,
-                        principalTable: "Vacancies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "VacancyApplicant",
                 columns: table => new
                 {
@@ -271,6 +251,54 @@ namespace HRTool.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_VacancyApplicant_Vacancies_VacancyId",
+                        column: x => x.VacancyId,
+                        principalTable: "Vacancies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VacancyDuty",
+                columns: table => new
+                {
+                    VacancyId = table.Column<Guid>(nullable: false),
+                    DutyId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VacancyDuty", x => new { x.VacancyId, x.DutyId });
+                    table.ForeignKey(
+                        name: "FK_VacancyDuty_Duties_DutyId",
+                        column: x => x.DutyId,
+                        principalTable: "Duties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VacancyDuty_Vacancies_VacancyId",
+                        column: x => x.VacancyId,
+                        principalTable: "Vacancies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VacancyRequirement",
+                columns: table => new
+                {
+                    VacancyId = table.Column<Guid>(nullable: false),
+                    RequirementId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VacancyRequirement", x => new { x.VacancyId, x.RequirementId });
+                    table.ForeignKey(
+                        name: "FK_VacancyRequirement_Requirements_RequirementId",
+                        column: x => x.RequirementId,
+                        principalTable: "Requirements",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VacancyRequirement_Vacancies_VacancyId",
                         column: x => x.VacancyId,
                         principalTable: "Vacancies",
                         principalColumn: "Id",
@@ -315,24 +343,19 @@ namespace HRTool.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Duties_VacancyId",
-                table: "Duties",
-                column: "VacancyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Requirements_VacancyId",
-                table: "Requirements",
-                column: "VacancyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Requirements_VacancyId1",
-                table: "Requirements",
-                column: "VacancyId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_VacancyApplicant_ApplicantId",
                 table: "VacancyApplicant",
                 column: "ApplicantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VacancyDuty_DutyId",
+                table: "VacancyDuty",
+                column: "DutyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VacancyRequirement_RequirementId",
+                table: "VacancyRequirement",
+                column: "RequirementId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -353,13 +376,13 @@ namespace HRTool.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Duties");
-
-            migrationBuilder.DropTable(
-                name: "Requirements");
-
-            migrationBuilder.DropTable(
                 name: "VacancyApplicant");
+
+            migrationBuilder.DropTable(
+                name: "VacancyDuty");
+
+            migrationBuilder.DropTable(
+                name: "VacancyRequirement");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -369,6 +392,12 @@ namespace HRTool.Migrations
 
             migrationBuilder.DropTable(
                 name: "Applicants");
+
+            migrationBuilder.DropTable(
+                name: "Duties");
+
+            migrationBuilder.DropTable(
+                name: "Requirements");
 
             migrationBuilder.DropTable(
                 name: "Vacancies");

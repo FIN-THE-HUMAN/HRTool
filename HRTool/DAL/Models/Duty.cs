@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using HRTool.DAL.Models.IntermediateModels;
 
 namespace HRTool.DAL.Models
 {
@@ -7,7 +10,6 @@ namespace HRTool.DAL.Models
         //Коммент для проверки мерджа
         public Guid Id { get; set; }
         public string Name { get; set; }
-
-        public Vacancy Vacancy { get; set; }
+        public ICollection<VacancyDuty> Vacancies { get; set; }
     }
 }

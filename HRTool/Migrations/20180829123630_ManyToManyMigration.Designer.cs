@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HRTool.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20180829064804_StatusMigration")]
-    partial class StatusMigration
+    [Migration("20180829123630_ManyToManyMigration")]
+    partial class ManyToManyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,11 +68,7 @@ namespace HRTool.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid?>("VacancyId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("VacancyId");
 
                     b.ToTable("Duties");
                 });
@@ -90,22 +86,42 @@ namespace HRTool.Migrations
                     b.ToTable("VacancyApplicant");
                 });
 
+            modelBuilder.Entity("HRTool.DAL.Models.IntermediateModels.VacancyDuty", b =>
+                {
+                    b.Property<Guid>("VacancyId");
+
+                    b.Property<Guid>("DutyId");
+
+                    b.HasKey("VacancyId", "DutyId");
+
+                    b.HasIndex("DutyId");
+
+                    b.ToTable("VacancyDuty");
+                });
+
+            modelBuilder.Entity("HRTool.DAL.Models.IntermediateModels.VacancyRequirement", b =>
+                {
+                    b.Property<Guid>("VacancyId");
+
+                    b.Property<Guid>("RequirementId");
+
+                    b.HasKey("VacancyId", "RequirementId");
+
+                    b.HasIndex("RequirementId");
+
+                    b.ToTable("VacancyRequirement");
+                });
+
             modelBuilder.Entity("HRTool.DAL.Models.Requirement", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsAdditional");
+
                     b.Property<string>("Name");
 
-                    b.Property<Guid?>("VacancyId");
-
-                    b.Property<Guid?>("VacancyId1");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("VacancyId");
-
-                    b.HasIndex("VacancyId1");
 
                     b.ToTable("Requirements");
                 });
@@ -313,13 +329,6 @@ namespace HRTool.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("HRTool.DAL.Models.Duty", b =>
-                {
-                    b.HasOne("HRTool.DAL.Models.Vacancy", "Vacancy")
-                        .WithMany("Duties")
-                        .HasForeignKey("VacancyId");
-                });
-
             modelBuilder.Entity("HRTool.DAL.Models.IntermediateModels.VacancyApplicant", b =>
                 {
                     b.HasOne("HRTool.DAL.Models.Applicant", "Applicant")
@@ -328,20 +337,35 @@ namespace HRTool.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HRTool.DAL.Models.Vacancy", "Vacancy")
-                        .WithMany("Applicants")
+                        .WithMany("VacancyApplicants")
                         .HasForeignKey("VacancyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("HRTool.DAL.Models.Requirement", b =>
+            modelBuilder.Entity("HRTool.DAL.Models.IntermediateModels.VacancyDuty", b =>
                 {
-                    b.HasOne("HRTool.DAL.Models.Vacancy", "Vacancy")
-                        .WithMany("Requirements")
-                        .HasForeignKey("VacancyId");
+                    b.HasOne("HRTool.DAL.Models.Duty", "Duty")
+                        .WithMany("Vacancies")
+                        .HasForeignKey("DutyId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HRTool.DAL.Models.Vacancy")
-                        .WithMany("AdditionalRequirements")
-                        .HasForeignKey("VacancyId1");
+                    b.HasOne("HRTool.DAL.Models.Vacancy", "Vacancy")
+                        .WithMany("VacancyDuties")
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HRTool.DAL.Models.IntermediateModels.VacancyRequirement", b =>
+                {
+                    b.HasOne("HRTool.DAL.Models.Requirement", "Requirement")
+                        .WithMany("Vacancies")
+                        .HasForeignKey("RequirementId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HRTool.DAL.Models.Vacancy", "Vacancy")
+                        .WithMany("VacancyRequirements")
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -24,27 +24,54 @@ namespace HRTool.DAL
         {
             base.OnModelCreating(builder);
 
-
-            builder.Entity<Vacancy>()
-                .HasMany(v => v.Duties)
-                .WithOne(v => v.Vacancy);
-
-            builder.Entity<Vacancy>()
-                .HasMany(v => v.Requirements)
-                .WithOne(v => v.Vacancy);
+            #region Vacancy-applllicant
 
             builder.Entity<VacancyApplicant>()
                 .HasKey(va => new {va.VacancyId, va.ApplicantId});
 
             builder.Entity<VacancyApplicant>()
                 .HasOne(va => va.Vacancy)
-                .WithMany(va => va.Applicants)
+                .WithMany(va => va.VacancyApplicants)
                 .HasForeignKey(va => va.VacancyId);
 
             builder.Entity<VacancyApplicant>()
                 .HasOne(va => va.Applicant)
                 .WithMany(va => va.Vacancies)
                 .HasForeignKey(va => va.ApplicantId);
+
+            #endregion
+            #region Vacancy-duty
+
+            builder.Entity<VacancyDuty>()
+                .HasKey(vd => new {vd.VacancyId, vd.DutyId});
+
+            builder.Entity<VacancyDuty>()
+                .HasOne(vd => vd.Vacancy)
+                .WithMany(vd => vd.VacancyDuties)
+                .HasForeignKey(vd => vd.VacancyId);
+
+            builder.Entity<VacancyDuty>()
+                .HasOne(vd => vd.Duty)
+                .WithMany(vd => vd.Vacancies)
+                .HasForeignKey(vd => vd.DutyId);
+
+            #endregion
+            #region Vacancy-requirement
+
+            builder.Entity<VacancyRequirement>()
+                .HasKey(vr => new {vr.VacancyId, vr.RequirementId});
+
+            builder.Entity<VacancyRequirement>()
+                .HasOne(vr => vr.Vacancy)
+                .WithMany(vr => vr.VacancyRequirements)
+                .HasForeignKey(vr => vr.VacancyId);
+
+            builder.Entity<VacancyRequirement>()
+                .HasOne(vr => vr.Requirement)
+                .WithMany(vr => vr.Vacancies)
+                .HasForeignKey(vr => vr.RequirementId);
+
+            #endregion
         }
     }
 }
