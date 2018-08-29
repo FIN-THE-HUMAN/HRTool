@@ -51,8 +51,8 @@ namespace HRTool.Controllers
         }
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
-        /*[HttpGet("{id}")]
-        public ObjectResult Vacancy([FromRoute] string id)
+        [HttpGet("{id}")]
+        public object Vacancy([FromRoute] string id)
         {
             var vacancy = _databaseContext.Vacancies.FirstOrDefault(x => x.Id == new Guid(id));
             if (vacancy != default(Vacancy))
@@ -62,9 +62,12 @@ namespace HRTool.Controllers
                 {
                     return vacancyDto;
                 }
-                return BadRequest()
+
+                return StatusCode(500,"Внутрення ошибка сервера");
             }
-        }*/
+
+            return BadRequest("Вакансия не найдена");
+        }
 
         [HttpGet]
         public Object Vacancies([FromQuery] int? count,

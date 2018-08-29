@@ -89,7 +89,7 @@ namespace HRTool.Controllers
                     }
                     else
                     {
-                        return BadRequest("Внутренняя ошибка сервера");
+                        return StatusCode(500,"Внутренняя ошибка сервера");
                     }
                 }
             }
