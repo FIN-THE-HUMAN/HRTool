@@ -7,12 +7,11 @@ using HRTool.Controllers.DTO;
 using HRTool.DAL;
 using HRTool.DAL.Models;
 using HRTool.DAL.Models.Enums;
-using HRTool.DAL.Models.IntermediateModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRTool.Controllers
 {
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     [Route("vacancies/")]
     public class VacancyController : Controller
     {
@@ -25,8 +24,6 @@ namespace HRTool.Controllers
             _databaseContext = databaseContext;
         }
 
-
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         public async Task<Object> CreateVacancy([FromBody] VacancyDto vacancyDto)
         {
@@ -53,19 +50,39 @@ namespace HRTool.Controllers
             return BadRequest("Введены неверные данные");
         }
 
-
         //[Authorize(AuthenticationSchemes = "Bearer")]
+        /*[HttpGet("{id}")]
+        public ObjectResult Vacancy([FromRoute] string id)
+        {
+            var vacancy = _databaseContext.Vacancies.FirstOrDefault(x => x.Id == new Guid(id));
+            if (vacancy != default(Vacancy))
+            {
+                var vacancyDto = _mapper.Map<Vacancy, VacancyDto>(vacancy);
+                if (vacancyDto != null)
+                {
+                    return vacancyDto;
+                }
+                return BadRequest()
+            }
+        }*/
+
         [HttpGet]
-        public Object Vacancies([FromQuery] int count,
+        public Object Vacancies([FromQuery] int? count,
             [FromQuery] int offset, [FromQuery] string search)
         {
+
+            var vacanciesAmount = _databaseContext.Vacancies.Count();
+            
+            search = search ?? "";
+            count = count ?? vacanciesAmount;
+            
             var filteredVacancies = _databaseContext.Vacancies
                 .Where(x => x.Name.ToLower().Contains(search.ToLower()));
-            
+
             var vacancies = filteredVacancies
                 .OrderByDescending(x => x.CreationDate)
                 .Skip(offset)
-                .Take(count);
+                .Take((int) count);
 
             var vacanciesDto = new List<VacanciesDto>();
             foreach (var vacancy in vacancies)
@@ -77,7 +94,7 @@ namespace HRTool.Controllers
             return new {data = vacanciesDto, total};
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}")]
         public async Task<Object> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] string id)
         {
@@ -86,7 +103,7 @@ namespace HRTool.Controllers
             return Ok("Вакансия успешно добавлена");
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("{id}")]
         public async Task<Object> DeleteVacancy([FromRoute] string id)
         {
@@ -96,7 +113,7 @@ namespace HRTool.Controllers
             return Ok($"Вакансия {id} удалена");
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}/status")]
         public async Task<Object> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
         {
