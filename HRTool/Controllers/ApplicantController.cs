@@ -111,7 +111,6 @@ namespace HRTool.Controllers
             throw new NotImplementedException();
         }
 
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteApplicant([FromRoute] string id)
         {

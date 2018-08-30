@@ -130,9 +130,9 @@ namespace HRTool.Controllers
             count = count ?? vacanciesAmount;
 
             var filteredVacancies = _databaseContext.Vacancies
-                .Where(x => (filter.Status == null || filter == null ? x.Status : filter.Status) == x.Status)
-                .Where(x => (filter.BranchOffice == null || filter == null ? x.BranchOfficeCity : filter.BranchOffice) == x.BranchOfficeCity)
-                .Where(x => (filter.Departures == null || filter == null ? x.DepartureName : filter.Departures) == x.DepartureName)
+                .Where(x => (filter == null || filter.Status == null ? x.Status : filter.Status) == x.Status)
+                .Where(x => (filter == null || filter.BranchOffice == null ? x.BranchOfficeCity : filter.BranchOffice) == x.BranchOfficeCity)
+                .Where(x => (filter == null || filter.Departures == null ? x.DepartureName : filter.Departures) == x.DepartureName)
                 .Where(x => x.Name.ToLower().Contains(search.ToLower()));
 
             var vacancies = filteredVacancies
