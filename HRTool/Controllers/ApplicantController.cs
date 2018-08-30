@@ -46,9 +46,9 @@ namespace HRTool.Controllers
         public async Task<Object> UpdateApplicant([FromBody] ApplicantDto applicantDto, [FromRoute] string id)
         {
             var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(id));
+            if(applicant == null) return BadRequest("Введен ");
             applicant = _mapper.Map<ApplicantDto, Applicant>(applicantDto);
             await _databaseContext.SaveChangesAsync();
-
             return Ok("Информация о соискателе успешно обновлена");
         }
 
