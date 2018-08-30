@@ -139,8 +139,9 @@ namespace HRTool.Controllers
         public async Task<Object> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] string id)
         {
             var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
-            if(vacancy == null) return BadRequest("Введен не верный id вакансии");
+            if (vacancy == null) return BadRequest("Введен неверный id вакансии");
             vacancy = _mapper.Map<VacancyDto, Vacancy>(vacancyDto);
+            _databaseContext.Update(vacancy);
             _databaseContext.SaveChanges();
             return Ok("Вакансия успешно добавлена");
         }
@@ -160,7 +161,7 @@ namespace HRTool.Controllers
         public async Task<Object> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
         {
             var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
-            if(vacancy == null) return BadRequest("Введен не верный id вакансии");
+            if (vacancy == null) return BadRequest("Введен не верный id вакансии");
             vacancy.Status = vacancyStatus;
             _databaseContext.SaveChanges();
             return Ok("Статус вакансии успешно изменён");
