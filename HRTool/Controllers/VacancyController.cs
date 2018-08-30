@@ -133,23 +133,25 @@ namespace HRTool.Controllers
             return new {data = vacanciesDto, total};
         }
 
-/*
+
         //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}")]
         public async Task<Object> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] string id)
         {
-            var vacancy = _databaseContext.Vacancies.FirstOrDefault(x => x.Id == new Guid(id));
+            var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
+            if(vacancy == null) return BadRequest("Введен не верный id вакансии");
+            vacancy = _mapper.Map<VacancyDto, Vacancy>(vacancyDto);
             _databaseContext.SaveChanges();
             return Ok("Вакансия успешно добавлена");
         }
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("{id}")]
-        public async Task<Object> DeleteVacancy([FromRoute] string id)
+        public async Task<IActionResult> DeleteVacancy([FromRoute] string id)
         {
-            var vacancy = _databaseContext.Vacancies.FirstOrDefault(x => x.Id == new Guid(id));
+            var vacancy = _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
             _databaseContext.Remove(vacancy);
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
             return Ok($"Вакансия {id} удалена");
         }
 
@@ -157,7 +159,11 @@ namespace HRTool.Controllers
         [HttpPut("{id}/status")]
         public async Task<Object> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
         {
-            return Ok();
-        }*/
+            var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
+            if(vacancy == null) return BadRequest("Введен не верный id вакансии");
+            vacancy.Status = vacancyStatus;
+            _databaseContext.SaveChanges();
+            return Ok("Статус вакансии успешно изменён");
+        }
     }
 }
