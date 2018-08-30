@@ -88,7 +88,7 @@ namespace HRTool.Controllers
         public async Task<IActionResult> UploadResume(IFormFile uploadedFile, [FromRoute] string Id)
         {
   
-                var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(Id));
+                var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
 
                 // TODO: добавить в модель соискателя ссылку на сущность резюме
                 throw new NotImplementedException("У соискателя еще пока нет ссылки на резюме");
