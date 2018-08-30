@@ -1,0 +1,28 @@
+button.cross {
+  position: relative;
+  padding: 0;
+  min-width: 34px;
+  height: 34px;
+  border-radius: 50%;
+
+  &::after,
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: "";
+    display: block;
+    background-color: white;
+  }
+
+  &::after {
+    width: 2px;
+    height: 14px;
+  }
+
+  &::before {
+    width: 14px;
+    height: 2px;
+  }
+}

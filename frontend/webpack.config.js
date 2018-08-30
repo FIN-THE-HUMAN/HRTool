@@ -91,13 +91,16 @@ module.exports = {
   },
   resolve: {
     alias: {
-      services: resolve(common, 'services'),
-      utils: resolve(common, 'utils'),
+      actions: resolve(common, 'actions'),
       constants: resolve(common, 'constants'),
       containers: resolve(common, 'containers'),
       components: resolve(common, 'components'),
       decorators: resolve(common, 'decorators'),
-      store: resolve(common, 'store')
+      reducers: resolve(common, 'reducers'),
+      services: resolve(common, 'services'),
+      sources: resolve(common, 'sources'),
+      store: resolve(common, 'store'),
+      utils: resolve(common, 'utils')
     },
     extensions: ['.js', '.jsx', '.css', '.scss', '.sass']
   },

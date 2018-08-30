@@ -1,0 +1,75 @@
+.vacancy {
+  font-size: 16px;
+
+  & > * {
+    margin-bottom: 5px;
+  }
+
+  .name-field {
+    color: $gray-300;
+  }
+
+  .date {
+    color: $gray-400;
+  }
+
+  .name {
+    font-size: $font-size-title-second;
+    margin-right: 10px;
+    display: inline-block;
+  }
+
+  .salary {
+    font-weight: bold;
+  }
+
+  .departure {
+
+  }
+
+  .experience {
+
+  }
+
+  .employment-type {
+
+  }
+
+  .work-hours {
+
+  }
+
+  .duties,
+  .requirements,
+  .additionalRequirements {
+    padding-left: 30px;
+  }
+
+  .description {
+
+  }
+
+  .contact-person {
+
+    .contact-name {
+
+    }
+
+    .contact-phone {
+
+    }
+
+    .contact-email {
+
+    }
+  }
+
+  .author {
+
+  }
+
+  .city {
+
+  }
+
+}
