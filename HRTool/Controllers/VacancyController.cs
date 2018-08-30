@@ -163,6 +163,7 @@ namespace HRTool.Controllers
             var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
             if (vacancy == null) return BadRequest("Введен не верный id вакансии");
             vacancy.Status = vacancyStatus;
+            _databaseContext.Update<Vacancy>(vacancy);
             _databaseContext.SaveChanges();
             return Ok("Статус вакансии успешно изменён");
         }
