@@ -85,8 +85,8 @@ namespace HRTool.Controllers
             return BadRequest("Введен неверный id");
         }
 
-        /*[HttpPut("{id}")]
-        public async Task<IActionResult> UploadResume(IFormFile uploadedFile, [FromRoute] string Id)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UploadResume(IFormFile uploadedFile, [FromRoute] string id)
         {
   
                 var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
@@ -94,7 +94,7 @@ namespace HRTool.Controllers
                 // TODO: добавить в модель соискателя ссылку на сущность резюме
                 throw new NotImplementedException("У соискателя еще пока нет ссылки на резюме");
 
-                //return Ok("Файл резюме успешно загружен");
+                return Ok("Файл резюме успешно загружен");
             
         }
 
@@ -102,7 +102,7 @@ namespace HRTool.Controllers
         public async Task<Object> DownloadResume()
         {
             throw new NotImplementedException();
-        }*/
+        }
 
 
         [HttpDelete("{id}")]
