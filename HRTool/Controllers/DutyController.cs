@@ -23,16 +23,17 @@ namespace HRTool.Controllers
             _databaseContext = databaseContext;
         }
 
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
-        public Object GetDuties()
+        public Object GetDuties([FromQuery] string search)
         {
+            search = search ?? "";
+            var duties = _databaseContext.Duties
+                .Where(x => x.Name.ToLower().Contains(search.ToLower())).ToList();
             var dutiesList = new List<DutyDto>();
-            foreach (var duty in _databaseContext.Duties)
+            foreach (var duty in duties)
             {
                 dutiesList.Add(_mapper.Map<Duty, DutyDto>(duty));
             }
-
             return dutiesList;
         }
 
