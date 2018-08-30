@@ -77,6 +77,7 @@ namespace HRTool.Controllers
                 FillDuties(ref vacancy, vacancyDto);
                 FillRequirements(ref vacancy, vacancyDto);
                 vacancy.CreationDate = DateTime.Now;
+                vacancy.Status = VacancyStatus.Open;
                 await _databaseContext.Vacancies.AddAsync(vacancy);
                 _databaseContext.SaveChanges();
                 return new {id = vacancy.Id, creationDate = vacancy.CreationDate};
