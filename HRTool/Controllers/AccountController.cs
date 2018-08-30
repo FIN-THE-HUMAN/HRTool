@@ -129,7 +129,7 @@ namespace HRTool.Controllers
             return BadRequest("Заполните все поля");
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+       // [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
         [Route("{id}/")]
         public async Task<Object> GetUser([FromRoute] string id)
@@ -144,7 +144,7 @@ namespace HRTool.Controllers
             return BadRequest("Пользователь не найден");
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
         [Route("{id}/")]
         public async Task<ObjectResult> ChangeUser([FromBody] UserDto userDto, [FromRoute] string id)
@@ -152,15 +152,11 @@ namespace HRTool.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                user.FirstName = userDto.FirstName;
-                user.LastName = userDto.LastName;
-                user.Position = userDto.Position;
-                user.Email = userDto.Email;
-                user.PhoneNumber = userDto.PhoneNumber;
+                
+                _mapper.Map(userDto, user);
                 await _userManager.UpdateAsync(user);
                 return Ok("Данные изменены");
             }
-
             return BadRequest("Пользователь не найден");
         }
     }
