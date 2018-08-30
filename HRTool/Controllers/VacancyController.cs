@@ -33,11 +33,17 @@ namespace HRTool.Controllers
             var vacancy = _mapper.Map<VacancyDto, Vacancy>(vacancyDto);
             if (vacancy != null)
             {
+                var vacancyDtoDutiesIds = vacancyDto.Duties.Select(x => x.Id);
                 var duties = _databaseContext.Duties
-                    .Where(r => vacancyDto.Duties.Contains(r.Id.ToString())).ToList();
+                    .Where(d => vacancyDtoDutiesIds
+                        .Contains(d.Id.ToString()))
+                    .ToList();
 
+                var vacancyDtoRequirementsIds = vacancyDto.Requirements.Select(x => x.Id);
                 var requirements = _databaseContext.Requirements
-                    .Where(r => vacancyDto.Requirements.Contains(r.Id.ToString())).ToList();
+                    .Where(r => vacancyDtoRequirementsIds
+                        .Contains(r.Id.ToString()))
+                    .ToList();
 
                 foreach (var duty in duties)
                 {
@@ -81,13 +87,13 @@ namespace HRTool.Controllers
                     foreach (var vacancyDuty in vacancy.VacancyDuties)
                     {
                         var dutyDto = _mapper.Map<Duty, DutyDto>(vacancyDuty.Duty);
-                        vacancyDto.Duties.Add(dutyDto.Name);
+                        vacancyDto.Duties.Add(dutyDto);
                     }
 
                     foreach (var vacancyRequirement in vacancy.VacancyRequirements)
                     {
                         var requirementDto = _mapper.Map<Requirement, RequirementDto>(vacancyRequirement.Requirement);
-                        vacancyDto.Duties.Add(requirementDto.Name);
+                        vacancyDto.Requirements.Add(requirementDto);
                     }
 
                     return vacancyDto;
