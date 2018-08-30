@@ -32,10 +32,13 @@ namespace HRTool.Controllers
         private void FillDuties(ref Vacancy vacancy, VacancyDto vacancyDto)
         {
             vacancy.VacancyDuties = new List<VacancyDuty>();
-            foreach (var dutyDto in vacancyDto.Duties)
+            var ids = vacancyDto.Duties.Select(x => x.Id).ToList();
+            var duties = _databaseContext.Duties
+                .Where(d => ids.Contains(d.Id.ToString())).ToList();
+            foreach (var duty in duties)
             {
                 var vacancyDuties = new VacancyDuty();
-                vacancyDuties.Duty = _mapper.Map<DutyDto, Duty>(dutyDto);
+                vacancyDuties.Duty = duty;
                 vacancy.VacancyDuties.Add(vacancyDuties);
             }
         }
@@ -43,7 +46,18 @@ namespace HRTool.Controllers
         private void FillRequirements(ref Vacancy vacancy, VacancyDto vacancyDto)
         {
             vacancy.VacancyRequirements = new List<VacancyRequirement>();
-            foreach (var requirementDto in vacancyDto.Requirements)
+            var dtoIds = vacancyDto.Requirements.Select(x => x.Id).ToList();
+            var requirements = _databaseContext.Requirements.Where(r => dtoIds.Contains(r.Id.ToString())).ToList();
+            var requirementsDto = new List<RequirementDto>();
+            foreach (var requirement in requirements)
+            {
+                requirementsDto.Add(_mapper.Map<Requirement, RequirementDto>(requirement));
+            }
+
+            var ids = requirements.Select(x => x.Id.ToString()).ToList();
+            var resultRequirements = vacancyDto.Requirements.Where(x => ids.Contains(x.Id)).ToList();
+
+            foreach (var requirementDto in resultRequirements)
             {
                 var vacancyRequirements = new VacancyRequirement();
                 vacancyRequirements.Requirement = _mapper.Map<RequirementDto, Requirement>(requirementDto);
