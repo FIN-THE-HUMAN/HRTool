@@ -133,9 +133,12 @@ namespace HRTool.Controllers
             count = count ?? vacanciesAmount;
 
             var filteredVacancies = _databaseContext.Vacancies
-                .Where(x => (filter == null || filter.Departures == null ? x.DepartureName : filter.Departures) == x.DepartureName)
+                .Where(x => (filter == null || filter.Departures == null ? x.DepartureName : filter.Departures) ==
+                            x.DepartureName)
                 .Where(x => (filter == null || filter.Status == null ? x.Status : filter.Status) == x.Status)
-                .Where(x => (filter == null || filter.BranchOffice == null ? x.BranchOfficeCity : filter.BranchOffice) == x.BranchOfficeCity)
+                .Where(x =>
+                    (filter == null || filter.BranchOffice == null ? x.BranchOfficeCity : filter.BranchOffice) ==
+                    x.BranchOfficeCity)
                 .Where(x => x.Name.ToLower().Contains(search.ToLower()));
 
             var vacancies = filteredVacancies
@@ -185,17 +188,12 @@ namespace HRTool.Controllers
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}/status")]
-        public async Task<Object> ChangeStatus([FromBody] string status, [FromRoute] string id)
+        public async Task<Object> ChangeStatus([FromBody] VacancyStatusDto statusDto, [FromRoute] string id)
         {
             var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
-            if (vacancy == null) return BadRequest("Введен не верный id вакансии");
-
-            int st;
-            if(!int.TryParse(status, out st)) return BadRequest("Введен не верный id статуса " + status);
-            VacancyStatus stat;
-            if(!Extensions.WebHostExtensions.ToVacancyStatus(out stat, st)) return BadRequest("Введен не верный id статуса" + st);
-            vacancy.Status = stat;
-            _databaseContext.Update<Vacancy>(vacancy);
+            if (vacancy == null)
+                return BadRequest("Введен не верный id вакансии");
+            vacancy.Status = statusDto.Status;
             _databaseContext.SaveChanges();
             return Ok("Статус вакансии успешно изменён");
         }
