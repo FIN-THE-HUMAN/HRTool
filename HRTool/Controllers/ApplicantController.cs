@@ -86,7 +86,7 @@ namespace HRTool.Controllers
             return BadRequest("Введен неверный id");
         }
 
-        [HttpPut("{id}")]
+        /*[HttpPut("{id}")]
         public async Task<IActionResult> UploadResume(IFormFile uploadedFile, [FromRoute] string id, ResumeSource resumeSource)
         {
             var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(id));
@@ -103,13 +103,13 @@ namespace HRTool.Controllers
                 await _databaseContext.SaveChangesAsync();
             }
             return Ok("Файл резюме успешно загружен");
-        }
+        }*/
 
-        [HttpGet]
+        /*[HttpGet]
         public async Task<Object> DownloadResume()
         {
             throw new NotImplementedException();
-        }
+        }*/
 
 
         [HttpDelete("{id}")]

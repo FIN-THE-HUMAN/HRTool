@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HRTool.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20180829125038_ManyToManyMigration")]
-    partial class ManyToManyMigration
+    [Migration("20180830084307_IsAdditionalMigration")]
+    partial class IsAdditionalMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,6 +103,8 @@ namespace HRTool.Migrations
 
                     b.Property<Guid>("RequirementId");
 
+                    b.Property<bool>("IsRequirementAdditional");
+
                     b.HasKey("VacancyId", "RequirementId");
 
                     b.HasIndex("RequirementId");
@@ -114,8 +116,6 @@ namespace HRTool.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("IsAdditional");
 
                     b.Property<string>("Name");
 

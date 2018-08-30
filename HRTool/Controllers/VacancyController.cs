@@ -32,34 +32,22 @@ namespace HRTool.Controllers
         private void FillDuties(ref Vacancy vacancy, VacancyDto vacancyDto)
         {
             vacancy.VacancyDuties = new List<VacancyDuty>();
-            var vacancyDtoDutiesIds = vacancyDto.Duties.Select(x => x.Id);
-            var duties = _databaseContext.Duties
-                .Where(d => vacancyDtoDutiesIds
-                    .Contains(d.Id.ToString()))
-                .ToList();
-
-            foreach (var duty in duties)
+            foreach (var dutyDto in vacancyDto.Duties)
             {
                 var vacancyDuties = new VacancyDuty();
-                vacancyDuties.Duty = duty;
+                vacancyDuties.Duty = _mapper.Map<DutyDto, Duty>(dutyDto);
                 vacancy.VacancyDuties.Add(vacancyDuties);
             }
         }
 
         private void FillRequirements(ref Vacancy vacancy, VacancyDto vacancyDto)
         {
-            vacancy.VacancyRequirements.Clear();
-
-            var vacancyDtoRequirementsIds = vacancyDto.Requirements.Select(x => x.Id);
-            var requirements = _databaseContext.Requirements
-                .Where(r => vacancyDtoRequirementsIds
-                    .Contains(r.Id.ToString()))
-                .ToList();
-
-            foreach (var requirement in requirements)
+            vacancy.VacancyRequirements = new List<VacancyRequirement>();
+            foreach (var requirementDto in vacancyDto.Requirements)
             {
                 var vacancyRequirements = new VacancyRequirement();
-                vacancyRequirements.Requirement = requirement;
+                vacancyRequirements.Requirement = _mapper.Map<RequirementDto, Requirement>(requirementDto);
+                vacancyRequirements.IsRequirementAdditional = requirementDto.IsAdditional;
                 vacancy.VacancyRequirements.Add(vacancyRequirements);
             }
         }
@@ -107,6 +95,7 @@ namespace HRTool.Controllers
                     foreach (var vacancyRequirement in vacancy.VacancyRequirements)
                     {
                         var requirementDto = _mapper.Map<Requirement, RequirementDto>(vacancyRequirement.Requirement);
+                        requirementDto.IsAdditional = vacancyRequirement.IsRequirementAdditional;
                         vacancyDto.Requirements.Add(requirementDto);
                     }
 
@@ -131,7 +120,8 @@ namespace HRTool.Controllers
 
             var filteredVacancies = _databaseContext.Vacancies
                 .Where(x => (filter.Status == null ? x.Status : filter.Status) == x.Status)
-                .Where(x => (filter.BranchOffice == null ? x.BranchOfficeCity : filter.BranchOffice) == x.BranchOfficeCity)
+                .Where(x => (filter.BranchOffice == null ? x.BranchOfficeCity : filter.BranchOffice) ==
+                            x.BranchOfficeCity)
                 .Where(x => (filter.Departures == null ? x.DepartureName : filter.Departures) == x.DepartureName)
                 .Where(x => x.Name.ToLower().Contains(search.ToLower()));
 
@@ -166,6 +156,7 @@ namespace HRTool.Controllers
             _mapper.Map(vacancyDto, vacancy);
             FillDuties(ref vacancy, vacancyDto);
             FillRequirements(ref vacancy, vacancyDto);
+            _databaseContext.Update(vacancy);
             _databaseContext.SaveChanges();
             return Ok("Вакансия успешно изменена");
         }
@@ -185,9 +176,10 @@ namespace HRTool.Controllers
         public async Task<Object> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
         {
             var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
-            if (vacancy == null) return BadRequest("Введен не верный id вакансии");
+            if (vacancy == null) 
+                return BadRequest("Введен не верный id вакансии");
             vacancy.Status = vacancyStatus;
-            _databaseContext.Update<Vacancy>(vacancy);
+            _databaseContext.Update(vacancy);
             _databaseContext.SaveChanges();
             return Ok("Статус вакансии успешно изменён");
         }

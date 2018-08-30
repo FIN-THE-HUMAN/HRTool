@@ -41,7 +41,6 @@ namespace HRTool.Controllers
         [HttpPost]
         public async Task<Object> AddDuty([FromBody] DutyDto dutyDto)
         {
-            dutyDto.Id = new Guid().ToString();
             var duty = _mapper.Map<DutyDto, Duty>(dutyDto);
             await _databaseContext.Duties.AddAsync(duty);
             await _databaseContext.SaveChangesAsync();

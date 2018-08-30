@@ -101,6 +101,8 @@ namespace HRTool.Migrations
 
                     b.Property<Guid>("RequirementId");
 
+                    b.Property<bool>("IsRequirementAdditional");
+
                     b.HasKey("VacancyId", "RequirementId");
 
                     b.HasIndex("RequirementId");
@@ -112,8 +114,6 @@ namespace HRTool.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("IsAdditional");
 
                     b.Property<string>("Name");
 

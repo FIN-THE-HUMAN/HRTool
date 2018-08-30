@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HRTool.Migrations
 {
-    public partial class ManyToManyMigration : Migration
+    public partial class IsAdditionalMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -92,8 +92,7 @@ namespace HRTool.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    IsAdditional = table.Column<bool>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -305,7 +304,8 @@ namespace HRTool.Migrations
                 columns: table => new
                 {
                     VacancyId = table.Column<Guid>(nullable: false),
-                    RequirementId = table.Column<Guid>(nullable: false)
+                    RequirementId = table.Column<Guid>(nullable: false),
+                    IsRequirementAdditional = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

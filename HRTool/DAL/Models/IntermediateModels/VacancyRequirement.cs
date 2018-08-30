@@ -7,6 +7,7 @@ namespace HRTool.DAL.Models.IntermediateModels
         public Guid VacancyId { get; set; }
         public Vacancy Vacancy { get; set; }
         public Guid RequirementId { get; set; }
+        public bool IsRequirementAdditional { get; set; }
         public Requirement Requirement { get; set; }
     }
 }
