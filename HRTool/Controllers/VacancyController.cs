@@ -132,7 +132,7 @@ namespace HRTool.Controllers
         [HttpPut("{id}")]
         public async Task<Object> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] string id)
         {
-            var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString()==id);
+            var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
             if(vacancy == null) return BadRequest("Введен не верный id вакансии");
             vacancy = _mapper.Map<VacancyDto, Vacancy>(vacancyDto);
             _databaseContext.SaveChanges();
@@ -143,17 +143,21 @@ namespace HRTool.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVacancy([FromRoute] string id)
         {
-            var vacancy = _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id == new Guid(id));
+            var vacancy = _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
             _databaseContext.Remove(vacancy);
             await _databaseContext.SaveChangesAsync();
             return Ok($"Вакансия {id} удалена");
         }
-/*
+
         //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}/status")]
         public async Task<Object> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
         {
-            return Ok();
-        }*/
+            var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
+            if(vacancy == null) return BadRequest("Введен не верный id вакансии");
+            vacancy.Status = vacancyStatus;
+            _databaseContext.SaveChanges();
+            return Ok("Статус вакансии успешно изменён");
+        }
     }
 }
