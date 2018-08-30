@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp;
@@ -7,6 +8,7 @@ using AutoMapper;
 using HRTool.Controllers.DTO;
 using HRTool.DAL;
 using HRTool.DAL.Models;
+using HRTool.DAL.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -45,10 +47,9 @@ namespace HRTool.Controllers
         [HttpPut("{id}")]
         public async Task<Object> UpdateApplicant([FromBody] ApplicantDto applicantDto, [FromRoute] string id)
         {
-            var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
-            if (applicant == null) return BadRequest("Введен неверный id");
+            var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(id));
+            if(applicant == null) return BadRequest("Введен ");
             applicant = _mapper.Map<ApplicantDto, Applicant>(applicantDto);
-            _databaseContext.Update(applicant);
             await _databaseContext.SaveChangesAsync();
             return Ok("Информация о соискателе успешно обновлена");
         }
@@ -86,16 +87,22 @@ namespace HRTool.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UploadResume(IFormFile uploadedFile, [FromRoute] string id)
+        public async Task<IActionResult> UploadResume(IFormFile uploadedFile, [FromRoute] string id, ResumeSource resumeSource)
         {
-  
-                var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
-
-                // TODO: добавить в модель соискателя ссылку на сущность резюме
-                throw new NotImplementedException("У соискателя еще пока нет ссылки на резюме");
-
-                return Ok("Файл резюме успешно загружен");
+            var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(id));
             
+            var newResume = new Resume();
+            newResume.ResumeSource = resumeSource;
+            
+            using (var ms = new MemoryStream())
+            {
+                var rs = uploadedFile.OpenReadStream();
+                await rs.CopyToAsync(ms);
+                await ms.ReadAsync(newResume.Content, 0, (int)uploadedFile.Length);
+                await _databaseContext.Resumes.AddAsync(newResume);
+                await _databaseContext.SaveChangesAsync();
+            }
+            return Ok("Файл резюме успешно загружен");
         }
 
         [HttpGet]
@@ -108,7 +115,7 @@ namespace HRTool.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteApplicant([FromRoute] string id)
         {
-            var applicant = _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
+            var applicant = _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(id));
             _databaseContext.Remove(applicant);
             await _databaseContext.SaveChangesAsync();
             return Ok($"Соискатель {id} удален");
