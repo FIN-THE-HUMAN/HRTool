@@ -2,8 +2,8 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import connect from 'decorators/ConnectDecorators';
+import { Modal } from 'components';
 import ModalsActions from 'actions/ModalsActions';
-import Modal from 'components/Modal';
 
 class ModalContainer extends Component {
   constructor(props) {

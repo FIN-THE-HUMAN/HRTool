@@ -1,3 +1,5 @@
 export const MODAL_TYPES = {
-  signIn: 'signIn'
+  signIn: 'signIn',
+  vacancyCreation: 'vacancyCreation',
+  vacancyEditing: 'vacancyEditing'
 };

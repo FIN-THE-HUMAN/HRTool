@@ -28,20 +28,21 @@ const defineMessage = status => {
   }
 };
 
-const Loader = ({ noMessage, status, className }) => (
+const Loader = ({ noMessage, message, status, className }) => (
   <div className={classNames('loader', className)} data-status={status}>
     {status === Status.LOADING
       ? <div className="spinner" />
       : <div className={classNames('icon', defineIcon(status))} />
     }
-    {noMessage || <div className="message">{defineMessage(status)}</div>}
+    {noMessage || <div className="message">{message || defineMessage(status)}</div>}
   </div>
 );
 
 Loader.propTypes = {
   noMessage: PropTypes.bool,
   status: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
+  message: PropTypes.string
 };
 
 Loader.defaultProps = {

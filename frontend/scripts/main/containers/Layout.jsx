@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import connect from 'decorators/ConnectDecorators';
 import { Link } from 'components/router';
 import { Button } from 'react-bootstrap';
-import Modal from 'containers/Modal';
 import ModalsActions from 'actions/ModalsActions';
 import UserActions from 'actions/UserActions';
-import OverlayStatus from 'components/OverlayStatus';
+import { Modal } from 'containers';
+import { OverlayStatus } from 'components';
 
 import { MODAL_TYPES } from '../constants/ModalsConstants';
 import UserInfo from '../components/UserInfo';

@@ -5,20 +5,16 @@ import Status from 'constants/StatusConstants';
 
 import Loader from './Loader';
 
-const OverlayStatus = ({ status, children, black, ...other }) => {
-  if (!status || status === Status.DEFAULT) {
-    return children;
-  }
-
-  return (
-    <div className={classNames('overlay-status', { black })} data-status={status}>
-      {children}
+const OverlayStatus = ({ status, children, black, ...other }) => (
+  <div className={classNames('overlay-status', { black })} data-status={status}>
+    {children}
+    {status !== Status.DEFAULT &&
       <div className="overlay">
         <Loader {...other} status={status} />
       </div>
-    </div>
-  );
-};
+    }
+  </div>
+);
 
 OverlayStatus.propTypes = {
   status: PropTypes.string,

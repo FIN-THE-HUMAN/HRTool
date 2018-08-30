@@ -20,6 +20,10 @@ $gray-700: #282828;
 $black: #000;
 $white: #fff;
 
+$success: #5cb85c;
+$error: #d9534f;
+$warn: #f0ad4e;
+
 // Media
 $media-max-width: 1200px;
 $media-min-width: 800px;
@@ -28,7 +32,7 @@ $media-min-width: 800px;
 $font-roboto: Roboto, sans-serif;
 $font-open-sans: OpenSans, sans-serif;
 
-$default-font-size: 14px;
-$title-font-size: calc(1rem + 14px);
-$second-title-font-size: calc(1rem + 8px);
-$third-title-font-size: calc(1rem + 4px);
+$font-size-default: 14px;
+$font-size-title: calc(1rem + 14px);
+$font-size-title-second: calc(1rem + 8px);
+$font-size-title-third: calc(1rem + 4px);
