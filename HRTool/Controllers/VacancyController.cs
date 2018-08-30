@@ -182,18 +182,19 @@ namespace HRTool.Controllers
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}/status")]
-        public async Task<Object> ChangeStatus([FromBody] VacancyStatus vacancyStatus, [FromRoute] string id)
+        public async Task<Object> ChangeStatus([FromBody] string status, [FromRoute] string id)
         {
             var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
             if (vacancy == null) return BadRequest("Введен не верный id вакансии");
-            
-            System.Console.WriteLine("(было) vacancy.Status = " + vacancy.Status);
-            System.Console.WriteLine("(должно быть) vacancyStatus = " + vacancyStatus );
-            vacancy.Status = vacancyStatus;
 
-            System.Console.WriteLine("(присвоено) vacancy.Status = " + vacancy.Status);
+            int st;
+            if(!int.TryParse(status, out st)) return BadRequest("Введен не верный id статуса " + status);
+            VacancyStatus stat;
+            if(!Extensions.WebHostExtensions.ToVacancyStatus(out stat, st)) return BadRequest("Введен не верный id статуса" + st);
+            vacancy.Status = stat;
             _databaseContext.Update<Vacancy>(vacancy);
             _databaseContext.SaveChanges();
+
             return Ok("Статус вакансии успешно изменён");
         }
     }
