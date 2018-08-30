@@ -122,7 +122,7 @@ namespace HRTool.Controllers
 
         [HttpGet]
         public Object Vacancies([FromQuery] int? count,
-            [FromQuery] int offset, [FromQuery] string search)
+            [FromQuery] int offset, [FromQuery] string search, [FromQuery] FilterDto filter)
         {
             var vacanciesAmount = _databaseContext.Vacancies.Count();
 
@@ -130,6 +130,9 @@ namespace HRTool.Controllers
             count = count ?? vacanciesAmount;
 
             var filteredVacancies = _databaseContext.Vacancies
+                .Where(x => (filter.Status == null ? x.Status : filter.Status) == x.Status)
+                .Where(x => (filter.BranchOffice == null ? x.BranchOfficeCity : filter.BranchOffice) == x.BranchOfficeCity)
+                .Where(x => (filter.Departures == null ? x.DepartureName : filter.Departures) == x.DepartureName)
                 .Where(x => x.Name.ToLower().Contains(search.ToLower()));
 
             var vacancies = filteredVacancies
@@ -184,6 +187,7 @@ namespace HRTool.Controllers
             var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
             if (vacancy == null) return BadRequest("Введен не верный id вакансии");
             vacancy.Status = vacancyStatus;
+            _databaseContext.Update<Vacancy>(vacancy);
             _databaseContext.SaveChanges();
             return Ok("Статус вакансии успешно изменён");
         }
