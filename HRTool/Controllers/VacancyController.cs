@@ -9,13 +9,14 @@ using HRTool.DAL;
 using HRTool.DAL.Models;
 using HRTool.DAL.Models.Enums;
 using HRTool.DAL.Models.IntermediateModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace HRTool.Controllers
 {
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("vacancies/")]
     public class VacancyController : Controller
     {
@@ -84,8 +85,6 @@ namespace HRTool.Controllers
             return BadRequest("Введены неверные данные");
         }
 
-
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("{id}")]
         public async Task<object> Vacancy([FromRoute] string id)
         {
@@ -122,7 +121,6 @@ namespace HRTool.Controllers
             return BadRequest("Вакансия не найдена");
         }
 
-
         [HttpGet]
         public Object Vacancies([FromQuery] int? count,
             [FromQuery] int offset, [FromQuery] string search, [FromQuery] FilterDto filter)
@@ -156,8 +154,6 @@ namespace HRTool.Controllers
             return new {data = vacanciesDto, total};
         }
 
-
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}")]
         public async Task<Object> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] string id)
         {
@@ -176,7 +172,6 @@ namespace HRTool.Controllers
             return Ok("Вакансия успешно изменена");
         }
 
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVacancy([FromRoute] string id)
         {
@@ -186,7 +181,6 @@ namespace HRTool.Controllers
             return Ok($"Вакансия {id} удалена");
         }
 
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}/status")]
         public async Task<Object> ChangeStatus([FromBody] VacancyStatusDto statusDto, [FromRoute] string id)
         {

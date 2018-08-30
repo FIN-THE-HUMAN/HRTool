@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HRTool.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("requirements/")]
     public class RequirementController : Controller
     {
@@ -23,24 +24,24 @@ namespace HRTool.Controllers
             _databaseContext = databaseContext;
         }
 
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
-        public Object GetRequirements()
+        public Object GetRequirements([FromQuery] string search)
         {
+            search = search ?? "";
+            var requirements = _databaseContext.Requirements
+                .Where(x => x.Name.ToLower().Contains(search.ToLower())).ToList();
             var requirementsList = new List<RequirementDto>();
-            foreach (var req in _databaseContext.Requirements)
+            foreach (var requirement in requirements)
             {
-                requirementsList.Add(_mapper.Map<Requirement, RequirementDto>(req));
+                requirementsList.Add(_mapper.Map<Requirement, RequirementDto>(requirement));
             }
 
             return requirementsList;
         }
 
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         public async Task<Object> AddRequirement([FromBody] RequirementDto requirementDto)
         {
-            requirementDto.Id = new Guid().ToString();
             var requirement = _mapper.Map<RequirementDto, Requirement>(requirementDto);
             await _databaseContext.Requirements.AddAsync(requirement);
             await _databaseContext.SaveChangesAsync();

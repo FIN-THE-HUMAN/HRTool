@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HRTool.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("duties/")]
     public class DutyController : Controller
     {
@@ -37,7 +38,6 @@ namespace HRTool.Controllers
             return dutiesList;
         }
 
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
         public async Task<Object> AddDuty([FromBody] DutyDto dutyDto)
         {

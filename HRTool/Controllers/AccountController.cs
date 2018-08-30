@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HRTool.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("[controller]/")]
     public class AccountController : Controller
     {
@@ -59,6 +60,7 @@ namespace HRTool.Controllers
         }
 
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("register/")]
         public async Task<Object> Register([FromBody] RegistrationDto registrationDto)
@@ -97,7 +99,7 @@ namespace HRTool.Controllers
             return BadRequest("Заполните все поля");
         }
 
-
+        [AllowAnonymous]
         [HttpPost]
         [Route("login/")]
         public async Task<Object> Login([FromBody] AuthorizationDto authorizationDto)
@@ -129,7 +131,6 @@ namespace HRTool.Controllers
             return BadRequest("Заполните все поля");
         }
 
-        // [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
         [Route("{id}/")]
         public async Task<Object> GetUser([FromRoute] string id)
@@ -144,7 +145,6 @@ namespace HRTool.Controllers
             return BadRequest("Пользователь не найден");
         }
 
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
         [Route("{id}/")]
         public async Task<ObjectResult> ChangeUser([FromBody] UserDto userDto, [FromRoute] string id)

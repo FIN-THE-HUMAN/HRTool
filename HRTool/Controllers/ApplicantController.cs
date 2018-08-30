@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HRTool.Controllers
 {
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("[controller]s/")]
     public class ApplicantController : Controller
     {
@@ -48,7 +48,8 @@ namespace HRTool.Controllers
         public async Task<Object> UpdateApplicant([FromBody] ApplicantDto applicantDto, [FromRoute] string id)
         {
             var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
-            if(applicant == null) return BadRequest("Введен ");
+            if (applicant == null)
+                return BadRequest("Введен ");
             applicant = _mapper.Map<ApplicantDto, Applicant>(applicantDto);
             await _databaseContext.SaveChangesAsync();
             return Ok("Информация о соискателе успешно обновлена");
@@ -86,30 +87,32 @@ namespace HRTool.Controllers
             return BadRequest("Введен неверный id");
         }
 
-        /*[HttpPut("{id}")]
-        public async Task<IActionResult> UploadResume(IFormFile uploadedFile, [FromRoute] string id, ResumeSource resumeSource)
+        [HttpPut("{id}/resumes")]
+        public async Task<IActionResult> UploadResume(IFormFile uploadedFile, [FromRoute] string id,
+            ResumeSource resumeSource)
         {
             var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
-            
+
             var newResume = new Resume();
             newResume.ResumeSource = resumeSource;
-            
+
             using (var ms = new MemoryStream())
             {
                 var rs = uploadedFile.OpenReadStream();
                 await rs.CopyToAsync(ms);
-                await ms.ReadAsync(newResume.Content, 0, (int)uploadedFile.Length);
-                await _databaseContext.Resumes.AddAsync(newResume);
+                await ms.ReadAsync(newResume.Content, 0, (int) uploadedFile.Length);
+                applicant.Resumes.Add(newResume);
                 await _databaseContext.SaveChangesAsync();
             }
-            return Ok("Файл резюме успешно загружен");
-        }*/
 
-        /*[HttpGet]
+            return Ok("Файл резюме успешно загружен");
+        }
+
+        [HttpGet("resume/")]
         public async Task<Object> DownloadResume()
         {
             throw new NotImplementedException();
-        }*/
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteApplicant([FromRoute] string id)

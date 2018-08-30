@@ -10,7 +10,7 @@ namespace HRTool.Controllers.DTO
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
         public Departures DepartureName { get; set; }
         public decimal SalaryRangeFrom { get; set; }
         public decimal SalaryRangeTo { get; set; }
