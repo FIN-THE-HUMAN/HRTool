@@ -1,4 +1,5 @@
 ﻿using System;
+using HRTool.DAL.Models.Enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,6 +43,16 @@ namespace HRTool.Extensions
             }
 
             return host;
+        }
+
+        public static bool ToVacancyStatus(out VacancyStatus st, int i)
+        {
+            switch(i){
+                case 0: st = VacancyStatus.Open; return true ;
+                case 1: st = VacancyStatus.Open; return true ;
+                case 2: st = VacancyStatus.Open; return true ;
+                default: st = VacancyStatus.Open; return false;
+            }
         }
     }
 }
