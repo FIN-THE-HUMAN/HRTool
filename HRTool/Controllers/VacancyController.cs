@@ -11,6 +11,7 @@ using HRTool.DAL.Models.Enums;
 using HRTool.DAL.Models.IntermediateModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace HRTool.Controllers
 {
@@ -27,38 +28,51 @@ namespace HRTool.Controllers
             _databaseContext = databaseContext;
         }
 
+
+        private void FillDuties(ref Vacancy vacancy, VacancyDto vacancyDto)
+        {
+            vacancy.VacancyDuties = new List<VacancyDuty>();
+            var vacancyDtoDutiesIds = vacancyDto.Duties.Select(x => x.Id);
+            var duties = _databaseContext.Duties
+                .Where(d => vacancyDtoDutiesIds
+                    .Contains(d.Id.ToString()))
+                .ToList();
+
+            foreach (var duty in duties)
+            {
+                var vacancyDuties = new VacancyDuty();
+                vacancyDuties.Duty = duty;
+                vacancy.VacancyDuties.Add(vacancyDuties);
+            }
+        }
+
+        private void FillRequirements(ref Vacancy vacancy, VacancyDto vacancyDto)
+        {
+            vacancy.VacancyRequirements.Clear();
+
+            var vacancyDtoRequirementsIds = vacancyDto.Requirements.Select(x => x.Id);
+            var requirements = _databaseContext.Requirements
+                .Where(r => vacancyDtoRequirementsIds
+                    .Contains(r.Id.ToString()))
+                .ToList();
+
+            foreach (var requirement in requirements)
+            {
+                var vacancyRequirements = new VacancyRequirement();
+                vacancyRequirements.Requirement = requirement;
+                vacancy.VacancyRequirements.Add(vacancyRequirements);
+            }
+        }
+
         [HttpPost]
         public async Task<Object> CreateVacancy([FromBody] VacancyDto vacancyDto)
         {
+            vacancyDto.Id = new Guid().ToString();
             var vacancy = _mapper.Map<VacancyDto, Vacancy>(vacancyDto);
             if (vacancy != null)
             {
-                var vacancyDtoDutiesIds = vacancyDto.Duties.Select(x => x.Id);
-                var duties = _databaseContext.Duties
-                    .Where(d => vacancyDtoDutiesIds
-                        .Contains(d.Id.ToString()))
-                    .ToList();
-
-                var vacancyDtoRequirementsIds = vacancyDto.Requirements.Select(x => x.Id);
-                var requirements = _databaseContext.Requirements
-                    .Where(r => vacancyDtoRequirementsIds
-                        .Contains(r.Id.ToString()))
-                    .ToList();
-
-                foreach (var duty in duties)
-                {
-                    var vacancyDuties = new VacancyDuty();
-                    vacancyDuties.Duty = duty;
-                    vacancy.VacancyDuties.Add(vacancyDuties);
-                }
-
-                foreach (var requirement in requirements)
-                {
-                    var vacancyRequirements = new VacancyRequirement();
-                    vacancyRequirements.Requirement = requirement;
-                    vacancy.VacancyRequirements.Add(vacancyRequirements);
-                }
-
+                FillDuties(ref vacancy, vacancyDto);
+                FillRequirements(ref vacancy, vacancyDto);
                 vacancy.CreationDate = DateTime.Now;
                 await _databaseContext.Vacancies.AddAsync(vacancy);
                 _databaseContext.SaveChanges();
@@ -138,12 +152,19 @@ namespace HRTool.Controllers
         [HttpPut("{id}")]
         public async Task<Object> UpdateVacancy([FromBody] VacancyDto vacancyDto, [FromRoute] string id)
         {
-            var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
-            if (vacancy == null) return BadRequest("Введен неверный id вакансии");
-            vacancy = _mapper.Map<VacancyDto, Vacancy>(vacancyDto);
-            _databaseContext.Update(vacancy);
+            var vacancy = await _databaseContext.Vacancies
+                .Include(v => v.VacancyRequirements)
+                .ThenInclude(r => r.Requirement)
+                .Include(v => v.VacancyDuties)
+                .ThenInclude(d => d.Duty)
+                .FirstOrDefaultAsync(x => x.Id.ToString() == id);
+            if (vacancy == null)
+                return BadRequest("Введен неверный id вакансии");
+            _mapper.Map(vacancyDto, vacancy);
+            FillDuties(ref vacancy, vacancyDto);
+            FillRequirements(ref vacancy, vacancyDto);
             _databaseContext.SaveChanges();
-            return Ok("Вакансия успешно добавлена");
+            return Ok("Вакансия успешно изменена");
         }
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
