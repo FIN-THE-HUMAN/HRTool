@@ -47,7 +47,7 @@ namespace HRTool.Controllers
         [HttpPut("{id}")]
         public async Task<Object> UpdateApplicant([FromBody] ApplicantDto applicantDto, [FromRoute] string id)
         {
-            var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(id));
+            var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
             if(applicant == null) return BadRequest("Введен ");
             applicant = _mapper.Map<ApplicantDto, Applicant>(applicantDto);
             await _databaseContext.SaveChangesAsync();
@@ -89,7 +89,7 @@ namespace HRTool.Controllers
         /*[HttpPut("{id}")]
         public async Task<IActionResult> UploadResume(IFormFile uploadedFile, [FromRoute] string id, ResumeSource resumeSource)
         {
-            var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(id));
+            var applicant = await _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
             
             var newResume = new Resume();
             newResume.ResumeSource = resumeSource;
@@ -111,11 +111,10 @@ namespace HRTool.Controllers
             throw new NotImplementedException();
         }*/
 
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteApplicant([FromRoute] string id)
         {
-            var applicant = _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id == new Guid(id));
+            var applicant = _databaseContext.Applicants.FirstOrDefaultAsync(x => x.Id.ToString() == id);
             _databaseContext.Remove(applicant);
             await _databaseContext.SaveChangesAsync();
             return Ok($"Соискатель {id} удален");
