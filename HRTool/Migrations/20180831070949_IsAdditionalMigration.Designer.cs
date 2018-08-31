@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HRTool.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20180830084307_IsAdditionalMigration")]
+    [Migration("20180831070949_IsAdditionalMigration")]
     partial class IsAdditionalMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,7 +105,7 @@ namespace HRTool.Migrations
 
                     b.Property<bool>("IsRequirementAdditional");
 
-                    b.HasKey("VacancyId", "RequirementId");
+                    b.HasKey("VacancyId", "RequirementId", "IsRequirementAdditional");
 
                     b.HasIndex("RequirementId");
 

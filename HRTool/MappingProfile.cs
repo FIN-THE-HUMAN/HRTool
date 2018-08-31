@@ -47,14 +47,25 @@ namespace HRTool
                 });
 
             CreateMap<Vacancy, VacanciesDto>();
-
-
             CreateMap<DutyDto, Duty>()
                 .ForMember(dest => dest.Id, options => options.UseValue(new Guid()));
             CreateMap<Duty, DutyDto>();
 
             CreateMap<RequirementDto, Requirement>()
-                .ForMember(dest => dest.Id, options => options.UseValue(new Guid()));
+                .ForMember(dest => dest.Id, options => options.ResolveUsing(src =>
+                {
+                    try
+                    {
+                        var guid = new Guid(src.Id);
+                    }
+                    catch (Exception e)
+                    {
+                        src.Id = new Guid().ToString();
+                    }
+
+                    return src.Id;
+                }));
+            ;
             CreateMap<Requirement, RequirementDto>()
                 .ForMember(dest => dest.IsAdditional, options => options.Ignore());
 

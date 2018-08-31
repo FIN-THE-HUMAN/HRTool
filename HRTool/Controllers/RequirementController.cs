@@ -45,7 +45,7 @@ namespace HRTool.Controllers
             var requirement = _mapper.Map<RequirementDto, Requirement>(requirementDto);
             await _databaseContext.Requirements.AddAsync(requirement);
             await _databaseContext.SaveChangesAsync();
-            return Ok("Теребование успешно добавлено");
+            return Ok("Требование успешно добавлено");
         }
     }
 }

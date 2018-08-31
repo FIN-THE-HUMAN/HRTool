@@ -75,7 +75,7 @@ namespace HRTool.DAL
             #region Vacancy-requirement
 
             builder.Entity<VacancyRequirement>()
-                .HasKey(vr => new {vr.VacancyId, vr.RequirementId});
+                .HasKey(vr => new {vr.VacancyId, vr.RequirementId, vr.IsRequirementAdditional});
 
             builder.Entity<VacancyRequirement>()
                 .HasOne(vr => vr.Vacancy)

@@ -174,9 +174,9 @@ namespace HRTool.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVacancy([FromRoute] string id)
+        public async Task<Object> DeleteVacancy([FromRoute] string id)
         {
-            var vacancy = _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
+            var vacancy = await _databaseContext.Vacancies.FirstOrDefaultAsync(x => x.Id.ToString() == id);
             _databaseContext.Remove(vacancy);
             await _databaseContext.SaveChangesAsync();
             return Ok($"Вакансия {id} удалена");
