@@ -7,9 +7,9 @@ HRTool - это приложение для работы со списком в�
 ### Требования
 
 * .NET Core 2.1
- *Windows: https://docs.microsoft.com/ru-ru/dotnet/core/windows-prerequisites?tabs=netcore2x
- *Linux: https://docs.microsoft.com/ru-ru/dotnet/core/linux-prerequisites?tabs=netcore2x
- *macOS: https://docs.microsoft.com/ru-ru/dotnet/core/macos-prerequisites?tabs=netcore2x
+ * Windows: https://docs.microsoft.com/ru-ru/dotnet/core/windows-prerequisites?tabs=netcore2x
+ * Linux: https://docs.microsoft.com/ru-ru/dotnet/core/linux-prerequisites?tabs=netcore2x
+ * macOS: https://docs.microsoft.com/ru-ru/dotnet/core/macos-prerequisites?tabs=netcore2x
 * NodeJS 10.7
 * PostgreSQL 10.5
 ```
