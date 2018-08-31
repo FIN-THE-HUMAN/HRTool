@@ -1,15 +1,15 @@
 # HRTool ![CI status](https://img.shields.io/badge/build-passing-brightgreen.svg)
 
-HRTool это приложение для работы со списком вакансий в рамках отдела HR
+HRTool - это приложение для работы со списком вакансий в рамках отдела HR
 
 ## Установка
 
 ### Требования
 
 * .NET Core 2.1
-..1 Windows: https://docs.microsoft.com/ru-ru/dotnet/core/windows-prerequisites?tabs=netcore2x
-..2 Linux: https://docs.microsoft.com/ru-ru/dotnet/core/linux-prerequisites?tabs=netcore2x
-..3 macOS: https://docs.microsoft.com/ru-ru/dotnet/core/macos-prerequisites?tabs=netcore2x
+**1 Windows: https://docs.microsoft.com/ru-ru/dotnet/core/windows-prerequisites?tabs=netcore2x
+**2 Linux: https://docs.microsoft.com/ru-ru/dotnet/core/linux-prerequisites?tabs=netcore2x
+**3 macOS: https://docs.microsoft.com/ru-ru/dotnet/core/macos-prerequisites?tabs=netcore2x
 * NodeJS 10.7
 * PostgreSQL 10.5
 ```
