@@ -1,0 +1,2 @@
+export const VACANCY_LONG_FORMAT = 'DD MMMM YYYY г.';
+export const VACANCY_SHORT_FORMAT = 'DD.MM.YYYY';

@@ -1,0 +1,20 @@
+.vacancy-creation-form {
+  .control-label {
+    padding-top: 7px;
+    text-align: right;
+  }
+
+  .block-title {
+    font-size: $font-size-title-third;
+    margin-bottom: 10px;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+
+    & > .btn:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
+}

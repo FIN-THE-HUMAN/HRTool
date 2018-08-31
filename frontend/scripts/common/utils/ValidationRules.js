@@ -2,7 +2,13 @@ const UrlRegex = /^(https?:\/\/)?([\w.]+)\.([a-z]{2,6}\.?)(\/[\w.]*)*\/?$/;
 
 const required = value => (value ? null : 'Заполните это поле');
 
-const positiveNumber = value => (isNaN(value) || value <= 0 ? 'Значение должно быть положительным числом' : null);
+const positiveNumber = value => {
+  if (!value) return null;
+
+  if (isNaN(value) || value <= 0) return 'Значение должно быть положительным числом';
+
+  return null;
+};
 
 const url = value => (UrlRegex.test(value) ? null : 'Значение должно быть url-адресом');
 

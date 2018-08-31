@@ -1,0 +1,48 @@
+.vacancy-status {
+  display: inline-block;
+
+  &:hover {
+    .glyphicon-pencil {
+      visibility: visible;
+    }
+  }
+
+  .status {
+    &-Open {
+      background-color: $success;
+    }
+
+    &-Closed {
+      background-color: $error;
+    }
+
+    &-Archived {
+      background-color: $warn;
+    }
+  }
+
+  .editing-field {
+    display: inline-block;
+    margin-bottom: 0;
+    width: 100px;
+  }
+
+  .glyphicon {
+    margin-left: 10px;
+    vertical-align: middle;
+    cursor: pointer;
+
+    &-pencil {
+      visibility: hidden;
+      color: $blue-500;
+    }
+
+    &-ok {
+      color: $success;
+    }
+
+    &-remove {
+      color: $error;
+    }
+  }
+}

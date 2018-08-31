@@ -1,0 +1,63 @@
+.vacancies-view {
+  .title {
+    font-size: $font-size-title;
+    margin-bottom: 10px;
+  }
+
+  .vacancies-list {
+
+    .vacancy {
+      width: 1000px;
+      padding: 20px;
+      font-size: 16px;
+
+      &:not(:last-child) {
+        box-shadow: 0 1px $gray-200;
+      }
+
+      &:hover {
+        background: $gray-100;
+
+        .control {
+          visibility: visible;
+        }
+      }
+
+      & > * {
+        margin-bottom: 10px;
+      }
+
+      .name {
+        font-size: $font-size-title-second;
+        margin-right: 10px;
+      }
+
+      .control {
+        visibility: hidden;
+
+        &-remove {
+          float: right;
+          cursor: pointer;
+        }
+      }
+
+      .departure {
+
+      }
+
+      .salary {
+        font-weight: bold;
+      }
+
+      .date {
+        float: right;
+      }
+
+      .city {
+
+      }
+
+    }
+  }
+
+}
