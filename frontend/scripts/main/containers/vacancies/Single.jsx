@@ -16,6 +16,8 @@ import EditingForm from './EditingForm';
 class Single extends Component {
   componentDidMount = () => this.props.actions.vacancyGet(this.props.match.params.id);
 
+  componentWillUnmount = () => this.props.actions.stateClear();
+
   handleVacancyStatusEdit = status => this.props.actions.vacancyStatusEdit(this.props.match.params.id, { status });
 
   render() {

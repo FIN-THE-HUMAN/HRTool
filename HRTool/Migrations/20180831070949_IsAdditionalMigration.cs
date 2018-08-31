@@ -309,7 +309,7 @@ namespace HRTool.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VacancyRequirement", x => new { x.VacancyId, x.RequirementId });
+                    table.PrimaryKey("PK_VacancyRequirement", x => new { x.VacancyId, x.RequirementId, x.IsRequirementAdditional });
                     table.ForeignKey(
                         name: "FK_VacancyRequirement_Requirements_RequirementId",
                         column: x => x.RequirementId,

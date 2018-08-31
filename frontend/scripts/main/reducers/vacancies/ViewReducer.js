@@ -5,7 +5,6 @@ import Status from 'constants/StatusConstants';
 
 import ViewActions from '../../actions/vacancies/ViewActions';
 import CreationActions from '../../actions/vacancies/CreationActions';
-import EditingActions from '../../actions/vacancies/EditingActions';
 import { FormatStatusToClient, FormatVacancyToClient } from '../../utils/VacanciesUtils';
 
 class VacanciesViewReducer {
@@ -16,7 +15,6 @@ class VacanciesViewReducer {
     this.bindAction(ViewActions.paramsChange, this.handleParamsChange);
     this.bindAction(ViewActions.stateClear, () => this.initialState);
     this.bindAction(CreationActions.vacancyCreateCallback, this.handleVacancyCreate);
-    this.bindAction(EditingActions.vacancyEditCallback, this.handleVacancyEdit);
   }
 
   get initialState() {
@@ -36,7 +34,8 @@ class VacanciesViewReducer {
     if (!isSuccess) return update(state, { $merge: { contentStatus: status } });
 
     const contentStatus = response.data.length > 0 ? Status.DEFAULT : Status.NO_RESULTS;
-
+console.log('1', response);
+console.log('2', response.data.map(FormatVacancyToClient));
     return update(state, { $merge: {
       ...response,
       data: response.data.map(FormatVacancyToClient),
@@ -64,23 +63,11 @@ class VacanciesViewReducer {
     if (!isSuccess) return state;
 
     return update(state, {
-      data: { $unshift: [{ ...query, ...FormatVacancyToClient({ ...response, status: 0 }) }] },
+      data: { $unshift: [FormatVacancyToClient({ ...query, ...response, status: 0 })] },
       $merge: {
         contentStatus: Status.DEFAULT,
         total: state.total + 1,
       }
-    });
-  }
-
-  handleVacancyEdit(state, { isSuccess, query }) {
-    if (!isSuccess) return state;
-
-    const index = _.findIndex(state.data, vacancy => vacancy.id === query.id);
-
-    if (index < 0) return state;
-
-    return update(state, {
-      data: { [index]: { $merge: query } }
     });
   }
 

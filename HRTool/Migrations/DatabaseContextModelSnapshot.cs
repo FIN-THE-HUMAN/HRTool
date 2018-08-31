@@ -103,7 +103,7 @@ namespace HRTool.Migrations
 
                     b.Property<bool>("IsRequirementAdditional");
 
-                    b.HasKey("VacancyId", "RequirementId");
+                    b.HasKey("VacancyId", "RequirementId", "IsRequirementAdditional");
 
                     b.HasIndex("RequirementId");
 

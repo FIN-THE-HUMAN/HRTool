@@ -39,7 +39,11 @@ namespace HRTool
                 .ForMember(dest => dest.VacancyDuties, options => options.Ignore())
                 .ForMember(dest => dest.VacancyRequirements, options => options.Ignore())
                 .ForMember(dest => dest.VacancyApplicants, options => options.Ignore())
-                .ForMember(dest => dest.CreationDate, options => options.UseDestinationValue())
+                .ForMember(dest => dest.CreationDate, options =>
+                {
+                    options.Ignore();
+                    options.UseDestinationValue();
+                })
                 .ForMember(dest => dest.Status, options =>
                 {
                     options.Ignore();
@@ -47,14 +51,25 @@ namespace HRTool
                 });
 
             CreateMap<Vacancy, VacanciesDto>();
-
-
             CreateMap<DutyDto, Duty>()
                 .ForMember(dest => dest.Id, options => options.UseValue(new Guid()));
             CreateMap<Duty, DutyDto>();
 
             CreateMap<RequirementDto, Requirement>()
-                .ForMember(dest => dest.Id, options => options.UseValue(new Guid()));
+                .ForMember(dest => dest.Id, options => options.ResolveUsing(src =>
+                {
+                    try
+                    {
+                        var guid = new Guid(src.Id);
+                    }
+                    catch (Exception e)
+                    {
+                        src.Id = new Guid().ToString();
+                    }
+
+                    return src.Id;
+                }));
+            ;
             CreateMap<Requirement, RequirementDto>()
                 .ForMember(dest => dest.IsAdditional, options => options.Ignore());
 

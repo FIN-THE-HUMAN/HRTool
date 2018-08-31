@@ -10,12 +10,14 @@ class VacancyStatus extends Component {
     super(props);
 
     const { status } = this.props;
-
+console.log(status);
     this.state = {
       editing: false,
       status
     };
   }
+
+  // componentWillReceiveProps = ({ status }) => this.setState({ status });
 
   handleToggleEditing = () => this.setState(prev => ({ editing: !prev.editing }));
 

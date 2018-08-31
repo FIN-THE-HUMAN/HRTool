@@ -10,6 +10,7 @@ class VacanciesSingleReducer {
   constructor() {
     this.bindAction(VacanciesSingleActions.vacancyGet, this.handleVacancyGet);
     this.bindAction(VacanciesSingleActions.vacancyStatusEdit, this.handleVacancyStatusEdit);
+    this.bindAction(VacanciesSingleActions.stateClear, () => this.initialState);
     this.bindAction(EditingActions.vacancyEditCallback, this.handleVacancyEdit);
   }
 
@@ -52,7 +53,7 @@ class VacanciesSingleReducer {
     if (!isSuccess) return state;
 
     return update(state, {
-      data: { $merge: FormatStatusToClient(query) }
+      data: { $merge: FormatVacancyToClient(query) }
     });
   }
 }
