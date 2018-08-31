@@ -23,9 +23,9 @@ export const FormatStatusToClient = ({ status, ...rest }) => ({
   status: _.get(VacancyStatuses[status], 'name')
 });
 
-export const FormatVacancyToClient = (data) => {
+export const FormatVacancyToClient = data => {
   const reqs = _.partition(data.requirements, 'isAdditional');
-console.log('data', data)
+
   return {
     ...data,
     ..._.omitBy({

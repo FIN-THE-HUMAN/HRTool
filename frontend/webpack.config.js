@@ -5,7 +5,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const dist = resolve(__dirname, '..', 'dist');
+const dist = resolve(__dirname, '..', 'HRTool', 'wwwroot', 'dist');
 const common = resolve(__dirname, 'scripts', 'common');
 
 const devMode = process.env.NODE_ENV !== 'production';
