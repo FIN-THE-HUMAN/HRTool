@@ -39,7 +39,11 @@ namespace HRTool
                 .ForMember(dest => dest.VacancyDuties, options => options.Ignore())
                 .ForMember(dest => dest.VacancyRequirements, options => options.Ignore())
                 .ForMember(dest => dest.VacancyApplicants, options => options.Ignore())
-                .ForMember(dest => dest.CreationDate, options => options.UseDestinationValue())
+                .ForMember(dest => dest.CreationDate, options =>
+                {
+                    options.Ignore();
+                    options.UseDestinationValue();
+                })
                 .ForMember(dest => dest.Status, options =>
                 {
                     options.Ignore();
