@@ -1,11 +1,11 @@
-#HRTool ![CI status](https://img.shields.io/badge/build-passing-brightgreen.svg)
+# HRTool ![CI status](https://img.shields.io/badge/build-passing-brightgreen.svg)
 
-HRTool это приложение для для работы со списком вакансий в рамках отдела HR
+HRTool пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ HR
 
-## Установка
+## пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-### Требования
-* Необходимые требования: 
+### пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: 
 * .NET Core 2.1
 - Windows: https://docs.microsoft.com/ru-ru/dotnet/core/windows-prerequisites?tabs=netcore2x
 - Linux: https://docs.microsoft.com/ru-ru/dotnet/core/linux-prerequisites?tabs=netcore2x
@@ -13,5 +13,5 @@ HRTool это приложение для для работы со списком вакансий в рамках отдела HR
 * NodeJS 10.7
 * PostgreSQL 10.5
 
-`$ dotnet restore`(При первоначальной установке приложения или выходе обновлений)
-`$ dotnet run`(запуск)
+`$ dotnet restore`(пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+`$ dotnet run`(пїЅпїЅпїЅпїЅпїЅпїЅ)
