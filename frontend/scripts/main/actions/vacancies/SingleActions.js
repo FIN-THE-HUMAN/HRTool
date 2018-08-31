@@ -6,6 +6,12 @@ import { MODAL_TYPES } from '../../constants/ModalsConstants';
 import { FormatStatusToServer } from '../../utils/VacanciesUtils';
 
 class VacanciesSingleActions {
+  constructor() {
+    this.generate(
+      'stateClear'
+    );
+  }
+
   vacancyGet(vacancyId) {
     return VacanciesSource.getVacancy(vacancyId);
   }

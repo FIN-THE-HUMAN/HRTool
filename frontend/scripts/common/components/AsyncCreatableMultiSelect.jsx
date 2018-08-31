@@ -30,7 +30,10 @@ const AsyncCreatableMultiSelect = ({ input: { value, onChange }, label, size, on
           onChange={val => onChange(FormatOutput(val))}
           onCreateOption={onCreate}
           loadOptions={onLoad}
-          styles={{ control: styles => ({ ...styles, backgroundColor: 'white' }) }}
+          styles={{
+            control: styles => ({ ...styles, backgroundColor: 'white', overflow: 'hidden' }),
+            valueContainer: styles => ({ ...styles, maxWidth: '100%' })
+          }}
         />
       </Col>
     </Row>

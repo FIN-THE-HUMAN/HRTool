@@ -37,18 +37,18 @@ const VacancyForm = ({ initialValues, onSubmit, onCancel }) => (
               Зарплата
             </Col>
             <Col sm={4}>
-              <Field name="salaryRangeFrom" placeholder="От" validate={positiveNumber} />
+              <Field allowNull name="salaryRangeFrom" placeholder="От" validate={positiveNumber} />
             </Col>
             <Col sm={1} />
             <Col sm={4}>
-              <Field name="salaryRangeTo" placeholder="До" validate={positiveNumber} />
+              <Field allowNull name="salaryRangeTo" placeholder="До" validate={positiveNumber} />
             </Col>
           </Row>
           <Field name="requiredExperienceRange" label="Требуемый опыт работы" placeholder="1 год" size={size} validate={required} />
         </Well>
         <Well>
           <div className="block-title">Контактное лицо</div>
-          <Field name="contactPerson" label="Имя" placeholder="Иван Иванович" size={size} validate={required} />
+          <Field name="contactPerson" label="Имя" placeholder="ФИО" size={size} validate={required} />
           <Field name="contactMail" label="Эл. почта" placeholder="example@gmaol.com" size={size} validate={required} />
           <Field name="contactPhone" label="Телефон" placeholder="+7 123 45 67" size={size} validate={required} />
         </Well>
@@ -84,7 +84,7 @@ const VacancyForm = ({ initialValues, onSubmit, onCancel }) => (
           />
         </Well>
         <Well>
-          <Field name="holderName" label="Разместитель" placeholder="Иванов Иван" size={size} validate={required} />
+          <Field name="holderName" label="Разместитель" placeholder="ФИО" size={size} validate={required} />
           <Field name="branchOfficeCity" type="select" label="Город" size={size} validate={required}>
             <option disabled hidden value="" />
             {BranchOffices.map(({ value, name }) => (

@@ -25,6 +25,8 @@ class VacanciesList extends Component {
     this.fetchData(params);
   }
 
+  componentWillUnmount = () => this.props.actions.stateClear();
+
   handleVacancyRemove = id => () => this.props.actions.vacancyRemove(id);
 
   handleSearchChange = search => this.props.actions.paramsChange('search', search);

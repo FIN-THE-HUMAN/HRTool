@@ -23,27 +23,22 @@ export const FormatStatusToClient = ({ status, ...rest }) => ({
   status: _.get(VacancyStatuses[status], 'name')
 });
 
-export const FormatVacancyToClient = ({
-  departureName,
-  employmentType,
-  branchOfficeCity,
-  status,
-  requirements,
-  creationDate,
-  ...rest
-}) => {
-  const reqs = _.partition(requirements, 'isAdditional');
-
-  return _.omitBy({
-    ...rest,
-    departureName: _.get(Departures[departureName], 'name'),
-    employmentType: _.get(EmploymentTypes[employmentType], 'name'),
-    status: _.get(VacancyStatuses[status], 'name'),
-    branchOfficeCity: _.get(BranchOffices[branchOfficeCity], 'name'),
-    requirements: reqs[0],
-    additionalRequirements: reqs[1],
-    creationDate: DateUtils.moment(creationDate)
-  }, _.isEmpty);
+export const FormatVacancyToClient = (data) => {
+  const reqs = _.partition(data.requirements, 'isAdditional');
+console.log('data', data)
+  return {
+    ...data,
+    ..._.omitBy({
+      ...data,
+      departureName: _.get(Departures[data.departureName], 'name'),
+      employmentType: _.get(EmploymentTypes[data.employmentType], 'name'),
+      status: _.get(VacancyStatuses[data.status], 'name'),
+      branchOfficeCity: _.get(BranchOffices[data.branchOfficeCity], 'name'),
+      requirements: reqs[0],
+      additionalRequirements: reqs[1],
+      creationDate: DateUtils.moment(data.creationDate)
+    }, _.isUndefined)
+  };
 };
 
 export const FormatVacancyToServer = ({
