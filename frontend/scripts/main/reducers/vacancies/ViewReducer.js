@@ -34,8 +34,7 @@ class VacanciesViewReducer {
     if (!isSuccess) return update(state, { $merge: { contentStatus: status } });
 
     const contentStatus = response.data.length > 0 ? Status.DEFAULT : Status.NO_RESULTS;
-console.log('1', response);
-console.log('2', response.data.map(FormatVacancyToClient));
+
     return update(state, { $merge: {
       ...response,
       data: response.data.map(FormatVacancyToClient),
