@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HRTool.DAL;
 using HRTool.DAL.Models;
 using Microsoft.AspNetCore.Builder;
@@ -10,14 +7,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AutoMapper;
-using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.FileProviders;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace HRTool
@@ -40,7 +36,7 @@ namespace HRTool
             services.AddDbContext<DatabaseContext>(
                 options => options.UseNpgsql(connectionString)
             );
-
+            
             services.AddIdentity<User, IdentityRole>(options =>
                 {
                     options.Password.RequireDigit = false;
@@ -99,13 +95,18 @@ namespace HRTool
 
             app.UseMvc();
             app.UseAuthentication();
-
+            app.UseFileServer(new FileServerOptions
+            {
+                EnableDirectoryBrowsing = true,
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/dist")),
+                EnableDefaultFiles = true
+            });
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-               
+
                 //c.RoutePrefix = string.Empty;
             });
         }

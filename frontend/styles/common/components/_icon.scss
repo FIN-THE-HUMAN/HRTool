@@ -4,14 +4,14 @@
   background-size: cover;
 
   &.error {
-    background-image: url("../../../Images/error.png");
+    background-image: url("../../../images/error.png");
   }
 
   &.success {
-    background-image: url("../../../Images/success.png");
+    background-image: url("../../../images/success.png");
   }
 
   &.no-result {
-    background-image: url("../../../Images/no-result.png");
+    background-image: url("../../../images/no-result.png");
   }
 }
