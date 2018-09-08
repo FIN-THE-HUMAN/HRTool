@@ -17,7 +17,7 @@ using Swashbuckle.AspNetCore.Swagger;
 namespace HRTool.Controllers
 {
 //    [Authorize(AuthenticationSchemes = "Bearer")]
-    [Route("vacancies/")]
+    [Route("api/vacancies/")]
     public class VacancyController : Controller
     {
         private readonly DatabaseContext _databaseContext;

@@ -89,6 +89,14 @@ namespace HRTool
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+
+                    //c.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseCors("AllowAll");
@@ -101,13 +109,13 @@ namespace HRTool
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/dist")),
                 EnableDefaultFiles = true
             });
-            app.UseSwagger();
-
-            app.UseSwaggerUI(c =>
+            app.UseMvc(routes =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-
-                //c.RoutePrefix = string.Empty;
+                routes.MapRoute(
+                    "Default",
+                    "{*catchall}",
+                    new { controller = "Fallback", action = "Index" }
+                );
             });
         }
     }

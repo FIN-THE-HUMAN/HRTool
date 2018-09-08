@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HRTool.Controllers
 {
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [Route("duties/")]
+    [Route("api/duties/")]
     public class DutyController : Controller
     {
         private readonly DatabaseContext _databaseContext;

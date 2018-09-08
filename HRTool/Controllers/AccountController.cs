@@ -17,7 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace HRTool.Controllers
 {
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [Route("[controller]/")]
+    [Route("api/[controller]/")]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;

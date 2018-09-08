@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HRTool.Controllers
 {
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [Route("[controller]s/")]
+    [Route("api/[controller]s/")]
     public class ApplicantController : Controller
     {
         private readonly DatabaseContext _databaseContext;
